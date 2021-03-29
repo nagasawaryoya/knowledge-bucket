@@ -1,7 +1,7 @@
 import React from 'react';
 import MuiIcon from '@material-ui/core/Icon';
 import { IconProps as MuiIconProps } from '@material-ui/core';
-import { IconName } from '../unions/icon-name';
+import { IconName } from 'unions/icon-name';
 
 /**
  * アイコンコンポーネント。

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import MuiIconButton from '@material-ui/core/IconButton';
-import { Icon, IconProps } from '../Icon';
 import { IconButtonProps as MuiIconButtonProps } from '@material-ui/core';
+import { Icon, IconProps } from 'components/Icon';
 
 /**
  * アイコンボタンコンポーネント。
