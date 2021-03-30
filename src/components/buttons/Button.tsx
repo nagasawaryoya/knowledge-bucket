@@ -2,12 +2,14 @@ import React, { FC } from 'react';
 import MuiButton from '@material-ui/core/Button';
 import { ButtonProps as MuiButtonProps} from '@material-ui/core';
 
+export type ButtonProps = MuiButtonProps & {
+  label: string;
+  button?: MuiButtonProps;
+};
+
 /**
  * ボタンコンポーネント。
  */
-export type ButtonProps = MuiButtonProps & {
-  label: string
+export const Button: FC<ButtonProps> = ({ label, button }) => {
+  return <MuiButton {...button}>{label}</MuiButton>;
 };
-export const Button: FC<ButtonProps> = ({ label, ...props }) => (
-  <MuiButton {...props}>{label}</MuiButton>
-);

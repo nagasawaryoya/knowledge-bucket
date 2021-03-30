@@ -1,12 +1,12 @@
-import { ValueOf } from "../utils/type-util/ValueOf";
+import ValueOf from "utils/type-util/ValueOf";
 
 /**
- * マテリアルUIアイコン名。
+ * マテリアルUIアイコン名の型。
  */
 export type IconName = ValueOf<typeof ICON_NAME>;
 
 /**
- * マテリアルUIアイコン名のUNION。
+ * マテリアルUIアイコン名。
  */
 export const ICON_NAME = {
   ADD: 'add',
