@@ -1,10 +1,11 @@
-import ValueOf from "utils/type-util/ValueOf";
+import ValueOf from 'utils/type-util/ValueOf';
 
 /**
  * アプリケーションのテーマカラーの型。
  */
 // TODO もっといい型定義があるはず
-export type Color = ValueOf<typeof COLOR.NAVY>
+export type Color =
+  | ValueOf<typeof COLOR.NAVY>
   | ValueOf<typeof COLOR.BLUE>
   | ValueOf<typeof COLOR.RED>
   | ValueOf<typeof COLOR.GREEN>
@@ -14,8 +15,7 @@ export type Color = ValueOf<typeof COLOR.NAVY>
   | ValueOf<typeof COLOR.WATER>
   | ValueOf<typeof COLOR.BLACK>
   | ValueOf<typeof COLOR.WHITE>
-  | ValueOf<typeof COLOR.BLACK>
-;
+  | ValueOf<typeof COLOR.BLACK>;
 
 /**
  * アプリケーションで使用するカラー。

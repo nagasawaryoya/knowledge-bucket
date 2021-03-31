@@ -1,4 +1,4 @@
-import ValueOf from "utils/type-util/ValueOf";
+import ValueOf from 'utils/type-util/ValueOf';
 
 /**
  * アプリケーションのテーマカラーの型。
@@ -10,5 +10,5 @@ export type ThemeType = ValueOf<typeof THEME_TYPE>;
  */
 export const THEME_TYPE = {
   LIGHT: 'light',
-  DARK: 'dark'
+  DARK: 'dark',
 } as const;
