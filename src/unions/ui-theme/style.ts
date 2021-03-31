@@ -1,9 +1,12 @@
 import { COLOR } from './color';
 
 export const BORDER = {
-  BASE: `solid 2px ${COLOR.GREY.border}`,
+  D_BASE: `solid 2px ${COLOR.GREY.border}`,
+  L_BASE: `solid 2px ${COLOR.GREY.light}`,
+  DARK: `solid 2px ${COLOR.NAVY.main}`,
+  LIGHT: `solid 2px ${COLOR.BLUE.main}`,
   RADIUS: {
-    S: 8,
+    S: 4,
     C: 100,
   },
 } as const;

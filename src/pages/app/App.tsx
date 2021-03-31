@@ -13,7 +13,7 @@ function App() {
       <CssBaseline />
       <React.Fragment>
         <IconButton icon={{ name: ICON_NAME.ADD }} />
-        <Button label="create" style={{ width: 124, height: 40 }} />
+        <Button label="create" button={{ variant: 'outlined' }} />
       </React.Fragment>
     </ThemeProvider>
   );

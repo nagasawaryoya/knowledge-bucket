@@ -22,8 +22,8 @@ export const createTheme = (theme: ThemeType): Theme => {
   }
   return createMuiTheme({
     ...COMMON_THEME,
-    ...COMMON_PALETTE,
-    ...specificTheme,
+    palette: { ...COMMON_PALETTE.palette, ...specificTheme.palette },
+    props: { ...COMMON_PROPS.props, ...specificTheme.props },
   });
 };
 
@@ -42,6 +42,9 @@ const COMMON_THEME: ThemeOptions = {
       minHeight: 50,
     },
   },
+} as const;
+
+const COMMON_PROPS: ThemeOptions = {
   props: {
     MuiTextField: {
       variant: 'outlined',
@@ -58,26 +61,8 @@ const COMMON_THEME: ThemeOptions = {
     MuiButtonBase: {
       disableRipple: true,
     },
-    MuiButton: {
-      variant: 'contained',
-      disableElevation: true,
-      color: COLOR_CODE.PRIMARY,
-      style: {
-        width: INPUT.M.WIDTH,
-        height: INPUT.M.HEIGHT,
-      },
-    },
-    MuiIconButton: {
-      color: COLOR_CODE.PRIMARY,
-      style: {
-        width: ICON.M,
-        height: ICON.M,
-        borderRadius: BORDER.RADIUS.C,
-        border: BORDER.BASE,
-      },
-    },
   },
-} as const;
+};
 
 /**
  * 共通テーマカラー。
@@ -128,6 +113,28 @@ const LIGHT_THEME: ThemeOptions = {
       primary: COLOR.BLACK.dark,
     },
   },
+  props: {
+    MuiButton: {
+      variant: 'contained',
+      disableElevation: true,
+      color: COLOR_CODE.PRIMARY,
+      style: {
+        width: INPUT.M.WIDTH,
+        height: INPUT.M.HEIGHT,
+        borderRadius: BORDER.RADIUS.S,
+        border: BORDER.LIGHT,
+      },
+    },
+    MuiIconButton: {
+      style: {
+        color: COLOR.GREY.main,
+        width: ICON.M,
+        height: ICON.M,
+        borderRadius: BORDER.RADIUS.C,
+        border: BORDER.L_BASE,
+      },
+    },
+  },
 } as const;
 
 /**
@@ -147,6 +154,28 @@ const DARK_THEME: ThemeOptions = {
     },
     text: {
       primary: COLOR.GREY.light,
+    },
+  },
+  props: {
+    MuiButton: {
+      variant: 'contained',
+      disableElevation: true,
+      color: COLOR_CODE.PRIMARY,
+      style: {
+        width: INPUT.M.WIDTH,
+        height: INPUT.M.HEIGHT,
+        borderRadius: BORDER.RADIUS.S,
+        border: BORDER.DARK,
+      },
+    },
+    MuiIconButton: {
+      style: {
+        color: COLOR.GREY.main,
+        width: ICON.M,
+        height: ICON.M,
+        borderRadius: BORDER.RADIUS.C,
+        border: BORDER.D_BASE,
+      },
     },
   },
 } as const;
