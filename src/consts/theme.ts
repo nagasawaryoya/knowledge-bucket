@@ -1,7 +1,8 @@
-import { createMuiTheme, Theme, ThemeOptions } from "@material-ui/core/styles";
-import { COLOR } from "unions/ui-theme/color";
-import { COLOR_CODE } from "unions/ui-theme/color-code";
-import { THEME_TYPE, ThemeType } from "unions/ui-theme/theme-type";
+import { createMuiTheme, Theme, ThemeOptions } from '@material-ui/core/styles';
+import { COLOR } from 'unions/ui-theme/color';
+import { COLOR_CODE } from 'unions/ui-theme/color-code';
+import { THEME_TYPE, ThemeType } from 'unions/ui-theme/theme-type';
+import { BORDER, FONT, INPUT, ICON } from 'unions/ui-theme/style';
 
 /**
  * テーマを作成する。
@@ -22,47 +23,60 @@ export const createTheme = (theme: ThemeType): Theme => {
   return createMuiTheme({
     ...COMMON_THEME,
     ...COMMON_PALETTE,
-    ...specificTheme
+    ...specificTheme,
   });
-}
+};
 
 /**
  * 共通テーマ。
  */
 const COMMON_THEME: ThemeOptions = {
   typography: {
-    fontSize: 14,
+    fontSize: FONT.SIZE.M,
     button: {
-      textTransform: "none"
+      textTransform: 'none',
     },
   },
   mixins: {
     toolbar: {
-      minHeight: 50
-    }
+      minHeight: 50,
+    },
   },
   props: {
     MuiTextField: {
-      variant: "outlined",
+      variant: 'outlined',
     },
     MuiCheckbox: {
-      color: COLOR_CODE.PRIMARY
+      color: COLOR_CODE.PRIMARY,
     },
     MuiRadio: {
-      color: COLOR_CODE.PRIMARY
+      color: COLOR_CODE.PRIMARY,
     },
     MuiSwitch: {
-      color: COLOR_CODE.PRIMARY
+      color: COLOR_CODE.PRIMARY,
     },
     MuiButtonBase: {
       disableRipple: true,
     },
     MuiButton: {
-      size: 'medium',
       variant: 'contained',
       disableElevation: true,
+      color: COLOR_CODE.PRIMARY,
+      style: {
+        width: INPUT.M.WIDTH,
+        height: INPUT.M.HEIGHT,
+      },
     },
-  }
+    MuiIconButton: {
+      color: COLOR_CODE.PRIMARY,
+      style: {
+        width: ICON.M,
+        height: ICON.M,
+        borderRadius: BORDER.RADIUS.C,
+        border: BORDER.BASE,
+      },
+    },
+  },
 } as const;
 
 /**
@@ -113,7 +127,7 @@ const LIGHT_THEME: ThemeOptions = {
     text: {
       primary: COLOR.BLACK.dark,
     },
-  }
+  },
 } as const;
 
 /**
@@ -125,7 +139,7 @@ const DARK_THEME: ThemeOptions = {
       light: COLOR.NAVY.light,
       main: COLOR.NAVY.main,
       dark: COLOR.NAVY.dark,
-      contrastText: COLOR.GREY.light
+      contrastText: COLOR.GREY.light,
     },
     background: {
       default: COLOR.BLACK.main,
@@ -134,6 +148,5 @@ const DARK_THEME: ThemeOptions = {
     text: {
       primary: COLOR.GREY.light,
     },
-  }
+  },
 } as const;
-
