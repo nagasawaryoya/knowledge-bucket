@@ -7,22 +7,22 @@ import { THEME_TYPE, ThemeType } from "unions/ui-theme/theme-type";
  * テーマを作成する。
  */
 export const createTheme = (theme: ThemeType): Theme => {
-  let palette: ThemeOptions = {};
+  let specificTheme: ThemeOptions = {};
   switch (theme) {
     case THEME_TYPE.LIGHT:
-      palette = LIGHT_PALETTE;
+      specificTheme = LIGHT_THEME;
       break;
     case THEME_TYPE.DARK:
-      palette = DARK_PALETTE;
+      specificTheme = DARK_THEME;
       break;
     default:
-      palette = DARK_PALETTE;
+      specificTheme = DARK_THEME;
       break;
   }
   return createMuiTheme({
     ...COMMON_THEME,
     ...COMMON_PALETTE,
-    ...palette
+    ...specificTheme
   });
 }
 
@@ -96,9 +96,9 @@ const COMMON_PALETTE: ThemeOptions = {
 } as const;
 
 /**
- * ライトテーマカラー。
+ * ライトテーマ固有の設定。
  */
-const LIGHT_PALETTE: ThemeOptions = {
+const LIGHT_THEME: ThemeOptions = {
   palette: {
     primary: {
       light: COLOR.BLUE.light,
@@ -117,9 +117,9 @@ const LIGHT_PALETTE: ThemeOptions = {
 } as const;
 
 /**
- * ダークテーマカラー。
+ * ダークテーマ固有の設定。
  */
-const DARK_PALETTE: ThemeOptions = {
+const DARK_THEME: ThemeOptions = {
   palette: {
     primary: {
       light: COLOR.NAVY.light,
