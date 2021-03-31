@@ -44,6 +44,9 @@ const COMMON_THEME: ThemeOptions = {
   },
 } as const;
 
+/**
+ * 共通コンポーネント設定。
+ */
 const COMMON_PROPS: ThemeOptions = {
   props: {
     MuiTextField: {

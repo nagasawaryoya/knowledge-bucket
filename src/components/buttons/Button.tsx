@@ -10,8 +10,4 @@ export type ButtonProps = MuiButtonProps & {
 /**
  * ボタンコンポーネント。
  */
-export const Button: FC<ButtonProps> = ({ label, button }) => (
-  <MuiButton {...button}>
-    {label}
-  </MuiButton>
-);
+export const Button: FC<ButtonProps> = ({ label, button }) => <MuiButton {...button}>{label}</MuiButton>;

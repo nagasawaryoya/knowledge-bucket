@@ -23,7 +23,7 @@ export const FONT = {
 export const INPUT = {
   M: {
     HEIGHT: 28,
-    WIDTH: 92,
+    WIDTH: 110,
   },
 } as const;
 
