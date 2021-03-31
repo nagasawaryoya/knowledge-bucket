@@ -3,6 +3,7 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { IconButton } from 'components/buttons/IconButton';
 import { Button } from 'components/buttons/Button';
 import { Dialog } from 'components/layouts/Dialog';
+import { InputText } from 'components/inputs/InputText';
 import { ICON_NAME } from 'unions/icon-name';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 import { createTheme } from 'consts/theme';
@@ -15,7 +16,8 @@ function App() {
       <React.Fragment>
         <IconButton icon={{ name: ICON_NAME.ADD }} />
         <Button label="作成" />
-        <Dialog title="タイトルですよ" text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" open={true} maxWidth="sm" />
+        <Dialog open={false} title="タイトルですよ" text="テキストテキスト" />
+        <InputText></InputText>
       </React.Fragment>
     </ThemeProvider>
   );

@@ -2,7 +2,7 @@ import { createMuiTheme, Theme, ThemeOptions } from '@material-ui/core/styles';
 import { COLOR } from 'unions/ui-theme/color';
 import { COLOR_CODE } from 'unions/ui-theme/color-code';
 import { THEME_TYPE, ThemeType } from 'unions/ui-theme/theme-type';
-import { BORDER, FONT, INPUT, ICON } from 'unions/ui-theme/style';
+import { BORDER, FONT, ICON, BUTTON, INPUT } from 'unions/ui-theme/style';
 
 /**
  * テーマを作成する。
@@ -49,9 +49,6 @@ const COMMON_THEME: ThemeOptions = {
  */
 const COMMON_PROPS: ThemeOptions = {
   props: {
-    MuiTextField: {
-      variant: 'outlined',
-    },
     MuiCheckbox: {
       color: COLOR_CODE.PRIMARY,
     },
@@ -122,8 +119,8 @@ const LIGHT_THEME: ThemeOptions = {
       disableElevation: true,
       color: COLOR_CODE.PRIMARY,
       style: {
-        width: INPUT.M.WIDTH,
-        height: INPUT.M.HEIGHT,
+        width: BUTTON.M.WIDTH,
+        height: BUTTON.M.HEIGHT,
         borderRadius: BORDER.RADIUS.S,
         border: BORDER.LIGHT,
       },
@@ -135,6 +132,15 @@ const LIGHT_THEME: ThemeOptions = {
         height: ICON.M,
         borderRadius: BORDER.RADIUS.C,
         border: BORDER.L_BASE,
+      },
+    },
+    MuiInputBase: {
+      style: {
+        width: INPUT.M.WIDTH,
+        height: INPUT.M.HEIGHT,
+        padding: '2px 4px',
+        border: BORDER.L_BASE,
+        borderRadius: BORDER.RADIUS.S,
       },
     },
   },
@@ -165,8 +171,8 @@ const DARK_THEME: ThemeOptions = {
       disableElevation: true,
       color: COLOR_CODE.PRIMARY,
       style: {
-        width: INPUT.M.WIDTH,
-        height: INPUT.M.HEIGHT,
+        width: BUTTON.M.WIDTH,
+        height: BUTTON.M.HEIGHT,
         borderRadius: BORDER.RADIUS.S,
         border: BORDER.DARK,
       },
@@ -178,6 +184,15 @@ const DARK_THEME: ThemeOptions = {
         height: ICON.M,
         borderRadius: BORDER.RADIUS.C,
         border: BORDER.D_BASE,
+      },
+    },
+    MuiInputBase: {
+      style: {
+        width: INPUT.M.WIDTH,
+        height: INPUT.M.HEIGHT,
+        padding: '2px 4px',
+        border: BORDER.D_BASE,
+        borderRadius: BORDER.RADIUS.S,
       },
     },
   },

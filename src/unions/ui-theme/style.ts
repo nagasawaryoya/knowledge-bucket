@@ -20,13 +20,20 @@ export const FONT = {
   },
 } as const;
 
-export const INPUT = {
+export const ICON = {
+  M: 28,
+} as const;
+
+export const BUTTON = {
   M: {
     HEIGHT: 28,
     WIDTH: 110,
   },
 } as const;
 
-export const ICON = {
-  M: 28,
+export const INPUT = {
+  M: {
+    HEIGHT: 28,
+    WIDTH: 214,
+  },
 } as const;
