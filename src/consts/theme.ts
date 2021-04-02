@@ -2,7 +2,7 @@ import { createMuiTheme, Theme, ThemeOptions } from '@material-ui/core/styles';
 import { COLOR } from 'unions/ui-theme/color';
 import { COLOR_CODE } from 'unions/ui-theme/color-code';
 import { THEME_TYPE, ThemeType } from 'unions/ui-theme/theme-type';
-import { BORDER, FONT, ICON, BUTTON, INPUT } from 'unions/ui-theme/style';
+import { BORDER, FONT, ICON, INPUT } from 'unions/ui-theme/style';
 
 /**
  * テーマを作成する。
@@ -49,6 +49,11 @@ const COMMON_THEME: ThemeOptions = {
  */
 const COMMON_PROPS: ThemeOptions = {
   props: {
+    MuiButton: {
+      variant: 'contained',
+      disableElevation: true,
+      color: COLOR_CODE.PRIMARY,
+    },
     MuiCheckbox: {
       color: COLOR_CODE.PRIMARY,
     },
@@ -70,26 +75,26 @@ const COMMON_PROPS: ThemeOptions = {
 const COMMON_PALETTE: ThemeOptions = {
   palette: {
     error: {
-      main: COLOR.RED.main,
-      dark: COLOR.RED.dark,
+      main: COLOR.RED.MAIN,
+      dark: COLOR.RED.DARK,
     },
     warning: {
-      main: COLOR.YELLOW.main,
-      dark: COLOR.YELLOW.dark,
-      contrastText: COLOR.WHITE.main,
+      main: COLOR.YELLOW.MAIN,
+      dark: COLOR.YELLOW.DARK,
+      contrastText: COLOR.WHITE.MAIN,
     },
     info: {
-      main: COLOR.WATER.main,
-      dark: COLOR.WATER.dark,
-      contrastText: COLOR.WHITE.main,
+      main: COLOR.WATER.MAIN,
+      dark: COLOR.WATER.DARK,
+      contrastText: COLOR.WHITE.MAIN,
     },
     success: {
-      main: COLOR.GREEN.main,
-      dark: COLOR.GREEN.dark,
-      contrastText: COLOR.WHITE.main,
+      main: COLOR.GREEN.MAIN,
+      dark: COLOR.GREEN.DARK,
+      contrastText: COLOR.WHITE.MAIN,
     },
     grey: {
-      50: COLOR.GREY.border,
+      50: COLOR.GREY.MAIN,
     },
   },
 } as const;
@@ -100,46 +105,33 @@ const COMMON_PALETTE: ThemeOptions = {
 const LIGHT_THEME: ThemeOptions = {
   palette: {
     primary: {
-      light: COLOR.BLUE.light,
-      main: COLOR.BLUE.main,
-      dark: COLOR.BLUE.dark,
-      contrastText: COLOR.WHITE.main,
+      light: COLOR.BLUE.LIGHT,
+      main: COLOR.BLUE.MAIN,
+      dark: COLOR.BLUE.DARK,
+      contrastText: COLOR.WHITE.MAIN,
     },
     background: {
-      default: COLOR.WHITE.main,
-      paper: COLOR.WHITE.main,
+      default: COLOR.WHITE.MAIN,
+      paper: COLOR.WHITE.MAIN,
     },
     text: {
-      primary: COLOR.BLACK.dark,
+      primary: COLOR.BLACK.DARK,
     },
   },
   props: {
-    MuiButton: {
-      variant: 'contained',
-      disableElevation: true,
-      color: COLOR_CODE.PRIMARY,
-      style: {
-        width: BUTTON.M.WIDTH,
-        height: BUTTON.M.HEIGHT,
-        borderRadius: BORDER.RADIUS.S,
-        border: BORDER.LIGHT,
-      },
-    },
     MuiIconButton: {
       style: {
-        color: COLOR.GREY.main,
+        color: COLOR.GREY.MAIN,
         width: ICON.M,
         height: ICON.M,
         borderRadius: BORDER.RADIUS.C,
-        border: BORDER.L_BASE,
       },
     },
     MuiInputBase: {
       style: {
-        width: INPUT.M.WIDTH,
-        height: INPUT.M.HEIGHT,
+        width: INPUT.WIDTH.M,
+        height: INPUT.HEIGHT.M,
         padding: '2px 4px',
-        border: BORDER.L_BASE,
         borderRadius: BORDER.RADIUS.S,
       },
     },
@@ -152,17 +144,17 @@ const LIGHT_THEME: ThemeOptions = {
 const DARK_THEME: ThemeOptions = {
   palette: {
     primary: {
-      light: COLOR.NAVY.light,
-      main: COLOR.NAVY.main,
-      dark: COLOR.NAVY.dark,
-      contrastText: COLOR.GREY.light,
+      light: COLOR.NAVY.LIGHT,
+      main: COLOR.NAVY.MAIN,
+      dark: COLOR.NAVY.DARK,
+      contrastText: COLOR.GREY.LIGHT,
     },
     background: {
-      default: COLOR.BLACK.main,
-      paper: COLOR.BLACK.main,
+      default: COLOR.BLACK.MAIN,
+      paper: COLOR.BLACK.MAIN,
     },
     text: {
-      primary: COLOR.GREY.light,
+      primary: COLOR.GREY.LIGHT,
     },
   },
   props: {
@@ -170,28 +162,20 @@ const DARK_THEME: ThemeOptions = {
       variant: 'contained',
       disableElevation: true,
       color: COLOR_CODE.PRIMARY,
-      style: {
-        width: BUTTON.M.WIDTH,
-        height: BUTTON.M.HEIGHT,
-        borderRadius: BORDER.RADIUS.S,
-        border: BORDER.DARK,
-      },
     },
     MuiIconButton: {
       style: {
-        color: COLOR.GREY.main,
+        color: COLOR.GREY.MAIN,
         width: ICON.M,
         height: ICON.M,
         borderRadius: BORDER.RADIUS.C,
-        border: BORDER.D_BASE,
       },
     },
     MuiInputBase: {
       style: {
-        width: INPUT.M.WIDTH,
-        height: INPUT.M.HEIGHT,
+        width: INPUT.WIDTH.M,
+        height: INPUT.HEIGHT.M,
         padding: '2px 4px',
-        border: BORDER.D_BASE,
         borderRadius: BORDER.RADIUS.S,
       },
     },

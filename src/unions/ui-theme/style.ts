@@ -1,13 +1,24 @@
-import { COLOR } from './color';
+import ValueOf from 'utils/type-util/ValueOf';
+
+export namespace CommonStyles {
+  export type BorderRadius = ValueOf<typeof BORDER.RADIUS>;
+  export type FontSize = ValueOf<typeof FONT.SIZE>;
+  export type IconSize = ValueOf<typeof ICON>;
+  export type ButtonWidth = ValueOf<typeof BUTTON.WIDTH>;
+  export type ButtonHeight = ValueOf<typeof BUTTON.HEIGHT>;
+  export type InputWidth = ValueOf<typeof INPUT.WIDTH>;
+  export type InputHeight = ValueOf<typeof INPUT.HEIGHT>;
+}
 
 export const BORDER = {
-  D_BASE: `solid 2px ${COLOR.GREY.border}`,
-  L_BASE: `solid 2px ${COLOR.GREY.light}`,
-  DARK: `solid 2px ${COLOR.NAVY.main}`,
-  LIGHT: `solid 2px ${COLOR.BLUE.main}`,
   RADIUS: {
     S: 4,
     C: 100,
+  },
+  WIDTH: {
+    S: 1,
+    M: 2,
+    L: 3,
   },
 } as const;
 
@@ -25,15 +36,21 @@ export const ICON = {
 } as const;
 
 export const BUTTON = {
-  M: {
-    HEIGHT: 28,
-    WIDTH: 110,
+  HEIGHT: {
+    M: 28,
+    L: 280,
+  },
+  WIDTH: {
+    M: 110,
+    L: 280,
   },
 } as const;
 
 export const INPUT = {
-  M: {
-    HEIGHT: 28,
-    WIDTH: 214,
+  HEIGHT: {
+    M: 28,
+  },
+  WIDTH: {
+    M: 214,
   },
 } as const;
