@@ -22,46 +22,45 @@ export type Color =
  */
 export const COLOR = {
   NAVY: {
-    light: '#a0bdff',
-    main: '#5877ac',
-    dark: '#3c3f50',
+    LIGHT: '#a0bdff',
+    MAIN: '#5877ac',
+    DARK: '#3c3f50',
   },
   BLUE: {
-    light: '#76a7db',
-    main: '#5487c0',
-    dark: '#43658a',
+    LIGHT: '#76a7db',
+    MAIN: '#5487c0',
+    DARK: '#43658a',
   },
   RED: {
-    main: '#df6b6e',
-    dark: '#d85f62',
+    MAIN: '#df6b6e',
+    DARK: '#d85f62',
   },
   GREEN: {
-    main: '#61b6a3',
-    dark: '#4b8477',
+    MAIN: '#61b6a3',
+    DARK: '#4b8477',
   },
   YELLOW: {
-    main: '#d4d49b',
-    dark: '#8a8b69',
+    MAIN: '#d4d49b',
+    DARK: '#8a8b69',
   },
   ORANGE: {
-    main: '#bc8d77',
-    dark: '#9b7664',
+    MAIN: '#bc8d77',
+    DARK: '#9b7664',
   },
   WATER: {
-    main: '#67c3e5',
-    dark: '#5697b1',
+    MAIN: '#67c3e5',
+    DARK: '#5697b1',
   },
   GREY: {
-    light: '#dadada',
-    main: '#a8a8a8',
-    dark: '#4d5156',
-    border: '#737373',
+    LIGHT: '#dadada',
+    MAIN: '#a8a8a8',
+    DARK: '#737373',
   },
   BLACK: {
-    main: '#333333',
-    dark: '#2f2f2f',
+    MAIN: '#333333',
+    DARK: '#2f2f2f',
   },
   WHITE: {
-    main: '#ffffff',
+    MAIN: '#ffffff',
   },
 } as const;
