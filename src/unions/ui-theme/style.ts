@@ -2,6 +2,7 @@ import ValueOf from 'utils/type-util/ValueOf';
 
 export namespace CommonStyles {
   export type BorderRadius = ValueOf<typeof BORDER.RADIUS>;
+  export type BorderWidth = ValueOf<typeof BORDER.WIDTH>;
   export type FontSize = ValueOf<typeof FONT.SIZE>;
   export type IconSize = ValueOf<typeof ICON>;
   export type ButtonWidth = ValueOf<typeof BUTTON.WIDTH>;
@@ -38,11 +39,11 @@ export const ICON = {
 export const BUTTON = {
   HEIGHT: {
     M: 28,
-    L: 280,
+    L: 36,
   },
   WIDTH: {
     M: 110,
-    L: 280,
+    L: 160,
   },
 } as const;
 

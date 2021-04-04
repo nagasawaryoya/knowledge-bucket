@@ -12,6 +12,7 @@ type ButtonStyles = React.CSSProperties & {
   height?: CommonStyles.ButtonHeight;
   borderColor?: Color;
   borderRadius?: CommonStyles.BorderRadius;
+  borderWidth?: CommonStyles.BorderWidth;
 };
 
 export type ButtonProps = MuiButtonProps & {
@@ -24,7 +25,7 @@ export type ButtonProps = MuiButtonProps & {
  * ボタンコンポーネント。
  */
 export const Button: FC<ButtonProps> = ({ label, button, style }) => {
-  const classes = useStyles(style)();
+  const classes = useStyles(style);
   return (
     <MuiButton {...button} className={classes.root}>
       {label}
@@ -46,4 +47,4 @@ const useStyles = (style?: ButtonStyles) =>
         borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
       },
     }),
-  );
+  )();

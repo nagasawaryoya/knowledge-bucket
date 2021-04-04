@@ -23,10 +23,10 @@ function App() {
           style={{
             width: BUTTON.WIDTH.L,
             backgroundColor: COLOR.GREEN.DARK,
-            borderColor: COLOR.RED.DARK,
-            borderStyle: 'solid',
-            borderWidth: BORDER.WIDTH.M,
             borderRadius: BORDER.RADIUS.C,
+            borderColor: COLOR.RED.DARK,
+            borderWidth: BORDER.WIDTH.M,
+            borderStyle: 'solid',
           }}
         />
         <Dialog open={false} title="タイトルですよ" text="テキストテキスト" />
