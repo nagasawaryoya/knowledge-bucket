@@ -52,6 +52,6 @@ export const INPUT = {
     M: 28,
   },
   WIDTH: {
-    M: 214,
+    M: 240,
   },
 } as const;
