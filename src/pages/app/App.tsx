@@ -21,7 +21,7 @@ function App() {
         <ContainedButton label="作成" style={{ backgroundColor: COLOR.GREEN.MAIN }} />
         <ContainedButton label="作成" />
         <OutlinedButton label="キャンセル" />
-        <Dialog open={false} title="タイトルですよ" text="テキストテキスト" />
+        <Dialog open={true} title="タイトルですよ" text="テキストテキスト" />
         <InputText></InputText>
       </React.Fragment>
     </ThemeProvider>

@@ -6,6 +6,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { DialogProps as MuiDialogProps } from '@material-ui/core';
 import { ContainedButton } from 'components/buttons/ContainedButton';
+import { OutlinedButton } from 'components/buttons/OutlinedButton';
 
 export type DialogProps = MuiDialogProps & {
   title: string;
@@ -22,7 +23,7 @@ export const Dialog: FC<DialogProps> = ({ title, text, footer = true, ...dialog 
     <DialogContent>{dialog.children ?? <DialogContentText>{text ?? ''}</DialogContentText>}</DialogContent>
     {footer && (
       <DialogActions>
-        <ContainedButton label="キャンセル" />
+        <OutlinedButton label="キャンセル" />
         <ContainedButton label="決定" />
       </DialogActions>
     )}
