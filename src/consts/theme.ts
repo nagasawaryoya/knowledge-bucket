@@ -49,6 +49,12 @@ const COMMON_THEME: ThemeOptions = {
  */
 const COMMON_PROPS: ThemeOptions = {
   props: {
+    MuiButtonBase: {
+      disableRipple: true,
+      style: {
+        fontWeight: 'bold',
+      },
+    },
     MuiButton: {
       disableElevation: true,
       color: COLOR_CODE.PRIMARY,
@@ -66,10 +72,9 @@ const COMMON_PROPS: ThemeOptions = {
     MuiSwitch: {
       color: COLOR_CODE.PRIMARY,
     },
-    MuiButtonBase: {
-      disableRipple: true,
+    MuiInputBase: {
       style: {
-        fontWeight: 'bold',
+        padding: '2px 6px',
       },
     },
   },
@@ -125,16 +130,6 @@ const LIGHT_THEME: ThemeOptions = {
       primary: COLOR.BLACK.DARK,
     },
   },
-  props: {
-    MuiInputBase: {
-      style: {
-        width: INPUT.WIDTH.M,
-        height: INPUT.HEIGHT.M,
-        padding: '2px 4px',
-        borderRadius: BORDER.RADIUS.S,
-      },
-    },
-  },
 } as const;
 
 /**
@@ -155,16 +150,6 @@ const DARK_THEME: ThemeOptions = {
     },
     text: {
       primary: COLOR.GREY.LIGHT,
-    },
-  },
-  props: {
-    MuiInputBase: {
-      style: {
-        width: INPUT.WIDTH.M,
-        height: INPUT.HEIGHT.M,
-        padding: '2px 4px',
-        borderRadius: BORDER.RADIUS.S,
-      },
     },
   },
 } as const;

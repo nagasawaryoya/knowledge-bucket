@@ -36,7 +36,7 @@ const useStyles = (style?: InputStyles) =>
         height: style?.height ?? INPUT.HEIGHT.M,
         borderColor: COLOR.GREY.MAIN,
         borderWidth: style?.borderWidth ?? BORDER.WIDTH.S,
-        borderRadius: style?.borderRadius ?? BORDER.RADIUS.C,
+        borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
         borderStyle: 'solid',
       },
     }),
