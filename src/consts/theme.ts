@@ -2,7 +2,7 @@ import { createMuiTheme, Theme, ThemeOptions } from '@material-ui/core/styles';
 import { COLOR } from 'unions/ui-theme/color';
 import { COLOR_CODE } from 'unions/ui-theme/color-code';
 import { THEME_TYPE, ThemeType } from 'unions/ui-theme/theme-type';
-import { BORDER, FONT, INPUT } from 'unions/ui-theme/style';
+import { FONT } from 'unions/ui-theme/style';
 
 /**
  * テーマを作成する。
