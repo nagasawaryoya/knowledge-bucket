@@ -68,6 +68,9 @@ const COMMON_PROPS: ThemeOptions = {
     },
     MuiButtonBase: {
       disableRipple: true,
+      style: {
+        fontWeight: 'bold',
+      },
     },
   },
 };

@@ -13,7 +13,7 @@ import './App.css';
 
 function App() {
   return (
-    <ThemeProvider theme={createTheme(THEME_TYPE.LIGHT)}>
+    <ThemeProvider theme={createTheme(THEME_TYPE.DARK)}>
       <CssBaseline />
       <React.Fragment>
         <IconButton icon={{ name: ICON_NAME.ADD }} />
