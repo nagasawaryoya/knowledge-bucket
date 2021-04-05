@@ -15,4 +15,5 @@ export const COLOR_CODE = {
   WARNING: 'warning',
   INFO: 'info',
   SUCCESS: 'success',
+  DEFAULT: 'default',
 } as const;
