@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import MuiButton from '@material-ui/core/Button';
 import { ButtonProps as MuiButtonProps } from '@material-ui/core';
 import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
@@ -18,15 +18,16 @@ type ButtonProps = MuiButtonProps & {
   label: string;
   button?: Omit<MuiButtonProps, 'variant'>;
   style?: ButtonStyles;
+  onClick?: MouseEventHandler;
 };
 
 /**
  * 塗り潰しボタンコンポーネント。
  */
-export const ContainedButton: FC<ButtonProps> = ({ label, button, style }) => {
+export const ContainedButton: FC<ButtonProps> = ({ label, button, style, onClick }) => {
   const classes = useStyles(style);
   return (
-    <MuiButton variant="contained" {...button} className={classes.root}>
+    <MuiButton className={classes.root} variant="contained" {...button} onClick={onClick}>
       {label}
     </MuiButton>
   );

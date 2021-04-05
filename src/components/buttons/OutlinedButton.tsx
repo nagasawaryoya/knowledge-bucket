@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import MuiButton from '@material-ui/core/Button';
 import { ButtonProps as MuiButtonProps } from '@material-ui/core';
 import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
@@ -17,15 +17,16 @@ type ButtonProps = MuiButtonProps & {
   label: string;
   button?: Omit<MuiButtonProps, 'variant' | 'color'>;
   style?: ButtonStyles;
+  onClick?: MouseEventHandler;
 };
 
 /**
  * 外枠ボタンコンポーネント。
  */
-export const OutlinedButton: FC<ButtonProps> = ({ label, button, style }) => {
+export const OutlinedButton: FC<ButtonProps> = ({ label, button, style, onClick }) => {
   const classes = useStyles(style);
   return (
-    <MuiButton variant="outlined" {...button} className={classes.root}>
+    <MuiButton className={classes.root} variant="outlined" {...button} onClick={onClick}>
       {label}
     </MuiButton>
   );

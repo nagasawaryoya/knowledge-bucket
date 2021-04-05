@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import MuiIconButton from '@material-ui/core/IconButton';
 import { IconButtonProps as MuiIconButtonProps } from '@material-ui/core';
 import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
@@ -22,14 +22,22 @@ export type IconButtonProps = {
   icon: IconProps;
   button?: Omit<MuiIconButtonProps, 'children'>;
   style?: IconButtonStyles;
+  onClick?: MouseEventHandler;
 };
 
 /**
  * アイコンボタンコンポーネント。
  */
-export const IconButton: FC<IconButtonProps> = ({ icon, button, style }) => {
+export const IconButton: FC<IconButtonProps> = ({ icon, button, style, onClick }) => {
   const classes = useStyles(style);
-  return <MuiIconButton {...button} className={classes.root} children={<Icon {...icon} className={classes.icon} />} />;
+  return (
+    <MuiIconButton
+      className={classes.root}
+      {...button}
+      children={<Icon {...icon} className={classes.icon} />}
+      onClick={onClick}
+    />
+  );
 };
 
 /**

@@ -22,7 +22,7 @@ export type InputTextProps = {
  */
 export const InputText: FC<InputTextProps> = ({ input, style }) => {
   const classes = useStyles(style);
-  return <MuiInputBase type="text" {...input} className={classes.root}></MuiInputBase>;
+  return <MuiInputBase className={classes.root} type="text" {...input}></MuiInputBase>;
 };
 
 /**
