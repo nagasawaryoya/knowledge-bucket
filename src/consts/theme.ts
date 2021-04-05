@@ -2,7 +2,7 @@ import { createMuiTheme, Theme, ThemeOptions } from '@material-ui/core/styles';
 import { COLOR } from 'unions/ui-theme/color';
 import { COLOR_CODE } from 'unions/ui-theme/color-code';
 import { THEME_TYPE, ThemeType } from 'unions/ui-theme/theme-type';
-import { BORDER, FONT, ICON, INPUT } from 'unions/ui-theme/style';
+import { BORDER, FONT, INPUT } from 'unions/ui-theme/style';
 
 /**
  * テーマを作成する。
@@ -50,9 +50,12 @@ const COMMON_THEME: ThemeOptions = {
 const COMMON_PROPS: ThemeOptions = {
   props: {
     MuiButton: {
-      variant: 'contained',
       disableElevation: true,
       color: COLOR_CODE.PRIMARY,
+    },
+    MuiIconButton: {
+      color: COLOR_CODE.DEFAULT,
+      disableFocusRipple: true,
     },
     MuiCheckbox: {
       color: COLOR_CODE.PRIMARY,
@@ -104,6 +107,7 @@ const COMMON_PALETTE: ThemeOptions = {
  */
 const LIGHT_THEME: ThemeOptions = {
   palette: {
+    type: THEME_TYPE.LIGHT,
     primary: {
       light: COLOR.BLUE.LIGHT,
       main: COLOR.BLUE.MAIN,
@@ -119,14 +123,6 @@ const LIGHT_THEME: ThemeOptions = {
     },
   },
   props: {
-    MuiIconButton: {
-      style: {
-        color: COLOR.GREY.MAIN,
-        width: ICON.M,
-        height: ICON.M,
-        borderRadius: BORDER.RADIUS.C,
-      },
-    },
     MuiInputBase: {
       style: {
         width: INPUT.WIDTH.M,
@@ -143,6 +139,7 @@ const LIGHT_THEME: ThemeOptions = {
  */
 const DARK_THEME: ThemeOptions = {
   palette: {
+    type: THEME_TYPE.DARK,
     primary: {
       light: COLOR.NAVY.LIGHT,
       main: COLOR.NAVY.MAIN,
@@ -158,19 +155,6 @@ const DARK_THEME: ThemeOptions = {
     },
   },
   props: {
-    MuiButton: {
-      variant: 'contained',
-      disableElevation: true,
-      color: COLOR_CODE.PRIMARY,
-    },
-    MuiIconButton: {
-      style: {
-        color: COLOR.GREY.MAIN,
-        width: ICON.M,
-        height: ICON.M,
-        borderRadius: BORDER.RADIUS.C,
-      },
-    },
     MuiInputBase: {
       style: {
         width: INPUT.WIDTH.M,
