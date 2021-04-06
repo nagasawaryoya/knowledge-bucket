@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { IconButton } from 'components/buttons/IconButton';
 import { ContainedButton } from 'components/buttons/ContainedButton';
@@ -22,7 +22,7 @@ function App() {
         <ContainedButton label="作成" onClick={test1} />
         <OutlinedButton label="キャンセル" onClick={test2} />
         <Dialog open={false} title="タイトルですよ" text="テキストテキスト" />
-        <InputText></InputText>
+        <InputText onChange={test4}></InputText>
       </React.Fragment>
     </ThemeProvider>
   );
@@ -36,6 +36,9 @@ const test2 = () => {
 };
 const test3 = () => {
   console.log('テスト3');
+};
+const test4 = (e: ChangeEvent<HTMLInputElement>) => {
+  console.log(e.target.value);
 };
 
 export default App;

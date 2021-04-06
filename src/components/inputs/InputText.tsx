@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ChangeEventHandler } from 'react';
 import MuiInputBase from '@material-ui/core/InputBase';
 import { InputBaseProps as MuiInputBaseProps } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
@@ -15,14 +15,15 @@ type InputStyles = Omit<React.CSSProperties, 'color' | 'backgroundColor' | 'bord
 export type InputTextProps = {
   input?: Omit<MuiInputBaseProps, 'type'>;
   style?: InputStyles;
+  onChange?: ChangeEventHandler;
 };
 
 /**
  * 入力テキストコンポーネント。
  */
-export const InputText: FC<InputTextProps> = ({ input, style }) => {
+export const InputText: FC<InputTextProps> = ({ input, style, onChange }) => {
   const classes = useStyles(style);
-  return <MuiInputBase className={classes.root} type="text" {...input}></MuiInputBase>;
+  return <MuiInputBase className={classes.root} type="text" {...input} onChange={onChange}></MuiInputBase>;
 };
 
 /**
