@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint -c .eslintrc.json --ext ts,tsx src"
   },
@@ -31,6 +31,12 @@
       "react-app",
       "react-app/jest"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn test",
+      "pre-push": "yarn lint"
+    }
   },
   "browserslist": {
     "production": [
@@ -49,6 +55,8 @@
     "eslint": "^7.23.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-jest": "^24.3.4",
+    "husky": "4.3.0",
+    "lint-staged": "10.3.0",
     "prettier": "2.2.1",
     "ts-loader": "^8.1.0",
     "webpack-cli": "^4.6.0"
