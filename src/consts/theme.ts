@@ -22,8 +22,8 @@ export const createTheme = (theme: ThemeType): Theme => {
   }
   return createMuiTheme({
     ...COMMON_THEME,
+    ...COMMON_PROPS,
     palette: { ...COMMON_PALETTE.palette, ...specificTheme.palette },
-    props: { ...COMMON_PROPS.props, ...specificTheme.props },
   });
 };
 
