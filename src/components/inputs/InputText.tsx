@@ -4,6 +4,7 @@ import { InputBaseProps as MuiInputBaseProps } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { INPUT, BORDER, CommonStyles } from 'unions/ui-theme/style';
 import { COLOR } from 'unions/ui-theme/color';
+import { INPUT_TYPE, InputType } from 'unions/input-type';
 
 type InputStyles = Omit<React.CSSProperties, 'color' | 'backgroundColor' | 'borderColor'> & {
   width?: CommonStyles.ButtonWidth;
@@ -15,15 +16,16 @@ type InputStyles = Omit<React.CSSProperties, 'color' | 'backgroundColor' | 'bord
 export type InputTextProps = {
   input?: Omit<MuiInputBaseProps, 'type'>;
   style?: InputStyles;
+  type?: InputType;
   onChange?: ChangeEventHandler;
 };
 
 /**
  * 入力テキストコンポーネント。
  */
-export const InputText: FC<InputTextProps> = ({ input, style, onChange }) => {
+export const InputText: FC<InputTextProps> = ({ input, style, type = INPUT_TYPE.TEXT, onChange }) => {
   const classes = useStyles(style);
-  return <MuiInputBase className={classes.root} type="text" {...input} onChange={onChange}></MuiInputBase>;
+  return <MuiInputBase className={classes.root} type={type} {...input} onChange={onChange}></MuiInputBase>;
 };
 
 /**
