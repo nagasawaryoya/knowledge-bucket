@@ -46,7 +46,7 @@ export const IconButton: FC<IconButtonProps> = ({ icon, button, style, onClick }
 const useStyles = (style?: IconButtonStyles) => {
   const currenTheme = useTheme();
 
-  return makeStyles((theme: Theme) =>
+  return makeStyles(() =>
     createStyles({
       root: {
         width: style?.width ?? ICON.M,

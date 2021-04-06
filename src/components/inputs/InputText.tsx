@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import MuiInputBase from '@material-ui/core/InputBase';
 import { InputBaseProps as MuiInputBaseProps } from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { INPUT, BORDER, CommonStyles } from 'unions/ui-theme/style';
 import { COLOR } from 'unions/ui-theme/color';
 
@@ -29,7 +29,7 @@ export const InputText: FC<InputTextProps> = ({ input, style }) => {
  * スタイルを適用する。
  */
 const useStyles = (style?: InputStyles) =>
-  makeStyles((theme: Theme) =>
+  makeStyles(() =>
     createStyles({
       root: {
         width: style?.width ?? INPUT.WIDTH.M,

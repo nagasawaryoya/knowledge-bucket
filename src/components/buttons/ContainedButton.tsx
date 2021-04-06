@@ -39,7 +39,7 @@ export const ContainedButton: FC<ButtonProps> = ({ label, button, style, onClick
 const useStyles = (style?: ButtonStyles) => {
   const currenTheme = useTheme();
 
-  return makeStyles((theme: Theme) =>
+  return makeStyles(() =>
     createStyles({
       root: {
         width: style?.width ?? BUTTON.WIDTH.M,
