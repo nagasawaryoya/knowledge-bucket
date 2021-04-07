@@ -95,7 +95,7 @@ export default class Validator {
    *
    * @param {number} value 値
    * @param {number} min 最小値
-   * @returns true:正、false:誤
+   * @returns {boolean} true:正、false:誤
    */
   private static isMin(value: number, min: number | undefined): boolean {
     return (min ?? 0) <= value;
