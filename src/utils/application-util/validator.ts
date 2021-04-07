@@ -9,6 +9,9 @@ export default interface ValidateError {
   message: string;
 }
 
+/**
+ * 検証値と検証項目の型。
+ */
 export type ValidateProps = {
   value?: unknown;
   type?: ValidateType;
