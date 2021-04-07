@@ -13,7 +13,7 @@ export default interface ValidateError {
  * 検証値と検証項目の型。
  */
 export type ValidateProps = {
-  value?: unknown;
+  value: unknown;
   type?: ValidateType;
   required?: boolean;
   length?: number;
