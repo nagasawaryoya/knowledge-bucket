@@ -1,7 +1,7 @@
 import ValueOf from 'utils/type-util/ValueOf';
 
 /**
- * アプリケーションのテーマカラーの型。
+ * アプリケーションで使用する色の型。
  */
 // TODO もっといい型定義があるはず
 export type Color =
@@ -18,7 +18,7 @@ export type Color =
   | ValueOf<typeof COLOR.BLACK>;
 
 /**
- * アプリケーションで使用するカラー。
+ * アプリケーションで使用する色。
  */
 export const COLOR = {
   NAVY: {

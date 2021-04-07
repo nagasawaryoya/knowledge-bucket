@@ -35,6 +35,9 @@ export const ContainedButton: FC<ButtonProps> = ({ label, button, style, onClick
 
 /**
  * スタイルを適用する。
+ *
+ * @param {InputStyles} style スタイル値
+ * @returns {ClassNameMap<"root">} cssプロパティ
  */
 const useStyles = (style?: ButtonStyles) => {
   const currenTheme = useTheme();
@@ -56,6 +59,10 @@ const useStyles = (style?: ButtonStyles) => {
 
 /**
  * テーマに応じたスタイルを返却する。
+ *
+ * @param {Theme} theme 現在のテーマ
+ * @param {InputStyles} style cssプロパティ
+ * @returns css プロパティ
  */
 const styling = (theme: Theme, style?: ButtonStyles) =>
   theme.palette.type === THEME_TYPE.DARK

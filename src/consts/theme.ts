@@ -6,6 +6,9 @@ import { FONT } from 'unions/ui-theme/style';
 
 /**
  * テーマを作成する。
+ *
+ * @param {ThemeType} theme 現在のテーマタイプ
+ * @returns {ClassNameMap<"root" | "input">} 現在のテーマタイプに応じたテーマ
  */
 export const createTheme = (theme: ThemeType): Theme => {
   let specificTheme: ThemeOptions = {};

@@ -6,7 +6,7 @@ import ValueOf from 'utils/type-util/ValueOf';
 export type ThemeType = ValueOf<typeof THEME_TYPE>;
 
 /**
- * アプリケーションのテーマカラー。
+ * アプリケーションのテーマカラーの種類。
  */
 export const THEME_TYPE = {
   LIGHT: 'light',

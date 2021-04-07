@@ -18,7 +18,7 @@ type IconButtonStyles = React.CSSProperties & {
   hoverColor?: Color;
 };
 
-export type IconButtonProps = {
+type IconButtonProps = {
   icon: IconProps;
   button?: Omit<MuiIconButtonProps, 'children'>;
   style?: IconButtonStyles;
@@ -42,6 +42,9 @@ export const IconButton: FC<IconButtonProps> = ({ icon, button, style, onClick }
 
 /**
  * スタイルを適用する。
+ *
+ * @param {InputStyles} style スタイル値
+ * @returns {ClassNameMap<"root" | "icon">} cssプロパティ
  */
 const useStyles = (style?: IconButtonStyles) => {
   const currenTheme = useTheme();
@@ -68,6 +71,10 @@ const useStyles = (style?: IconButtonStyles) => {
 
 /**
  * テーマに応じたスタイルを返却する。
+ *
+ * @param {Theme} theme 現在のテーマ
+ * @param {InputStyles} style cssプロパティ
+ * @returns css プロパティ
  */
 const styling = (theme: Theme, style?: IconButtonStyles) => {
   return theme.palette.type === THEME_TYPE.DARK

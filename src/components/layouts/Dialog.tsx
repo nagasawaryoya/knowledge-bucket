@@ -8,7 +8,7 @@ import { DialogProps as MuiDialogProps } from '@material-ui/core';
 import { ContainedButton } from 'components/buttons/ContainedButton';
 import { OutlinedButton } from 'components/buttons/OutlinedButton';
 
-export type DialogProps = MuiDialogProps & {
+type DialogProps = MuiDialogProps & {
   title: string;
   text?: string;
   footer?: boolean;

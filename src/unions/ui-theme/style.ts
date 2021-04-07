@@ -1,5 +1,8 @@
 import ValueOf from 'utils/type-util/ValueOf';
 
+/**
+ * アプリケーション内で統一されているスタイルの型。
+ */
 export namespace CommonStyles {
   export type BorderRadius = ValueOf<typeof BORDER.RADIUS>;
   export type BorderWidth = ValueOf<typeof BORDER.WIDTH>;
@@ -11,6 +14,9 @@ export namespace CommonStyles {
   export type InputHeight = ValueOf<typeof INPUT.HEIGHT>;
 }
 
+/**
+ * アプリケーション内で統一されている枠線のスタイル。
+ */
 export const BORDER = {
   RADIUS: {
     S: 4,
@@ -23,6 +29,9 @@ export const BORDER = {
   },
 } as const;
 
+/**
+ * アプリケーション内で統一されている文字のスタイル。
+ */
 export const FONT = {
   SIZE: {
     S: 10,
@@ -32,10 +41,16 @@ export const FONT = {
   },
 } as const;
 
+/**
+ * アプリケーション内で統一されているアイコンのスタイル。
+ */
 export const ICON = {
   M: 28,
 } as const;
 
+/**
+ * アプリケーション内で統一されているボタンのスタイル。
+ */
 export const BUTTON = {
   HEIGHT: {
     M: 28,
@@ -47,6 +62,9 @@ export const BUTTON = {
   },
 } as const;
 
+/**
+ * アプリケーション内で統一されているインプットエリアのスタイル。
+ */
 export const INPUT = {
   HEIGHT: {
     M: 28,
