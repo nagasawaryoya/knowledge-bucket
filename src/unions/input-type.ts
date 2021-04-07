@@ -1,14 +1,14 @@
 import ValueOf from 'utils/type-util/ValueOf';
 
 /**
- * フォーム部品の種類を指定するtype属性の型。
+ * 検証タイプの型。
  */
-export type InputType = ValueOf<typeof INPUT_TYPE>;
+export type ValidateType = ValueOf<typeof VALIDATE_TYPE>;
 
 /**
- * フォーム部品の種類を指定するtype属性。
+ * 検証タイプ。
  */
-export const INPUT_TYPE = {
+export const VALIDATE_TYPE = {
   TEXT: 'text',
   NUMBER: 'number',
   SEARCH: 'search',

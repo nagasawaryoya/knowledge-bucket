@@ -72,11 +72,6 @@ const COMMON_PROPS: ThemeOptions = {
     MuiSwitch: {
       color: COLOR_CODE.PRIMARY,
     },
-    MuiInputBase: {
-      style: {
-        padding: '2px 6px',
-      },
-    },
   },
 };
 

@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { IconButton } from 'components/buttons/IconButton';
 import { ContainedButton } from 'components/buttons/ContainedButton';
@@ -12,6 +12,11 @@ import { OutlinedButton } from 'components/buttons/OutlinedButton';
 import './App.css';
 
 function App() {
+  const [inputValue, setInputValue] = useState('');
+  const onChangeValue = (value: string) => {
+    setInputValue(value);
+  };
+  console.log(inputValue);
   return (
     <ThemeProvider theme={createTheme(THEME_TYPE.DARK)}>
       <CssBaseline />
@@ -22,7 +27,11 @@ function App() {
         <ContainedButton label="作成" onClick={test1} />
         <OutlinedButton label="キャンセル" onClick={test2} />
         <Dialog open={false} title="タイトルですよ" text="テキストテキスト" />
-        <InputText onChange={test4}></InputText>
+        <InputText
+          input={{ variant: 'outlined', value: inputValue }}
+          validate={{ required: true, length: 2 }}
+          onChangeValue={onChangeValue}
+        ></InputText>
       </React.Fragment>
     </ThemeProvider>
   );
@@ -36,9 +45,6 @@ const test2 = () => {
 };
 const test3 = () => {
   console.log('テスト3');
-};
-const test4 = (e: ChangeEvent<HTMLInputElement>) => {
-  console.log(e.target.value);
 };
 
 export default App;
