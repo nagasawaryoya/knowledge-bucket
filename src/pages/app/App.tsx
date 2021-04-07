@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { IconButton } from 'components/buttons/IconButton';
 import { ContainedButton } from 'components/buttons/ContainedButton';
+import { OutlinedButton } from 'components/buttons/OutlinedButton';
 import { Dialog } from 'components/layouts/Dialog';
 import { InputText } from 'components/inputs/InputText';
 import { COLOR } from 'unions/ui-theme/color';
 import { ICON_NAME } from 'unions/icon-name';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
+import { VALIDATE_TYPE } from 'unions/validate-type';
 import { createTheme } from 'consts/theme';
-import { OutlinedButton } from 'components/buttons/OutlinedButton';
 import './App.css';
 
 function App() {
-  const [inputValue, setInputValue] = useState('');
-  const onChangeValue = (value: string) => {
+  const [inputValue, setInputValue] = useState<string | number>('');
+  const onChangeValue = (value: string | number): void => {
     setInputValue(value);
   };
+  console.log(typeof inputValue);
   console.log(inputValue);
   return (
     <ThemeProvider theme={createTheme(THEME_TYPE.DARK)}>
@@ -29,7 +31,7 @@ function App() {
         <Dialog open={false} title="タイトルですよ" text="テキストテキスト" />
         <InputText
           input={{ variant: 'outlined', value: inputValue }}
-          validate={{ required: true, length: 2 }}
+          validate={{ required: true, type: VALIDATE_TYPE.NUMBER, minRange: 5, maxRange: 15 }}
           onChangeValue={onChangeValue}
         ></InputText>
       </React.Fragment>

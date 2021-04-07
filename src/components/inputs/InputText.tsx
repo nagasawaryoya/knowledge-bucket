@@ -5,10 +5,11 @@ import { INPUT, BORDER, CommonStyles } from 'unions/ui-theme/style';
 import { COLOR } from 'unions/ui-theme/color';
 import Validator, { ValidateProps } from 'utils/application-util/validator';
 import ValidateError from 'utils/application-util/validator';
+import { VALIDATE_TYPE } from 'unions/validate-type';
 
 type InputState = {
   error: ValidateError | null;
-  value: string;
+  value: string | number;
 };
 
 type InputStyles = Omit<React.CSSProperties, 'color' | 'backgroundColor' | 'borderColor'> & {
@@ -18,11 +19,12 @@ type InputStyles = Omit<React.CSSProperties, 'color' | 'backgroundColor' | 'bord
   borderWidth?: CommonStyles.BorderWidth;
 };
 
-export type InputTextProps = {
+type InputTextProps = {
   input?: Omit<MuiTextFieldProps, 'type' | 'required' | 'error' | 'helperText'>;
   style?: InputStyles;
   validate?: Omit<ValidateProps, 'value'>;
-  onChangeValue?: Function;
+  // eslint-disable-next-line no-unused-vars
+  onChangeValue?: (value: string | number) => unknown;
 };
 
 /**
@@ -38,13 +40,16 @@ export const InputText: FC<InputTextProps> = ({ input, style, validate, onChange
 
   // 入力値変更イベント
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const valid = Validator.validate({ value: e.target.value, ...validate });
+    const value = valid === null && validate?.type === VALIDATE_TYPE.NUMBER ? Number(e.target.value) : e.target.value;
     if (onChangeValue) {
       // 親コンポーネントに入力値を返却する。
-      onChangeValue(e.target.value);
+      onChangeValue(value);
     }
+
     setInputState({
-      error: Validator.validate({ value: e.target.value, ...validate }),
-      value: e.target.value,
+      error: valid,
+      value: value,
     });
   };
 
@@ -53,7 +58,7 @@ export const InputText: FC<InputTextProps> = ({ input, style, validate, onChange
       className={classes.root}
       type="text"
       error={Boolean(inputState.error)}
-      helperText={inputState.error?.errorMessage}
+      helperText={inputState.error?.message}
       value={inputState.value}
       {...input}
       onChange={onChangeHandler}
@@ -64,6 +69,9 @@ export const InputText: FC<InputTextProps> = ({ input, style, validate, onChange
 
 /**
  * スタイルを適用する。
+ *
+ * @param {InputStyles} style スタイル値
+ * @returns {ClassNameMap<"root" | "input">} cssプロパティ
  */
 const useStyles = (style?: InputStyles) =>
   makeStyles(() =>
