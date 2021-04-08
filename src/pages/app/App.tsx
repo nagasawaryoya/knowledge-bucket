@@ -31,7 +31,7 @@ function App() {
         <Dialog open={false} title="タイトルですよ" text="テキストテキスト" />
         <InputText
           input={{ variant: 'outlined', value: inputValue }}
-          validate={{ required: true, type: VALIDATE_TYPE.NUMBER, minRange: 5, maxRange: 15 }}
+          validate={{ required: true, type: VALIDATE_TYPE.NUMBER, range: { start: 0, end: 10 } }}
           onChangeValue={onChangeValue}
         ></InputText>
       </React.Fragment>

@@ -1,5 +1,6 @@
 import React, { FC, ChangeEvent, useState } from 'react';
 import MuiTextField, { TextFieldProps as MuiTextFieldProps } from '@material-ui/core/TextField';
+import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { INPUT, BORDER, CommonStyles } from 'unions/ui-theme/style';
 import { COLOR } from 'unions/ui-theme/color';
@@ -73,7 +74,7 @@ export const InputText: FC<InputTextProps> = ({ input, style, validate, onChange
  * @param {InputStyles} style スタイル値
  * @returns {ClassNameMap<"root" | "input">} cssプロパティ
  */
-const useStyles = (style?: InputStyles) =>
+const useStyles = (style?: InputStyles): ClassNameMap<'root' | 'input'> =>
   makeStyles(() =>
     createStyles({
       root: {

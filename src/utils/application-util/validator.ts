@@ -1,6 +1,7 @@
 import { ValidateType, VALIDATE_TYPE } from 'unions/validate-type';
 import * as ErrorMessages from 'consts/error-messages';
 import StringUtil from 'utils/application-util/string-util';
+import { NumberRange } from 'utils/type-util/NumberRange';
 
 /**
  * 入力チェック結果インタフェース。
@@ -17,8 +18,9 @@ export type ValidateProps = {
   type?: ValidateType;
   required?: boolean;
   length?: number;
-  minRange?: number;
-  maxRange?: number;
+  min?: number;
+  max?: number;
+  range?: NumberRange;
 };
 
 /**
@@ -32,8 +34,9 @@ export default class Validator {
    * @param {ValidateType} type チェック種類
    * @param {boolean} required 必須チェック(true:必須)
    * @param {number} length 長さ
-   * @param {number} minRange 最小範囲
-   * @param {number} maxRange 最大範囲
+   * @param {number} min 最小数値
+   * @param {number} max 最大数値
+   * @param {NumberRange} range 数値範囲
    * @return {ValidateError | null} エラー: メッセージ | 正常: null
    */
   public static validate(props: ValidateProps): ValidateError | null {
@@ -60,20 +63,26 @@ export default class Validator {
         };
       }
 
-      // 範囲検査
       const numberValue = Number(props.value);
-      let rangeErrorMsg = '';
 
-      if (!this.isMin(numberValue, props.minRange)) {
-        rangeErrorMsg = `${props.minRange}以上`;
-      }
-      if (!this.isMax(numberValue, props.maxRange)) {
-        rangeErrorMsg = `${props.maxRange}以下`;
-      }
-
-      if (rangeErrorMsg) {
+      // 最小値検査
+      if (props.min && !this.isMin(numberValue, props.min)) {
         return {
-          message: StringUtil.format(ErrorMessages.INVALID_RANGE, rangeErrorMsg),
+          message: StringUtil.format(ErrorMessages.INVALID_MIN, props.min),
+        };
+      }
+
+      // 最大値検査
+      if (props.max && !this.isMax(numberValue, props.max)) {
+        return {
+          message: StringUtil.format(ErrorMessages.INVALID_MAX, props.max),
+        };
+      }
+
+      // 数値範囲検査
+      if (props.range && !this.isRange(numberValue, props.range)) {
+        return {
+          message: StringUtil.format(ErrorMessages.INVALID_RANGE, props.range.start, props.range.end),
         };
       }
     }
@@ -97,8 +106,8 @@ export default class Validator {
    * @param {number} min 最小値
    * @returns {boolean} true:正、false:誤
    */
-  private static isMin(value: number, min: number | undefined): boolean {
-    return (min ?? 0) <= value;
+  private static isMin(value: number, min: number): boolean {
+    return min <= value;
   }
 
   /**
@@ -108,7 +117,18 @@ export default class Validator {
    * @param {number} max 最大値
    * @returns {boolean} true:正、false:誤
    */
-  private static isMax(value: number, max: number | undefined): boolean {
-    return (max ?? Infinity) >= value;
+  private static isMax(value: number, max: number): boolean {
+    return max >= value;
+  }
+
+  /**
+   * 数値範囲検査
+   *
+   * @param {number} value 値
+   * @param {NumberRange} range 数値範囲
+   * @returns {boolean} true:正、false:誤
+   */
+  private static isRange(value: number, range: NumberRange): boolean {
+    return range.start <= value && range.end >= value;
   }
 }
