@@ -1,6 +1,7 @@
 import React, { FC, MouseEventHandler } from 'react';
 import MuiButton from '@material-ui/core/Button';
 import { ButtonProps as MuiButtonProps } from '@material-ui/core';
+import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 import { COLOR } from 'unions/ui-theme/color';
@@ -38,7 +39,7 @@ export const OutlinedButton: FC<ButtonProps> = ({ label, button, style, onClick 
  * @param {InputStyles} style スタイル値
  * @returns {ClassNameMap<"root">} cssプロパティ
  */
-const useStyles = (style?: ButtonStyles) => {
+const useStyles = (style?: ButtonStyles): ClassNameMap<'root'> => {
   const currenTheme = useTheme();
 
   return makeStyles(() =>

@@ -1,6 +1,7 @@
 import React, { FC, MouseEventHandler } from 'react';
 import MuiIconButton from '@material-ui/core/IconButton';
 import { IconButtonProps as MuiIconButtonProps } from '@material-ui/core';
+import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
 import { Icon, IconProps } from 'components/Icon';
 import { COLOR, Color } from 'unions/ui-theme/color';
@@ -46,7 +47,7 @@ export const IconButton: FC<IconButtonProps> = ({ icon, button, style, onClick }
  * @param {InputStyles} style スタイル値
  * @returns {ClassNameMap<"root" | "icon">} cssプロパティ
  */
-const useStyles = (style?: IconButtonStyles) => {
+const useStyles = (style?: IconButtonStyles): ClassNameMap<'root' | 'icon'> => {
   const currenTheme = useTheme();
 
   return makeStyles(() =>
