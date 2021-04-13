@@ -49,7 +49,7 @@ export default class Validator {
 
     // 長さ検査
     const stringValue = String(props.value);
-    if (props.length && stringValue.length > props.length) {
+    if (props.length && this.isLength(stringValue.length, props.length)) {
       return {
         message: StringUtil.format(ErrorMessages.INVALID_LENGTH, props.length),
       };
@@ -87,6 +87,17 @@ export default class Validator {
       }
     }
     return null;
+  }
+
+  /**
+   * 長さ検査
+   *
+   * @param {number} valueLength 検証値の長さ
+   * @param {number} length 基準の長さ
+   * @returns {boolean} true:正、false:誤
+   */
+  private static isLength(valueLength: number, length: number): boolean {
+    return valueLength > length;
   }
 
   /**
