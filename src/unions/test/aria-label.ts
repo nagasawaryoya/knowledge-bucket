@@ -9,6 +9,7 @@ export type AriaLabel = ValueOf<typeof ARIA_LABEL>;
  * 要素のラベル名。
  */
 export const ARIA_LABEL = {
+  ICON: 'icon',
   CONTAIN_BUTTON: 'contained-button',
   OUTLINED_BUTTON: 'outlined-button',
   ICON_BUTTON: 'icon-button',
