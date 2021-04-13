@@ -6,6 +6,7 @@ import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/sty
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 import { COLOR, Color } from 'unions/ui-theme/color';
 import { BORDER, BUTTON, CommonStyles } from 'unions/ui-theme/style';
+import { ARIA_LABEL } from 'unions/test/aria-label';
 
 type ButtonStyles = Omit<React.CSSProperties, 'color' | 'borderColor'> & {
   backgroundColor?: Color;
@@ -28,7 +29,13 @@ type ButtonProps = MuiButtonProps & {
 export const ContainedButton: FC<ButtonProps> = ({ label, button, style, onClick }) => {
   const classes = useStyles(style);
   return (
-    <MuiButton className={classes.root} variant="contained" {...button} onClick={onClick}>
+    <MuiButton
+      aria-label={ARIA_LABEL.CONTAIN_BUTTON}
+      className={classes.root}
+      variant="contained"
+      {...button}
+      onClick={onClick}
+    >
       {label}
     </MuiButton>
   );

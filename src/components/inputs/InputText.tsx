@@ -4,9 +4,10 @@ import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { INPUT, BORDER, CommonStyles } from 'unions/ui-theme/style';
 import { COLOR } from 'unions/ui-theme/color';
+import { VALIDATE_TYPE } from 'unions/validate-type';
+import { ARIA_LABEL } from 'unions/test/aria-label';
 import Validator, { ValidateProps } from 'utils/application-util/validator';
 import ValidateError from 'utils/application-util/validator';
-import { VALIDATE_TYPE } from 'unions/validate-type';
 
 type InputState = {
   error: ValidateError | null;
@@ -56,6 +57,7 @@ export const InputText: FC<InputTextProps> = ({ input, style, validate, onChange
 
   return (
     <MuiTextField
+      aria-label={ARIA_LABEL.INPUT_TEXT}
       className={classes.root}
       type="text"
       error={Boolean(inputState.error)}

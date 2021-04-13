@@ -33,6 +33,7 @@ export const IconButton: FC<IconButtonProps> = ({ icon, button, style, onClick }
   const classes = useStyles(style);
   return (
     <MuiIconButton
+      aria-label="icon-button"
       className={classes.root}
       {...button}
       children={<Icon {...icon} className={classes.icon} />}
