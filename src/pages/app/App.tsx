@@ -30,7 +30,7 @@ function App() {
         <OutlinedButton label="キャンセル" onClick={test2} />
         <Dialog open={false} title="タイトルですよ" text="テキストテキスト" />
         <InputText
-          input={{ variant: 'outlined', value: inputValue }}
+          input={{ variant: 'outlined' }}
           validate={{ required: true, type: VALIDATE_TYPE.NUMBER, range: { start: 0, end: 10 } }}
           onChangeValue={onChangeValue}
         ></InputText>
