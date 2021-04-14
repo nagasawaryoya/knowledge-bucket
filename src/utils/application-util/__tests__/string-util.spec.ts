@@ -8,8 +8,15 @@ describe('StringUtilクラスのテスト', () => {
 
     describe('正常系', () => {
       it('メッセージ文をフォーマットすることをテストする', () => {
-        const formattedText = 'testです！';
-        expect(StringUtil.format(testVariableText, testReplaceText)).toStrictEqual(formattedText);
+        const testFormattedText = 'testです！';
+        expect(StringUtil.format(testVariableText, testReplaceText)).toStrictEqual(testFormattedText);
+      });
+
+      it('メッセージ文をフォーマットすることをテストする(置換箇所3つver)', () => {
+        const testThreeVariableText = 'あ{0}う{1}お{2}';
+        const testThreeReplaceText = ['い', 'え', 'か'];
+        const formattedText = 'あいうえおか';
+        expect(StringUtil.format(testThreeVariableText, ...testThreeReplaceText)).toStrictEqual(formattedText);
       });
     });
 

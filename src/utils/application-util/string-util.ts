@@ -11,8 +11,8 @@ export default class StringUtil {
    * @returns フォーマット後の文字列
    */
   public static format(msg: string, ...params: any[]) {
-    for (let i = 0; i < params.length; i += 1) {
-      msg = msg.replace(new RegExp('\\{' + i + '\\}', 'g'), params[i]);
+    for (let i = 0; i < params.length; i++) {
+      msg = msg.replace(new RegExp(`\\{${i}\\}`, 'g'), params[i]);
     }
     return msg;
   }
