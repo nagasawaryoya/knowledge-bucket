@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import Main from 'pages/main/Main';
 import Analytics from 'pages/analytics/Analytics';
+import { ROUTER_PATH } from 'unions/router-path';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 import { createTheme } from 'consts/theme';
 import './App.css';
@@ -13,10 +14,10 @@ const App = () => {
       <CssBaseline />
       <Router>
         <Switch>
-          <Route path="/analytics">
+          <Route path={ROUTER_PATH.ANALYTICS}>
             <Analytics />
           </Route>
-          <Route path="/">
+          <Route path={ROUTER_PATH.BASE}>
             <Main />
           </Route>
         </Switch>
