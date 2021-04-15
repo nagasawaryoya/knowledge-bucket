@@ -4,6 +4,7 @@ import { ContainedButton } from 'components/buttons/ContainedButton';
 import { OutlinedButton } from 'components/buttons/OutlinedButton';
 import { Dialog } from 'components/layouts/Dialog';
 import { InputText } from 'components/inputs/InputText';
+import { InputTextarea } from 'components/inputs/InputTextarea';
 import { COLOR } from 'unions/ui-theme/color';
 import { ICON_NAME } from 'unions/icon-name';
 import { VALIDATE_TYPE } from 'unions/validate-type';
@@ -28,6 +29,8 @@ const Main = () => {
         validate={{ required: true, type: VALIDATE_TYPE.NUMBER, range: { start: 0, end: 10 } }}
         onChangeValue={onChangeValue}
       ></InputText>
+      <br />
+      <InputTextarea input={{ rowsMin: 5 }} />
     </React.Fragment>
   );
 };

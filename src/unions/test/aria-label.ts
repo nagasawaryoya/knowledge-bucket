@@ -14,4 +14,5 @@ export const ARIA_LABEL = {
   OUTLINED_BUTTON: 'outlined-button',
   ICON_BUTTON: 'icon-button',
   INPUT_TEXT: 'input-text',
+  INPUT_TEXTAREA: 'input-textarea',
 } as const;
