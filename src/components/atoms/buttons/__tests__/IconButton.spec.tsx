@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { IconButton } from '../IconButton';
-import { ICON_NAME } from '../../../unions/icon-name';
-import { ARIA_LABEL } from '../../../unions/test/aria-label';
+import { ICON_NAME } from '../../../../unions/icon-name';
+import { ARIA_LABEL } from '../../../../unions/test/aria-label';
 
 const onClick = jest.fn();
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { InputText } from '../InputText';
-import { ARIA_LABEL } from '../../../unions/test/aria-label';
+import { ARIA_LABEL } from '../../../../unions/test/aria-label';
 
 const onChangeValue = jest.fn();
 

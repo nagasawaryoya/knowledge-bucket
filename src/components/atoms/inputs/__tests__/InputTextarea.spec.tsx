@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { InputTextarea } from '../InputTextarea';
-import { ARIA_LABEL } from '../../../unions/test/aria-label';
+import { ARIA_LABEL } from '../../../../unions/test/aria-label';
 
 describe('InputTextareaコンポーネントのテスト', () => {
   it('コンポーネントが存在することをチェックする', () => {

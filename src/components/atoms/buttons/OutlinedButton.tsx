@@ -47,7 +47,7 @@ export const OutlinedButton: FC<ButtonProps> = ({ label, button, style, onClick 
  * @returns {ClassNameMap<"root">} cssプロパティ
  */
 const useStyles = (style?: ButtonStyles): ClassNameMap<'root'> => {
-  const currenTheme = useTheme();
+  const currentTheme = useTheme();
 
   return makeStyles(() =>
     createStyles({
@@ -58,7 +58,7 @@ const useStyles = (style?: ButtonStyles): ClassNameMap<'root'> => {
         borderWidth: style?.borderWidth ?? BORDER.WIDTH.M,
         borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
         borderStyle: style?.borderStyle ?? 'solid',
-        ...styling(currenTheme),
+        ...styling(currentTheme),
       },
     }),
   )();

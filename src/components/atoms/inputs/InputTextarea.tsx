@@ -29,7 +29,7 @@ export const InputTextarea: FC<InputTextareaProps> = ({ input, style }) => {
  * @returns {ClassNameMap<"root">} cssプロパティ
  */
 const useStyles = (style?: InputTextareaStyles): ClassNameMap<'root'> => {
-  const currenTheme = useTheme();
+  const currentTheme = useTheme();
 
   return makeStyles(() =>
     createStyles({
@@ -38,7 +38,7 @@ const useStyles = (style?: InputTextareaStyles): ClassNameMap<'root'> => {
         borderColor: COLOR.GREY.MAIN,
         borderWidth: style?.borderWidth ?? BORDER.WIDTH.S,
         borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
-        ...styling(currenTheme),
+        ...styling(currentTheme),
       },
     }),
   )();

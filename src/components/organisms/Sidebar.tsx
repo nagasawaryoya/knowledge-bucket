@@ -1,11 +1,12 @@
 import React from 'react';
-import { List, ListItemText } from '@material-ui/core';
+import { Drawer, List, ListItemText } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import { ListItemLink } from 'components/layouts/ListItemLink';
+import { ListItemLink } from 'components/atoms/ListItemLink';
 import { RouterPath, ROUTER_PATH } from 'unions/router-path';
 import { COLOR } from 'unions/ui-theme/color';
 import { BORDER } from 'unions/ui-theme/style';
+import { ARIA_LABEL } from 'unions/test/aria-label';
 
 type SidebarItem = {
   title: string;
@@ -31,7 +32,7 @@ const list: SidebarItem[] = [
   },
 ];
 
-export const Sidebar = () => {
+const SidebarList = () => {
   const classes = useStyles();
 
   return (
@@ -45,21 +46,39 @@ export const Sidebar = () => {
   );
 };
 
+const Sidebar = () => {
+  return (
+    <React.Fragment>
+      <Drawer aria-label={ARIA_LABEL.SIDEBAR} anchor="left" variant="permanent" open={true} PaperProps={{}}>
+        <SidebarList />
+      </Drawer>
+    </React.Fragment>
+  );
+};
+
 /**
  * スタイルを適用する。
  *
  * @returns {ClassNameMap<"root">} cssプロパティ
  */
 const useStyles = (): ClassNameMap<'root'> => {
+  // const currentTheme = useTheme();
+
   return makeStyles(() =>
     createStyles({
       root: {
-        width: '14%',
+        width: '100%',
         height: '100%',
         borderRight: 'solid',
         borderWidth: BORDER.WIDTH.S,
         borderColor: COLOR.GREY.MAIN,
+        // [currentTheme.breakpoints.up('sm')]: {
+        //   display: 'none',
+        //   flexShrink: 0,
+        // },
       },
     }),
   )();
 };
+
+export default Sidebar;

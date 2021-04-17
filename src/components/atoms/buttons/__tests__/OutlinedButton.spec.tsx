@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { OutlinedButton } from '../OutlinedButton';
-import { ARIA_LABEL } from '../../../unions/test/aria-label';
+import { ARIA_LABEL } from '../../../../unions/test/aria-label';
 
 const onClick = jest.fn();
 

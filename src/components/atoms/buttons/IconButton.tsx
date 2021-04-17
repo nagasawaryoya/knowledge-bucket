@@ -3,7 +3,7 @@ import MuiIconButton from '@material-ui/core/IconButton';
 import { IconButtonProps as MuiIconButtonProps } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
-import { Icon, IconProps } from 'components/Icon';
+import { Icon, IconProps } from 'components/atoms/Icon';
 import { COLOR, Color } from 'unions/ui-theme/color';
 import { BORDER, ICON, CommonStyles } from 'unions/ui-theme/style';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
@@ -49,7 +49,7 @@ export const IconButton: FC<IconButtonProps> = ({ icon, button, style, onClick }
  * @returns {ClassNameMap<"root" | "icon">} cssプロパティ
  */
 const useStyles = (style?: IconButtonStyles): ClassNameMap<'root' | 'icon'> => {
-  const currenTheme = useTheme();
+  const currentTheme = useTheme();
 
   return makeStyles(() =>
     createStyles({
@@ -61,11 +61,11 @@ const useStyles = (style?: IconButtonStyles): ClassNameMap<'root' | 'icon'> => {
         borderWidth: style?.borderWidth ?? BORDER.WIDTH.M,
         borderRadius: style?.borderRadius ?? BORDER.RADIUS.C,
         borderStyle: style?.borderStyle ?? 'solid',
-        ...styling(currenTheme, style).button,
+        ...styling(currentTheme, style).button,
       },
       icon: {
         color: style?.color ?? COLOR.GREY.MAIN,
-        ...styling(currenTheme, style).icon,
+        ...styling(currentTheme, style).icon,
       },
     }),
   )();

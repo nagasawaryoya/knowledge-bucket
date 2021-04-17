@@ -5,8 +5,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { DialogProps as MuiDialogProps } from '@material-ui/core';
-import { ContainedButton } from 'components/buttons/ContainedButton';
-import { OutlinedButton } from 'components/buttons/OutlinedButton';
+import { ContainedButton } from 'components/atoms/buttons/ContainedButton';
+import { OutlinedButton } from 'components/atoms/buttons/OutlinedButton';
 
 type DialogProps = MuiDialogProps & {
   title: string;
