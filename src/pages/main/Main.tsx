@@ -5,6 +5,7 @@ import { OutlinedButton } from 'components/buttons/OutlinedButton';
 import { Dialog } from 'components/layouts/Dialog';
 import { InputText } from 'components/inputs/InputText';
 import { InputTextarea } from 'components/inputs/InputTextarea';
+import { Sidebar } from 'components/layouts/Sidebar';
 import { COLOR } from 'unions/ui-theme/color';
 import { ICON_NAME } from 'unions/icon-name';
 import { VALIDATE_TYPE } from 'unions/validate-type';
@@ -18,6 +19,7 @@ const Main = () => {
   console.log(inputValue);
   return (
     <React.Fragment>
+      <Sidebar />
       <IconButton icon={{ name: ICON_NAME.ADD }} onClick={test3} />
       <IconButton icon={{ name: ICON_NAME.ADD }} style={{ hoverColor: COLOR.GREEN.MAIN }} />
       <ContainedButton label="作成" style={{ backgroundColor: COLOR.GREEN.MAIN }} />
