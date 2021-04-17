@@ -15,7 +15,7 @@ type IconButtonStyles = React.CSSProperties & {
   borderColor?: Color;
   borderRadius?: CommonStyles.BorderRadius;
   borderWidth?: CommonStyles.BorderWidth;
-  hoverColor?: Color;
+  hoverColor?: Color | '';
 };
 
 type IconButtonProps = {
