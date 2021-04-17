@@ -80,7 +80,7 @@ const styling = (theme: Theme) =>
         },
       }
     : {
-        color: COLOR.BLACK.DARK,
+        color: COLOR.GREY.MAIN,
         '&:hover': {
           color: COLOR.WHITE.MAIN,
           backgroundColor: COLOR.BLUE.MAIN,
