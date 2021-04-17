@@ -11,4 +11,5 @@ export type IconName = ValueOf<typeof ICON_NAME>;
 export const ICON_NAME = {
   ADD: 'add',
   DELETE: 'delete',
+  MENU: 'menu',
 } as const;

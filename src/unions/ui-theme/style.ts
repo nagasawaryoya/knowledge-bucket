@@ -46,6 +46,7 @@ export const FONT = {
  */
 export const ICON = {
   M: 28,
+  L: 38,
 } as const;
 
 /**

@@ -11,8 +11,7 @@ import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 type IconButtonStyles = React.CSSProperties & {
   color?: Color;
   backgroundColor?: Color;
-  width?: CommonStyles.IconSize;
-  height?: CommonStyles.IconSize;
+  size?: CommonStyles.IconSize;
   borderColor?: Color;
   borderRadius?: CommonStyles.BorderRadius;
   borderWidth?: CommonStyles.BorderWidth;
@@ -21,7 +20,7 @@ type IconButtonStyles = React.CSSProperties & {
 
 type IconButtonProps = {
   icon: IconProps;
-  button?: Omit<MuiIconButtonProps, 'children'>;
+  button?: Omit<MuiIconButtonProps, 'children' | 'size'>;
   style?: IconButtonStyles;
   onClick?: MouseEventHandler;
 };
@@ -54,8 +53,8 @@ const useStyles = (style?: IconButtonStyles): ClassNameMap<'root' | 'icon'> => {
   return makeStyles(() =>
     createStyles({
       root: {
-        width: style?.width ?? ICON.M,
-        height: style?.height ?? ICON.M,
+        width: style?.size ?? ICON.M,
+        height: style?.size ?? ICON.M,
         backgroundColor: style?.backgroundColor,
         borderColor: style?.borderColor ?? COLOR.GREY.MAIN,
         borderWidth: style?.borderWidth ?? BORDER.WIDTH.M,

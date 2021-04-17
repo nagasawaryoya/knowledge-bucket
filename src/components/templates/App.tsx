@@ -1,8 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
-import { ClassNameMap } from '@material-ui/core/styles/withStyles';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Header from 'components/organisms/Header';
 import Sidebar from 'components/organisms/Sidebar';
 import Main from 'pages/main/Main';
@@ -10,6 +9,7 @@ import Analytics from 'pages/analytics/Analytics';
 import { ROUTER_PATH } from 'unions/router-path';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 import { createTheme } from 'consts/theme';
+import Hamburger from 'components/organisms/Hamburger';
 
 const App = () => {
   const classes = useStyles();
@@ -20,6 +20,7 @@ const App = () => {
       <Header />
       <div className={classes.root}>
         <Sidebar />
+        <Hamburger />
         <div className={classes.content}>
           <Router>
             <Switch>
@@ -42,20 +43,21 @@ const App = () => {
  *
  * @returns {ClassNameMap<'root' | 'content'>} cssプロパティ
  */
-const useStyles = (): ClassNameMap<'root' | 'content'> => {
-  return makeStyles(() =>
-    createStyles({
-      root: {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: '100%',
+      height: '100%',
+    },
+    content: {
+      height: '100%',
+      float: 'right',
+      [theme.breakpoints.down('sm')]: {
         width: '100%',
-        height: '100%',
+        flexShrink: 0,
       },
-      content: {
-        // width: '100%',
-        height: '100%',
-        float: 'right',
-      },
-    }),
-  )();
-};
+    },
+  }),
+);
 
 export default App;
