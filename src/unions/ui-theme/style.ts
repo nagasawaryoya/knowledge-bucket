@@ -83,7 +83,7 @@ export const HEADER = {
 } as const;
 
 /**
- * アプリケーション内で統一されているヘッダーのスタイル。
+ * アプリケーション内で統一されているサイドバーのスタイル。
  */
 export const SIDEBAR = {
   WIDTH: 160,
