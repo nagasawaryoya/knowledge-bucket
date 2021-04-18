@@ -74,3 +74,24 @@ export const INPUT = {
     M: 240,
   },
 } as const;
+
+/**
+ * アプリケーション内で統一されているヘッダーのスタイル。
+ */
+export const HEADER = {
+  HEIGHT: 42,
+} as const;
+
+/**
+ * アプリケーション内で統一されているヘッダーのスタイル。
+ */
+export const SIDEBAR = {
+  WIDTH: 160,
+} as const;
+
+/**
+ * アプリケーション内で統一されているブレークポイント。
+ */
+export const BREAKPOINT = {
+  BASE: 'sm',
+} as const;

@@ -2,14 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import Header from 'components/organisms/Header';
-import Sidebar from 'components/organisms/Sidebar';
 import Main from 'pages/main/Main';
 import Analytics from 'pages/analytics/Analytics';
+import Header from 'components/organisms/Header';
+import Sidebar from 'components/organisms/Sidebar';
 import { ROUTER_PATH } from 'unions/router-path';
+import { BREAKPOINT, SIDEBAR, HEADER } from 'unions/ui-theme/style';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 import { createTheme } from 'consts/theme';
-import Hamburger from 'components/organisms/Hamburger';
 
 const App = () => {
   const classes = useStyles();
@@ -17,22 +17,19 @@ const App = () => {
   return (
     <ThemeProvider theme={createTheme(THEME_TYPE.DARK)}>
       <CssBaseline />
+      <Sidebar />
       <Header />
       <div className={classes.root}>
-        <Sidebar />
-        <Hamburger />
-        <div className={classes.content}>
-          <Router>
-            <Switch>
-              <Route path={ROUTER_PATH.ANALYTICS}>
-                <Analytics />
-              </Route>
-              <Route path={ROUTER_PATH.BASE}>
-                <Main />
-              </Route>
-            </Switch>
-          </Router>
-        </div>
+        <Router>
+          <Switch>
+            <Route path={ROUTER_PATH.ANALYTICS}>
+              <Analytics />
+            </Route>
+            <Route path={ROUTER_PATH.BASE}>
+              <Main />
+            </Route>
+          </Switch>
+        </Router>
       </div>
     </ThemeProvider>
   );
@@ -46,15 +43,16 @@ const App = () => {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: '100%',
-      height: '100%',
-    },
-    content: {
-      height: '100%',
+      height: `calc(100% - ${HEADER.HEIGHT}px)`,
+      marginTop: HEADER.HEIGHT,
       float: 'right',
-      [theme.breakpoints.down('sm')]: {
+      padding: 20,
+      [theme.breakpoints.down(BREAKPOINT.BASE)]: {
         width: '100%',
         flexShrink: 0,
+      },
+      [theme.breakpoints.up(BREAKPOINT.BASE)]: {
+        width: `calc(100% - ${SIDEBAR.WIDTH}px)`,
       },
     },
   }),
