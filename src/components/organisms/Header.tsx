@@ -11,10 +11,12 @@ const Header = () => {
 
   return (
     <AppBar aria-label={ARIA_LABEL.HEADER} className={classes.root}>
-      <IconButton
-        icon={{ name: ICON_NAME.MENU, fontSize: 'large' }}
-        style={{ size: ICON.L, borderStyle: 'none', hoverColor: '' }}
-      />
+      <div className={classes.menuIcon}>
+        <IconButton
+          icon={{ name: ICON_NAME.MENU, fontSize: 'large' }}
+          style={{ size: ICON.L, borderStyle: 'none', hoverColor: '' }}
+        />
+      </div>
     </AppBar>
   );
 };
@@ -22,7 +24,7 @@ const Header = () => {
 /**
  * スタイルを適用する。
  *
- * @returns {ClassNameMap<'root'>} cssプロパティ
+ * @returns {ClassNameMap<'root' | 'menuIcon'>} cssプロパティ
  */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,6 +35,14 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up(BREAKPOINT.BASE)]: {
         width: `calc(100% - ${SIDEBAR.WIDTH}px)`,
+      },
+    },
+    menuIcon: {
+      [theme.breakpoints.down(BREAKPOINT.BASE)]: {
+        display: 'block',
+      },
+      [theme.breakpoints.up(BREAKPOINT.BASE)]: {
+        display: 'none',
       },
     },
   }),

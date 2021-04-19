@@ -38,7 +38,7 @@ const App = () => {
 /**
  * スタイルを適用する。
  *
- * @returns {ClassNameMap<'root' | 'content'>} cssプロパティ
+ * @returns {ClassNameMap<'root'>} cssプロパティ
  */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
