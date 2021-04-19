@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Drawer, List, ListItemText } from '@material-ui/core';
-import { makeStyles, createStyles, useTheme } from '@material-ui/core/styles';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { ListItemLink } from 'components/atoms/ListItemLink';
 import { ARIA_LABEL } from 'unions/test/aria-label';
-import { BREAKPOINT, SIDEBAR } from 'unions/ui-theme/style';
+import { SIDEBAR } from 'unions/ui-theme/style';
+import { useMediaQueryBase } from 'utils/hooks/useMediaQueryBase';
 import { SIDEBAR_LIST } from 'consts/sidebar-items';
 
 const SidebarList = () => {
@@ -23,8 +23,7 @@ const SidebarList = () => {
 };
 
 const Sidebar = () => {
-  const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up(BREAKPOINT.BASE));
+  const matches = useMediaQueryBase();
 
   const [open, setOpen] = useState(true);
   const toggleDrawer = (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -57,7 +56,7 @@ const Sidebar = () => {
 /**
  * スタイルを適用する。
  *
- * @returns {ClassNameMap<"root">} cssプロパティ
+ * @returns {ClassNameMap<'root'>} cssプロパティ
  */
 const useStyles = makeStyles(() =>
   createStyles({
