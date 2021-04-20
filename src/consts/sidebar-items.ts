@@ -8,7 +8,7 @@ type SidebarItem = {
 export const SIDEBAR_LIST: SidebarItem[] = [
   {
     title: 'ノート',
-    router: ROUTER_PATH.BASE,
+    router: ROUTER_PATH.HOME,
   },
   {
     title: 'ワードクラウド',

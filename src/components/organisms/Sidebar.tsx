@@ -14,7 +14,7 @@ const SidebarList = () => {
     <List className={classes.root}>
       <ListItemText>ロゴ</ListItemText>
       {SIDEBAR_LIST.map((item, i) => (
-        <ListItemLink button href={item.router} key={i}>
+        <ListItemLink aria-label={ARIA_LABEL.SIDEBAR_ITEM} button href={item.router} key={i}>
           <ListItemText primary={item.title} />
         </ListItemLink>
       ))}
