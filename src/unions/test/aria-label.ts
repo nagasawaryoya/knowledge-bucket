@@ -12,6 +12,7 @@ export const ARIA_LABEL = {
   HOME: 'home-page',
   ANALYTICS: 'analytics-page',
   WORD_CLOUD: 'word-cloud-page',
+  GARBAGE: 'garbage',
   HEADER: 'header',
   SIDEBAR: 'sidebar',
   SIDEBAR_ITEM: 'sidebar-item',

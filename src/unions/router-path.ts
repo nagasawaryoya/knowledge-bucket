@@ -12,4 +12,5 @@ export const ROUTER_PATH = {
   HOME: '/',
   WORD_CLOUD: '/word-cloud',
   ANALYTICS: '/analytics',
+  GARBAGE: '/garbage',
 } as const;

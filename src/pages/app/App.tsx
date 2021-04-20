@@ -5,6 +5,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Home from 'pages/Home';
 import WordCloud from 'pages/WordCloud';
 import Analytics from 'pages/Analytics';
+import Garbage from 'pages/Garbage';
 import Header from 'components/organisms/Header';
 import Sidebar from 'components/organisms/Sidebar';
 import { ROUTER_PATH } from 'unions/router-path';
@@ -28,6 +29,9 @@ const App = () => {
             </Route>
             <Route path={ROUTER_PATH.ANALYTICS}>
               <Analytics />
+            </Route>
+            <Route path={ROUTER_PATH.GARBAGE}>
+              <Garbage />
             </Route>
             <Route path={ROUTER_PATH.HOME}>
               <Home />

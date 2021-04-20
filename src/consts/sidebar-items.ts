@@ -20,6 +20,6 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
   },
   {
     title: 'ゴミ箱',
-    router: ROUTER_PATH.ANALYTICS,
+    router: ROUTER_PATH.GARBAGE,
   },
 ];
