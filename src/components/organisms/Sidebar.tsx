@@ -5,7 +5,7 @@ import { ListItemLink } from 'components/atoms/ListItemLink';
 import { ARIA_LABEL } from 'unions/test/aria-label';
 import { SIDEBAR } from 'unions/ui-theme/style';
 import { useMediaQueryBase } from 'utils/hooks/useMediaQueryBase';
-import { SIDEBAR_LIST } from 'consts/sidebar-items';
+import { SIDEBAR_ITEMS } from 'consts/sidebar-items';
 
 const SidebarList = () => {
   const classes = useStyles();
@@ -13,7 +13,7 @@ const SidebarList = () => {
   return (
     <List className={classes.root}>
       <ListItemText>ロゴ</ListItemText>
-      {SIDEBAR_LIST.map((item, i) => (
+      {SIDEBAR_ITEMS.map((item, i) => (
         <ListItemLink aria-label={ARIA_LABEL.SIDEBAR_ITEM} button href={item.router} key={i}>
           <ListItemText primary={item.title} />
         </ListItemLink>

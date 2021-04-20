@@ -3,7 +3,7 @@ import { Link, Menu, MenuItem } from '@material-ui/core';
 import { IconButton } from 'components/atoms/buttons/IconButton';
 import { ICON_NAME } from 'unions/icon-name';
 import { ICON } from 'unions/ui-theme/style';
-import { SIDEBAR_LIST } from 'consts/sidebar-items';
+import { SIDEBAR_ITEMS } from 'consts/sidebar-items';
 
 const ITEM_HEIGHT = 48;
 
@@ -34,7 +34,7 @@ const Hamburger = () => {
           },
         }}
       >
-        {SIDEBAR_LIST.map((item, i) => (
+        {SIDEBAR_ITEMS.map((item, i) => (
           <MenuItem key={i} onClick={handleClose}>
             <Link href={item.router}>{item.title}</Link>
           </MenuItem>

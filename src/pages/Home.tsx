@@ -16,6 +16,7 @@ const Home = () => {
   const onChangeValue = (value: string | number): void => {
     setInputValue(value);
   };
+  // TODO 消す
   console.log(typeof inputValue);
   console.log(inputValue);
   return (

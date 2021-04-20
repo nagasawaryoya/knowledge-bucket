@@ -5,7 +5,7 @@ type SidebarItem = {
   router: RouterPath;
 };
 
-export const SIDEBAR_LIST: SidebarItem[] = [
+export const SIDEBAR_ITEMS: SidebarItem[] = [
   {
     title: 'ノート',
     router: ROUTER_PATH.HOME,
