@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Home from 'pages/Home';
+import WordCloud from 'pages/WordCloud';
 import Analytics from 'pages/Analytics';
 import Header from 'components/organisms/Header';
 import Sidebar from 'components/organisms/Sidebar';
@@ -22,6 +23,9 @@ const App = () => {
       <div className={classes.root}>
         <Router>
           <Switch>
+            <Route path={ROUTER_PATH.WORD_CLOUD}>
+              <WordCloud />
+            </Route>
             <Route path={ROUTER_PATH.ANALYTICS}>
               <Analytics />
             </Route>

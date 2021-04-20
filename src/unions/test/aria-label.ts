@@ -11,6 +11,7 @@ export type AriaLabel = ValueOf<typeof ARIA_LABEL>;
 export const ARIA_LABEL = {
   HOME: 'home-page',
   ANALYTICS: 'analytics-page',
+  WORD_CLOUD: 'word-cloud-page',
   HEADER: 'header',
   SIDEBAR: 'sidebar',
   SIDEBAR_ITEM: 'sidebar-item',

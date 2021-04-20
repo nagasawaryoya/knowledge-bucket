@@ -12,7 +12,7 @@ export const SIDEBAR_ITEMS: SidebarItem[] = [
   },
   {
     title: 'ワードクラウド',
-    router: ROUTER_PATH.ANALYTICS,
+    router: ROUTER_PATH.WORD_CLOUD,
   },
   {
     title: '分析',

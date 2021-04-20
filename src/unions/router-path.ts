@@ -10,5 +10,6 @@ export type RouterPath = ValueOf<typeof ROUTER_PATH>;
  */
 export const ROUTER_PATH = {
   HOME: '/',
+  WORD_CLOUD: '/word-cloud',
   ANALYTICS: '/analytics',
 } as const;
