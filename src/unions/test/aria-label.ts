@@ -22,4 +22,5 @@ export const ARIA_LABEL = {
   ICON_BUTTON: 'icon-button',
   INPUT_TEXT: 'input-text',
   INPUT_TEXTAREA: 'input-textarea',
+  LIST_ITEM_LINK: 'list-item-link',
 } as const;
