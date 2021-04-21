@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
@@ -15,12 +15,17 @@ import { createTheme } from 'consts/theme';
 
 const App = () => {
   const classes = useStyles();
+  const [openEvent, setOpenEvent] = useState<React.MouseEvent<HTMLButtonElement, MouseEvent> | null>(null);
+
+  const onClickMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    setOpenEvent(e);
+  };
 
   return (
     <ThemeProvider theme={createTheme(THEME_TYPE.DARK)}>
       <CssBaseline />
-      <Sidebar />
-      <Header />
+      <Sidebar openEvent={openEvent} />
+      <Header onClickMenu={onClickMenu} />
       <div className={classes.root}>
         <Router>
           <Switch>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import { AppBar } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { IconButton } from 'components/atoms/buttons/IconButton';
@@ -6,7 +6,11 @@ import { ICON_NAME } from 'unions/icon-name';
 import { ARIA_LABEL } from 'unions/test/aria-label';
 import { BREAKPOINT, HEADER, SIDEBAR, ICON } from 'unions/ui-theme/style';
 
-const Header = () => {
+type HeaderProps = {
+  onClickMenu: MouseEventHandler;
+};
+
+const Header: FC<HeaderProps> = ({ onClickMenu }) => {
   const classes = useStyles();
 
   return (
@@ -15,6 +19,7 @@ const Header = () => {
         <IconButton
           icon={{ name: ICON_NAME.MENU, fontSize: 'large' }}
           style={{ size: ICON.L, borderStyle: 'none', hoverColor: '' }}
+          onClick={onClickMenu}
         />
       </div>
     </AppBar>

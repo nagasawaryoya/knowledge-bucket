@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { Drawer, List, ListItemText } from '@material-ui/core';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { ListItemLink } from 'components/atoms/ListItemLink';
@@ -6,6 +6,10 @@ import { ARIA_LABEL } from 'unions/test/aria-label';
 import { SIDEBAR } from 'unions/ui-theme/style';
 import { useMediaQueryBase } from 'utils/hooks/useMediaQueryBase';
 import { SIDEBAR_ITEMS } from 'consts/sidebar-items';
+
+type SidebarProps = {
+  openEvent: React.MouseEvent<HTMLButtonElement, MouseEvent> | null;
+};
 
 const SidebarList = () => {
   const classes = useStyles();
@@ -22,10 +26,14 @@ const SidebarList = () => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar: FC<SidebarProps> = ({ openEvent }) => {
   const matches = useMediaQueryBase();
-
   const [open, setOpen] = useState(true);
+
+  useMemo(() => {
+    setOpen(true);
+  }, [openEvent]);
+
   const toggleDrawer = (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
     if (
       event.type === 'keydown' &&
