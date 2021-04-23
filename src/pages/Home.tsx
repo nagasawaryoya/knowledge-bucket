@@ -11,7 +11,7 @@ import { ICON_NAME } from 'unions/icon-name';
 import { VALIDATE_TYPE } from 'unions/validate-type';
 import { ARIA_LABEL } from 'unions/test/aria-label';
 
-const Home = () => {
+const Home = React.memo(() => {
   const [inputValue, setInputValue] = useState<string | number>('');
   const onChangeValue = (value: string | number): void => {
     setInputValue(value);
@@ -36,7 +36,7 @@ const Home = () => {
       <InputTextarea input={{ rowsMin: 5 }} />
     </Container>
   );
-};
+});
 
 const test1 = () => {
   console.log('テスト1');

@@ -26,7 +26,7 @@ const SidebarList = () => {
   );
 };
 
-const Sidebar: FC<SidebarProps> = ({ openEvent }) => {
+const Sidebar: FC<SidebarProps> = React.memo(({ openEvent }) => {
   const matches = useMediaQueryBase();
   const [open, setOpen] = useState(true);
 
@@ -59,7 +59,7 @@ const Sidebar: FC<SidebarProps> = ({ openEvent }) => {
       </Drawer>
     </React.Fragment>
   );
-};
+});
 
 /**
  * スタイルを適用する。

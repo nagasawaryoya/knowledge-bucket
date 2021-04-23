@@ -10,7 +10,7 @@ type HeaderProps = {
   onClickMenu: MouseEventHandler;
 };
 
-const Header: FC<HeaderProps> = ({ onClickMenu }) => {
+const Header: FC<HeaderProps> = React.memo(({ onClickMenu }) => {
   const classes = useStyles();
 
   return (
@@ -24,7 +24,7 @@ const Header: FC<HeaderProps> = ({ onClickMenu }) => {
       </div>
     </AppBar>
   );
-};
+});
 
 /**
  * スタイルを適用する。
