@@ -15,16 +15,27 @@ import { createTheme } from 'consts/theme';
 
 const App = () => {
   const classes = useStyles();
-  const [openEvent, setOpenEvent] = useState<React.MouseEvent<HTMLButtonElement, MouseEvent> | null>(null);
+  const [openEvent, setOpenEvent] = useState(false);
 
   const onClickMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setOpenEvent(e);
+    setOpenEvent(!!e);
+  };
+
+  const toggleDrawer = (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+
+    setOpenEvent(isOpen);
   };
 
   return (
     <ThemeProvider theme={createTheme(THEME_TYPE.DARK)}>
       <CssBaseline />
-      <Sidebar openEvent={openEvent} />
+      <Sidebar openEvent={openEvent} toggleDrawer={toggleDrawer} />
       <Header onClickMenu={onClickMenu} />
       <div className={classes.root}>
         <Router>

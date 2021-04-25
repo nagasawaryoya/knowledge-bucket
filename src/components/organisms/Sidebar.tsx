@@ -8,7 +8,9 @@ import { useMediaQueryBase } from 'utils/hooks/useMediaQueryBase';
 import { SIDEBAR_ITEMS } from 'consts/sidebar-items';
 
 type SidebarProps = {
-  openEvent: React.MouseEvent<HTMLButtonElement, MouseEvent> | null;
+  openEvent: boolean;
+  // eslint-disable-next-line no-unused-vars
+  toggleDrawer: (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => void;
 };
 
 const SidebarList = () => {
@@ -26,24 +28,13 @@ const SidebarList = () => {
   );
 };
 
-const Sidebar: FC<SidebarProps> = React.memo(({ openEvent }) => {
+const Sidebar: FC<SidebarProps> = React.memo(({ openEvent, toggleDrawer }) => {
   const matches = useMediaQueryBase();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   useMemo(() => {
-    setOpen(true);
+    setOpen(openEvent);
   }, [openEvent]);
-
-  const toggleDrawer = (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
-
-    setOpen(isOpen);
-  };
 
   return (
     <React.Fragment>
