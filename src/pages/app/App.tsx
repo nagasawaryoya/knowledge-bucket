@@ -17,8 +17,8 @@ const App = () => {
   const classes = useStyles();
   const [openEvent, setOpenEvent] = useState(false);
 
-  const onClickMenu = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setOpenEvent(!!e);
+  const onClickMenu = () => {
+    setOpenEvent(true);
   };
 
   const toggleDrawer = (isOpen: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
