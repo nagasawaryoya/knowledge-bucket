@@ -1,74 +1,78 @@
 import React, { useState } from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import SimpleMDE from 'react-simplemde-editor';
 import marked from 'marked';
 import 'easymde/dist/easymde.min.css';
+import { BREAKPOINT } from 'unions/ui-theme/style';
 
 const toolbar = [
-  {
-    name: 'save',
-    action: function customFunction(editor: { value: () => any }) {
-      alert(editor.value());
-      // save action
-    },
-    className: 'fa fa-save',
-    title: 'Save',
-  },
-  '|',
   'bold',
-  'italic',
   'heading',
-  '|',
   'quote',
   'unordered-list',
   'ordered-list',
-  '|',
   'link',
   'image',
   '|',
   'preview',
-  // 'side-by-side',
-  // 'fullscreen',
-  '|',
-  'guide',
 ] as const;
 
-const Md = () => {
+const Md = React.memo(() => {
   const classes = useStyles();
 
   const [markdown, setMarkdown] = useState('');
-  console.log(markdown);
 
   return (
     <div className={classes.root}>
       <div className={classes.editor}>
-        <SimpleMDE onChange={(e) => setMarkdown(e)} options={{ toolbar: toolbar }} />
+        <SimpleMDE
+          onChange={(e) => setMarkdown(e)}
+          options={{
+            toolbar: toolbar,
+            status: false,
+            minHeight: '500px',
+            maxHeight: '500px',
+          }}
+        />
       </div>
       <div className={classes.preview}>
         <span dangerouslySetInnerHTML={{ __html: marked(markdown) }} />
       </div>
     </div>
   );
-};
+});
 
 /**
  * スタイルを適用する。
  *
  * @returns {ClassNameMap<'root' | 'editor' | 'preview'>} cssプロパティ
  */
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      width: '100%',
       display: 'flex',
     },
     editor: {
-      width: '48%',
-      paddingRight: '2%',
+      [theme.breakpoints.down(BREAKPOINT.BASE)]: {
+        width: '100%',
+      },
+      [theme.breakpoints.up(BREAKPOINT.BASE)]: {
+        width: '48%',
+        paddingRight: '2%',
+      },
     },
     preview: {
-      width: '48%',
-      paddingLeft: '2%',
-      paddingTop: 40,
+      [theme.breakpoints.down(BREAKPOINT.BASE)]: {
+        display: 'none',
+      },
+      [theme.breakpoints.up(BREAKPOINT.BASE)]: {
+        width: '48%',
+        maxHeight: '570px',
+        paddingLeft: '2%',
+        paddingTop: 50,
+        overflow: 'auto',
+      },
     },
   }),
 );

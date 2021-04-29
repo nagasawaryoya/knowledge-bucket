@@ -13,7 +13,7 @@ import { BREAKPOINT, SIDEBAR, HEADER } from 'unions/ui-theme/style';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 import { createTheme } from 'consts/theme';
 
-const App = () => {
+const App = React.memo(() => {
   const classes = useStyles();
   const [openEvent, setOpenEvent] = useState(false);
 
@@ -57,7 +57,7 @@ const App = () => {
       </div>
     </ThemeProvider>
   );
-};
+});
 
 /**
  * スタイルを適用する。
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: `calc(100% - ${HEADER.HEIGHT}px)`,
       marginTop: HEADER.HEIGHT,
       float: 'right',
-      padding: 20,
+      padding: '20px',
       [theme.breakpoints.down(BREAKPOINT.BASE)]: {
         width: '100%',
         flexShrink: 0,
