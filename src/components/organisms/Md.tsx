@@ -1,80 +1,25 @@
-import React, { useState } from 'react';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import SimpleMDE from 'react-simplemde-editor';
-import marked from 'marked';
-import 'easymde/dist/easymde.min.css';
-import { BREAKPOINT } from 'unions/ui-theme/style';
+import React from 'react';
+import ReactMarkdown from 'react-markdown';
 
-const toolbar = [
-  'bold',
-  'heading',
-  'quote',
-  'unordered-list',
-  'ordered-list',
-  'link',
-  'image',
-  '|',
-  'preview',
-] as const;
+const text = `
+# Hello World！
 
-const Md = React.memo(() => {
-  const classes = useStyles();
+A paragraph with *emphasis* and **strong importance**.
 
-  const [markdown, setMarkdown] = useState('');
+> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
 
-  return (
-    <div className={classes.root}>
-      <div className={classes.editor}>
-        <SimpleMDE
-          onChange={(e) => setMarkdown(e)}
-          options={{
-            toolbar: toolbar,
-            status: false,
-            minHeight: '500px',
-            maxHeight: '500px',
-          }}
-        />
-      </div>
-      <div className={classes.preview}>
-        <span dangerouslySetInnerHTML={{ __html: marked(markdown) }} />
-      </div>
-    </div>
-  );
-});
+* Lists
+* [ ] todo
+* [x] done
 
-/**
- * スタイルを適用する。
- *
- * @returns {ClassNameMap<'root' | 'editor' | 'preview'>} cssプロパティ
- */
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: '100%',
-      display: 'flex',
-    },
-    editor: {
-      [theme.breakpoints.down(BREAKPOINT.BASE)]: {
-        width: '100%',
-      },
-      [theme.breakpoints.up(BREAKPOINT.BASE)]: {
-        width: '48%',
-        paddingRight: '2%',
-      },
-    },
-    preview: {
-      [theme.breakpoints.down(BREAKPOINT.BASE)]: {
-        display: 'none',
-      },
-      [theme.breakpoints.up(BREAKPOINT.BASE)]: {
-        width: '48%',
-        maxHeight: '570px',
-        paddingLeft: '2%',
-        paddingTop: 50,
-        overflow: 'auto',
-      },
-    },
-  }),
-);
+A table:
+
+| a | b |
+| - | - |
+`;
+
+const Md = () => {
+  return <ReactMarkdown children={text}></ReactMarkdown>;
+};
 
 export default Md;
