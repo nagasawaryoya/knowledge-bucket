@@ -1,25 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import ReactMarkdown from 'react-markdown';
 
-const text = `
-# Hello World！
+type MdProps = {
+  children?: string;
+};
 
-A paragraph with *emphasis* and **strong importance**.
-
-> A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-
-* Lists
-* [ ] todo
-* [x] done
-
-A table:
-
-| a | b |
-| - | - |
-`;
-
-const Md = () => {
-  return <ReactMarkdown children={text}></ReactMarkdown>;
+const Md: FC<MdProps> = ({ children }) => {
+  return <ReactMarkdown children={children ?? ''}></ReactMarkdown>;
 };
 
 export default Md;

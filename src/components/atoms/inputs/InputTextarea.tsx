@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ChangeEventHandler, KeyboardEventHandler } from 'react';
 import MuiTextarea, { TextareaAutosizeProps as MuiTextareaProps } from '@material-ui/core/TextareaAutosize';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { makeStyles, createStyles, Theme, useTheme } from '@material-ui/core/styles';
@@ -7,7 +7,7 @@ import { BORDER, CommonStyles } from 'unions/ui-theme/style';
 import { COLOR } from 'unions/ui-theme/color';
 import { ARIA_LABEL } from 'unions/test/aria-label';
 
-type InputTextareaStyles = {
+type InputTextareaStyles = Pick<React.CSSProperties, 'width' | 'height'> & {
   borderWidth?: CommonStyles.BorderWidth;
   borderRadius?: CommonStyles.BorderRadius;
 };
@@ -15,11 +15,21 @@ type InputTextareaStyles = {
 type InputTextareaProps = {
   input?: MuiTextareaProps;
   style?: InputTextareaStyles;
+  onChange?: ChangeEventHandler;
+  onKeyDown?: KeyboardEventHandler;
 };
 
-export const InputTextarea: FC<InputTextareaProps> = ({ input, style }) => {
+export const InputTextarea: FC<InputTextareaProps> = ({ input, style, onChange, onKeyDown }) => {
   const classes = useStyles(style);
-  return <MuiTextarea aria-label={ARIA_LABEL.INPUT_TEXTAREA} className={classes.root} {...input} />;
+  return (
+    <MuiTextarea
+      aria-label={ARIA_LABEL.INPUT_TEXTAREA}
+      className={classes.root}
+      {...input}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+    />
+  );
 };
 
 /**
@@ -36,6 +46,8 @@ const useStyles = (style?: InputTextareaStyles): ClassNameMap<'root'> => {
       root: {
         padding: 10,
         borderColor: COLOR.GREY.MAIN,
+        width: style?.width ?? '100%',
+        height: style?.height ?? '100%',
         borderWidth: style?.borderWidth ?? BORDER.WIDTH.S,
         borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
         ...styling(currentTheme),
