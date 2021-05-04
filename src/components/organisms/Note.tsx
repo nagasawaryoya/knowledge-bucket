@@ -78,11 +78,11 @@ const keyEventHandle = (e: KeyEvent): Promise<VscodeKeyboardEventResponse> | und
       return vscodeKeyEvent.enter();
 
     case 'Tab':
-      if (e.keyCode !== 229) {
-        e.preventDefault();
-        return e.shiftKey ? vscodeKeyEvent.tabAndShift() : vscodeKeyEvent.tab();
+      if (e.keyCode === 229) {
+        return;
       }
-      return;
+      e.preventDefault();
+      return e.shiftKey ? vscodeKeyEvent.tabAndShift() : vscodeKeyEvent.tab();
 
     default:
       return;

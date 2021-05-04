@@ -11,7 +11,7 @@ export type VscodeKeyboardEventResponse = {
 export default class VscodeKeyboardEvent {
   readonly TAB_SIZE = 4;
 
-  private readonly MD_LIST_KEYWORDS = ['-', '*'];
+  private readonly MD_LIST_KEYWORDS = ['-', '*', '>'];
   private readonly SPACES = ' '.repeat(this.TAB_SIZE);
   private value: string;
   private start: number;
@@ -29,13 +29,13 @@ export default class VscodeKeyboardEvent {
     const currentRow = this.currentRow([...rows]);
     const matchWord = this.isMdListKeyword(currentRow);
 
-    rows[defaultRowLength] = currentRow.match(this.regExpTopAllSpace()) + (matchWord ? `${matchWord} ` : ' ');
+    rows[defaultRowLength] = currentRow.match(this.regExpTopAllSpace()) + (matchWord ? `${matchWord} ` : '');
 
     return {
       text: this.concat(rows) + this.foot(),
       range: {
-        start: this.start + (rows[defaultRowLength].length ? rows[defaultRowLength].length : 1),
-        end: this.start + (rows[defaultRowLength].length ? rows[defaultRowLength].length : 1),
+        start: this.start + (rows[defaultRowLength].length ? rows[defaultRowLength].length + 1 : 1),
+        end: this.start + (rows[defaultRowLength].length ? rows[defaultRowLength].length + 1 : 1),
       },
     };
   }
