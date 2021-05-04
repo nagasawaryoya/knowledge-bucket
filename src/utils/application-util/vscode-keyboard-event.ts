@@ -1,10 +1,17 @@
 import { ChangeEvent, KeyboardEvent } from 'react';
+import { NumberRange } from 'utils/type-util/NumberRange';
 
-type KeyEvent = ChangeEvent<HTMLInputElement> & KeyboardEvent;
+export type KeyEvent = ChangeEvent<HTMLInputElement> & KeyboardEvent;
+
+export type VscodeKeyboardEventResponse = {
+  text: string;
+  range: NumberRange | null;
+};
 
 export default class VscodeKeyboardEvent {
   readonly TAB_SIZE = 4;
 
+  private readonly MD_LIST_KEYWORDS = ['-', '*'];
   private readonly SPACES = ' '.repeat(this.TAB_SIZE);
   private value: string;
   private start: number;
@@ -16,9 +23,26 @@ export default class VscodeKeyboardEvent {
     this.end = event.target.selectionEnd ?? 0;
   }
 
-  public async tab() {
+  public async enter(): Promise<VscodeKeyboardEventResponse> {
+    const rows = this.head().split('\n');
+    const defaultRowLength = rows.length;
+    const currentRow = this.currentRow([...rows]);
+    const matchWord = this.isMdListKeyword(currentRow);
+
+    rows[defaultRowLength] = currentRow.match(this.regExpTopAllSpace()) + (matchWord ? `${matchWord} ` : ' ');
+
     return {
-      text: this.value.substring(0, this.start) + this.SPACES + this.value.substring(this.end, this.value.length),
+      text: this.concat(rows) + this.foot(),
+      range: {
+        start: this.start + (rows[defaultRowLength].length ? rows[defaultRowLength].length : 1),
+        end: this.start + (rows[defaultRowLength].length ? rows[defaultRowLength].length : 1),
+      },
+    };
+  }
+
+  public async tab(): Promise<VscodeKeyboardEventResponse> {
+    return {
+      text: this.head() + this.SPACES + this.foot(),
       range: {
         start: this.start + this.TAB_SIZE,
         end: this.start + this.TAB_SIZE,
@@ -26,47 +50,74 @@ export default class VscodeKeyboardEvent {
     };
   }
 
-  public async tabAndShift() {
-    let isChange = false;
+  public async tabAndShift(): Promise<VscodeKeyboardEventResponse> {
+    let top = '';
+    let rows: string[] = [];
+    let range: NumberRange | null = null;
 
-    const top = this.value.substring(0, this.start);
-    const rows = this.value.substring(this.start, this.end).split('\n');
-    const bottom = this.value.substring(this.end, this.value.length);
-
-    let newText = '';
-    rows.map((row, i) => {
-      newText += row.replace(this.isTopSpace(), '');
-      if (i !== rows.length - 1) {
-        newText += '\n';
-      }
-      if (!isChange) {
-        isChange = this.isTopSpace().test(row);
-      }
-    });
-
-    if (this.value.substring(this.start, this.end) !== '') {
-      return {
-        text: top + newText + bottom,
-        isChange: isChange,
-        range: {
-          start: this.start,
-          end: this.end,
-        },
-      };
+    if (this.isRangeSelect()) {
+      top = this.head();
+      rows = this.body()
+        .split('\n')
+        .map((row) => this.excludeTopSpace(row));
     } else {
-      return {
-        text: newText + bottom,
-        isChange: isChange,
-        range: {
+      rows = this.head().split('\n');
+      const currentRow = this.currentRow(rows);
+      rows[rows.length - 1] = this.excludeTopSpace(currentRow);
+
+      if (this.regExpTopSpace().test(currentRow)) {
+        range = {
           start: this.start - this.TAB_SIZE,
           end: this.start - this.TAB_SIZE,
-        },
-      };
+        };
+      }
     }
+
+    return {
+      text: top + this.concat(rows) + this.foot(),
+      range: range,
+    };
   }
 
-  private isTopSpace() {
+  private concat(rows: string[]): string {
+    return rows.join('\n');
+  }
+
+  private regExpTopSpace(): RegExp {
     // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
     return new RegExp(/^(\s{4}|　)/, 'mg');
+  }
+
+  private regExpTopAllSpace(): RegExp {
+    // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
+    return new RegExp(/^(\s*|　)/, 'mg');
+  }
+
+  private excludeTopSpace(string: string): string {
+    return string.replace(this.regExpTopSpace(), '');
+  }
+
+  private isRangeSelect(): boolean {
+    return this.body() !== '';
+  }
+
+  private currentRow(rows: string[]): string {
+    return rows.splice(-1).join();
+  }
+
+  private head() {
+    return this.value.substring(0, this.start);
+  }
+
+  private body() {
+    return this.value.substring(this.start, this.end);
+  }
+
+  private foot() {
+    return this.value.substring(this.end, this.value.length);
+  }
+
+  private isMdListKeyword(row: string) {
+    return this.MD_LIST_KEYWORDS.filter((keyword) => row.includes(keyword))[0];
   }
 }

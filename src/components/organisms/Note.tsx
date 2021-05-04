@@ -3,7 +3,10 @@ import React, { ChangeEvent, useMemo, useState } from 'react';
 import Md from 'components/organisms/Md';
 import { InputTextarea } from 'components/atoms/inputs/InputTextarea';
 import { useMediaQueryBase } from 'utils/hooks/useMediaQueryBase';
-import VscodeKeyboardEvent from 'utils/application-util/vscode-keyboard-event';
+import VscodeKeyboardEvent, {
+  KeyEvent,
+  VscodeKeyboardEventResponse,
+} from 'utils/application-util/vscode-keyboard-event';
 
 // const text = `
 // # Hello World
@@ -36,39 +39,19 @@ const Note = () => {
     setInputState(e.target.value);
   };
 
-  const onKeyDownHandler = (e: ChangeEvent<HTMLInputElement> & React.KeyboardEvent) => {
-    // タイプしたキーがTabキーの時 かつ 日本語入力未確定状態でない時に実行する。
-    if (e.key === 'Tab' && e.keyCode !== 229) {
-      e.preventDefault();
-
-      const vscodeKeyEvent = new VscodeKeyboardEvent(e);
-
-      if (e.shiftKey) {
-        vscodeKeyEvent
-          .tabAndShift()
-          .then((res) => {
-            setInputState(res.text);
-            return {
-              ...res.range,
-              change: res.isChange,
-            };
-          })
-          .then((res) => {
-            if (res.change) {
-              e.target.setSelectionRange(res.start, res.end);
-            }
-          });
-      } else {
-        vscodeKeyEvent
-          .tab()
-          .then((res) => {
-            setInputState(res.text);
-            return res.range;
-          })
-          .then((res) => {
-            e.target.setSelectionRange(res.start, res.end);
-          });
-      }
+  const onKeyDownHandler = (e: KeyEvent) => {
+    const handle = keyEventHandle(e);
+    if (handle) {
+      handle
+        .then((res) => {
+          setInputState(res.text);
+          return res.range;
+        })
+        .then((range) => {
+          if (range) {
+            e.target.setSelectionRange(range.start, range.end);
+          }
+        });
     }
   };
 
@@ -84,6 +67,26 @@ const Note = () => {
       />
     </React.Fragment>
   );
+};
+
+const keyEventHandle = (e: KeyEvent): Promise<VscodeKeyboardEventResponse> | undefined => {
+  const vscodeKeyEvent = new VscodeKeyboardEvent(e);
+
+  switch (e.key) {
+    case 'Enter':
+      e.preventDefault();
+      return vscodeKeyEvent.enter();
+
+    case 'Tab':
+      if (e.keyCode !== 229) {
+        e.preventDefault();
+        return e.shiftKey ? vscodeKeyEvent.tabAndShift() : vscodeKeyEvent.tab();
+      }
+      return;
+
+    default:
+      return;
+  }
 };
 
 export default Note;
