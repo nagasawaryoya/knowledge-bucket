@@ -11,7 +11,6 @@ export type VscodeKeyboardEventResponse = {
 export default class VscodeKeyboardEvent {
   readonly TAB_SIZE = 4;
 
-  private readonly MD_LIST_KEYWORDS = ['-', '*', '>'];
   private readonly SPACES = ' '.repeat(this.TAB_SIZE);
   private value: string;
   private start: number;
@@ -27,7 +26,16 @@ export default class VscodeKeyboardEvent {
     const rows = this.head().split('\n');
     const currentRow = this.currentRow(rows);
     const matchWord = this.isMdListKeyword(currentRow);
-    const newRow = currentRow.match(this.regExpTopAllSpace()) + (matchWord ? `${matchWord} ` : '');
+    let mdListString = '';
+    if (matchWord) {
+      if (!isNaN(Number(matchWord))) {
+        mdListString = `${Number(matchWord) + 1}. `;
+      } else {
+        mdListString = `${matchWord} `;
+      }
+    }
+
+    const newRow = currentRow.match(this.regExpTopAllSpace()) + mdListString;
 
     rows.push(newRow);
 
@@ -40,22 +48,27 @@ export default class VscodeKeyboardEvent {
     };
   }
 
-  // TODO 一旦動くところまで持っていったのでコード綺麗にする
   public async cmdAndEnter(): Promise<VscodeKeyboardEventResponse> {
-    const topRows = this.head().split('\n');
-    const bottomRows = this.foot().split('\n');
-
-    const currentRow1 = this.currentRow(topRows);
-    const currentRow2 = bottomRows.shift() ?? '';
-    const matchWord = this.isMdListKeyword(currentRow1);
+    const firstHalfSelection = this.head().split('\n');
+    const secondHalfSelection = this.foot().split('\n');
+    const currentRow1 = this.currentRow(firstHalfSelection);
+    const currentRow2 = secondHalfSelection.shift() ?? '';
     const currentRow = currentRow1 + currentRow2;
-    const newRow = currentRow.match(this.regExpTopAllSpace()) + (matchWord ? `${matchWord} ` : '');
+    const matchWord = this.isMdListKeyword(currentRow);
+    let mdListString = '';
+    if (matchWord) {
+      if (!isNaN(Number(matchWord))) {
+        mdListString = `${Number(matchWord) + 1}. `;
+      } else {
+        mdListString = `${matchWord} `;
+      }
+    }
 
-    topRows[topRows.length - 1] = currentRow;
-    topRows.push(...[newRow, ...bottomRows]);
+    const newRow = currentRow.match(this.regExpTopAllSpace()) + mdListString;
 
+    firstHalfSelection[firstHalfSelection.length - 1] = currentRow;
     return {
-      text: this.concat(topRows),
+      text: this.concat([...firstHalfSelection, newRow, ...secondHalfSelection]),
       range: {
         start: this.start + currentRow2.length + (newRow.length ? newRow.length + 1 : 1),
         end: this.start + currentRow2.length + (newRow.length ? newRow.length + 1 : 1),
@@ -73,7 +86,6 @@ export default class VscodeKeyboardEvent {
     };
   }
 
-  // TODO 一旦動くところまで持っていったのでコード綺麗にする
   public async tabAndShift(): Promise<VscodeKeyboardEventResponse> {
     let top = '';
     let rows: string[] = [];
@@ -86,10 +98,9 @@ export default class VscodeKeyboardEvent {
         .split('\n')
         .map((row) => {
           if (this.regExpTopSpace().test(row)) {
-            count++;
             range = {
               start: this.start,
-              end: this.end - this.TAB_SIZE * count,
+              end: this.end - this.TAB_SIZE * count++,
             };
           }
           return this.excludeTopSpace(row);
@@ -124,7 +135,11 @@ export default class VscodeKeyboardEvent {
 
   private regExpTopAllSpace(): RegExp {
     // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
-    return new RegExp(/^(\s*|　)/, 'mg');
+    return new RegExp(/^(\s*|　*)/, 'mg');
+  }
+
+  private notRenzoku() {
+    new RegExp(`^-(?!.*-)`);
   }
 
   private excludeTopSpace(string: string): string {
@@ -152,6 +167,12 @@ export default class VscodeKeyboardEvent {
   }
 
   private isMdListKeyword(row: string) {
-    return this.MD_LIST_KEYWORDS.filter((keyword) => row.includes(keyword))[0];
+    return (
+      row
+        .match(/^[-|*|>]\s(\S+)|^[1-9]\.\s(\S+)/)
+        ?.shift()
+        ?.trim()
+        .slice(0, 1) ?? null
+    );
   }
 }
