@@ -25,17 +25,40 @@ export default class VscodeKeyboardEvent {
 
   public async enter(): Promise<VscodeKeyboardEventResponse> {
     const rows = this.head().split('\n');
-    const defaultRowLength = rows.length;
-    const currentRow = this.currentRow([...rows]);
+    const currentRow = this.currentRow(rows);
     const matchWord = this.isMdListKeyword(currentRow);
+    const newRow = currentRow.match(this.regExpTopAllSpace()) + (matchWord ? `${matchWord} ` : '');
 
-    rows[defaultRowLength] = currentRow.match(this.regExpTopAllSpace()) + (matchWord ? `${matchWord} ` : '');
+    rows.push(newRow);
 
     return {
       text: this.concat(rows) + this.foot(),
       range: {
-        start: this.start + (rows[defaultRowLength].length ? rows[defaultRowLength].length + 1 : 1),
-        end: this.start + (rows[defaultRowLength].length ? rows[defaultRowLength].length + 1 : 1),
+        start: this.start + (newRow.length ? newRow.length + 1 : 1),
+        end: this.start + (newRow.length ? newRow.length + 1 : 1),
+      },
+    };
+  }
+
+  // TODO 一旦動くところまで持っていったのでコード綺麗にする
+  public async cmdAndEnter(): Promise<VscodeKeyboardEventResponse> {
+    const topRows = this.head().split('\n');
+    const bottomRows = this.foot().split('\n');
+
+    const currentRow1 = this.currentRow(topRows);
+    const currentRow2 = bottomRows.shift() ?? '';
+    const matchWord = this.isMdListKeyword(currentRow1);
+    const currentRow = currentRow1 + currentRow2;
+    const newRow = currentRow.match(this.regExpTopAllSpace()) + (matchWord ? `${matchWord} ` : '');
+
+    topRows[topRows.length - 1] = currentRow;
+    topRows.push(...[newRow, ...bottomRows]);
+
+    return {
+      text: this.concat(topRows),
+      range: {
+        start: this.start + currentRow2.length + (newRow.length ? newRow.length + 1 : 1),
+        end: this.start + currentRow2.length + (newRow.length ? newRow.length + 1 : 1),
       },
     };
   }
@@ -50,16 +73,27 @@ export default class VscodeKeyboardEvent {
     };
   }
 
+  // TODO 一旦動くところまで持っていったのでコード綺麗にする
   public async tabAndShift(): Promise<VscodeKeyboardEventResponse> {
     let top = '';
     let rows: string[] = [];
     let range: NumberRange | null = null;
 
     if (this.isRangeSelect()) {
+      let count = 0;
       top = this.head();
       rows = this.body()
         .split('\n')
-        .map((row) => this.excludeTopSpace(row));
+        .map((row) => {
+          if (this.regExpTopSpace().test(row)) {
+            count++;
+            range = {
+              start: this.start,
+              end: this.end - this.TAB_SIZE * count,
+            };
+          }
+          return this.excludeTopSpace(row);
+        });
     } else {
       rows = this.head().split('\n');
       const currentRow = this.currentRow(rows);
@@ -102,7 +136,7 @@ export default class VscodeKeyboardEvent {
   }
 
   private currentRow(rows: string[]): string {
-    return rows.splice(-1).join();
+    return [...rows].splice(-1).join();
   }
 
   private head() {

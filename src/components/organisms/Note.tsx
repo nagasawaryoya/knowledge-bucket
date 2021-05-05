@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useMemo, useState } from 'react';
-// import { createStyles, makeStyles } from '@material-ui/core';
 import Md from 'components/organisms/Md';
 import { InputTextarea } from 'components/atoms/inputs/InputTextarea';
 import { useMediaQueryBase } from 'utils/hooks/useMediaQueryBase';
@@ -7,23 +6,6 @@ import VscodeKeyboardEvent, {
   KeyEvent,
   VscodeKeyboardEventResponse,
 } from 'utils/application-util/vscode-keyboard-event';
-
-// const text = `
-// # Hello World
-
-// A paragraph with *emphasis* and **strong importance**.
-
-// > A block quote with ~strikethrough~ and a URL: https://reactjs.org.
-
-// * Lists
-// * [ ] todo
-// * [x] done
-
-// A table:
-
-// | a | b |
-// | - | - |
-// `;
 
 const Note = () => {
   const [inputState, setInputState] = useState('');
@@ -75,7 +57,7 @@ const keyEventHandle = (e: KeyEvent): Promise<VscodeKeyboardEventResponse> | und
   switch (e.key) {
     case 'Enter':
       e.preventDefault();
-      return vscodeKeyEvent.enter();
+      return e.metaKey ? vscodeKeyEvent.cmdAndEnter() : vscodeKeyEvent.enter();
 
     case 'Tab':
       if (e.keyCode === 229) {
