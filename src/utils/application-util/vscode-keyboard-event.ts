@@ -25,25 +25,15 @@ export default class VscodeKeyboardEvent {
   public async enter(): Promise<VscodeKeyboardEventResponse> {
     const rows = this.head().split('\n');
     const currentRow = this.currentRow(rows);
-    const matchWord = this.isMdListKeyword(currentRow);
-    let mdListString = '';
-    if (matchWord) {
-      if (!isNaN(Number(matchWord))) {
-        mdListString = `${Number(matchWord) + 1}. `;
-      } else {
-        mdListString = `${matchWord} `;
-      }
-    }
-
-    const newRow = currentRow.match(this.regExpTopAllSpace()) + mdListString;
-
+    const newRow = this.generateNewLine(currentRow);
     rows.push(newRow);
 
+    const range = this.sum(this.start, newRow.length ? newRow.length + 1 : 1);
     return {
       text: this.concat(rows) + this.foot(),
       range: {
-        start: this.start + (newRow.length ? newRow.length + 1 : 1),
-        end: this.start + (newRow.length ? newRow.length + 1 : 1),
+        start: range,
+        end: range,
       },
     };
   }
@@ -54,41 +44,39 @@ export default class VscodeKeyboardEvent {
     const currentRow1 = this.currentRow(firstHalfSelection);
     const currentRow2 = secondHalfSelection.shift() ?? '';
     const currentRow = currentRow1 + currentRow2;
-    const matchWord = this.isMdListKeyword(currentRow);
-    let mdListString = '';
-    if (matchWord) {
-      if (!isNaN(Number(matchWord))) {
-        mdListString = `${Number(matchWord) + 1}. `;
-      } else {
-        mdListString = `${matchWord} `;
-      }
-    }
-
-    const newRow = currentRow.match(this.regExpTopAllSpace()) + mdListString;
-
+    const newRow = this.generateNewLine(currentRow);
     firstHalfSelection[firstHalfSelection.length - 1] = currentRow;
+
+    const range = this.sum(this.start, currentRow2.length, newRow.length ? newRow.length + 1 : 1);
     return {
       text: this.concat([...firstHalfSelection, newRow, ...secondHalfSelection]),
       range: {
-        start: this.start + currentRow2.length + (newRow.length ? newRow.length + 1 : 1),
-        end: this.start + currentRow2.length + (newRow.length ? newRow.length + 1 : 1),
+        start: range,
+        end: range,
       },
     };
   }
 
   public async tab(): Promise<VscodeKeyboardEventResponse> {
+    const range = this.sum(this.start, this.TAB_SIZE);
     return {
       text: this.head() + this.SPACES + this.foot(),
       range: {
-        start: this.start + this.TAB_SIZE,
-        end: this.start + this.TAB_SIZE,
+        start: range,
+        end: range,
       },
     };
   }
 
   public async tabAndShift(): Promise<VscodeKeyboardEventResponse> {
+    // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
+    const regExp = /^(\s{4}|　)/;
+    const excludeTopSpace = (string: string): string => {
+      return string.replace(regExp, '');
+    };
+
     let top = '';
-    let rows: string[] = [];
+    let rows: string[] = [''];
     let range: NumberRange | null = null;
 
     if (this.isRangeSelect()) {
@@ -97,20 +85,21 @@ export default class VscodeKeyboardEvent {
       rows = this.body()
         .split('\n')
         .map((row) => {
-          if (this.regExpTopSpace().test(row)) {
+          if (regExp.test(row)) {
+            count++;
             range = {
               start: this.start,
-              end: this.end - this.TAB_SIZE * count++,
+              end: this.end - this.TAB_SIZE * count,
             };
           }
-          return this.excludeTopSpace(row);
+          return excludeTopSpace(row);
         });
     } else {
       rows = this.head().split('\n');
       const currentRow = this.currentRow(rows);
-      rows[rows.length - 1] = this.excludeTopSpace(currentRow);
+      rows[rows.length - 1] = excludeTopSpace(currentRow);
 
-      if (this.regExpTopSpace().test(currentRow)) {
+      if (regExp.test(currentRow)) {
         range = {
           start: this.start - this.TAB_SIZE,
           end: this.start - this.TAB_SIZE,
@@ -126,24 +115,6 @@ export default class VscodeKeyboardEvent {
 
   private concat(rows: string[]): string {
     return rows.join('\n');
-  }
-
-  private regExpTopSpace(): RegExp {
-    // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
-    return new RegExp(/^(\s{4}|　)/, 'mg');
-  }
-
-  private regExpTopAllSpace(): RegExp {
-    // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
-    return new RegExp(/^(\s*|　*)/, 'mg');
-  }
-
-  private notRenzoku() {
-    new RegExp(`^-(?!.*-)`);
-  }
-
-  private excludeTopSpace(string: string): string {
-    return string.replace(this.regExpTopSpace(), '');
   }
 
   private isRangeSelect(): boolean {
@@ -166,13 +137,28 @@ export default class VscodeKeyboardEvent {
     return this.value.substring(this.end, this.value.length);
   }
 
-  private isMdListKeyword(row: string) {
-    return (
-      row
-        .match(/^[-|*|>]\s(\S+)|^[1-9]\.\s(\S+)/)
+  private generateNewLine(currentRow: string) {
+    const matchWord =
+      currentRow
+        .trim()
+        .match(/^[-|*|>]\s(\S+)|^[-]?\d*\.\s(\S+)/)
         ?.shift()
-        ?.trim()
-        .slice(0, 1) ?? null
-    );
+        ?.match(/^\d+|^\S/)
+        ?.shift() ?? null;
+
+    let mdListString = '';
+    if (matchWord) {
+      if (!isNaN(Number(matchWord))) {
+        mdListString = `${Number(matchWord) + 1}. `;
+      } else {
+        mdListString = `${matchWord} `;
+      }
+    }
+    // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
+    return currentRow.match(/^(\s*|　*)/)?.shift() ?? '' + mdListString;
+  }
+
+  private sum(...numbers: number[]) {
+    return numbers.reduce((accumulator: number, currentValue: number) => accumulator + currentValue);
   }
 }
