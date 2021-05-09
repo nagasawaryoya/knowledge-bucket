@@ -72,8 +72,7 @@ export default class VscodeKeyboardEvent {
     } else {
       const rows = this.head().split('\n');
       const currentRow = this.currentRow(rows);
-      // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
-      if (/^[-|*|>]\s|^\d*\.\s/.test(currentRow.replace(/^(\s*|　*)/, ''))) {
+      if (this.isOnlyMdListString(currentRow)) {
         rows[rows.length - 1] = this.SPACES + currentRow;
         text = this.concat(rows) + this.foot();
       } else {
@@ -164,7 +163,8 @@ export default class VscodeKeyboardEvent {
     const pad = currentRow.match(/^(\s*|　*)/)?.shift() ?? '';
     const matchWord = this.isMatch(currentRow);
 
-    if ([1, 2].some((len) => currentRow.trim().length === len)) {
+    // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
+    if (this.isOnlyMdListString(currentRow)) {
       return '';
     }
     if (!matchWord) {
@@ -190,6 +190,11 @@ export default class VscodeKeyboardEvent {
         ?.match(/^\d+|^\S/)
         ?.shift() ?? null
     );
+  }
+
+  private isOnlyMdListString(string: string) {
+    // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
+    return /^[-|*|>]\s$|^\d*\.\s$/.test(string.replace(/^(\s*|　*)/, ''));
   }
 
   private sum(...numbers: number[]) {
