@@ -17,7 +17,7 @@ export default class VscodeKeyboardEvent {
   private end: number;
 
   constructor(event: KeyEvent) {
-    this.value = event.target.value;
+    this.value = event.target.defaultValue;
     this.start = event.target.selectionStart ?? 0;
     this.end = event.target.selectionEnd ?? 0;
   }
@@ -39,17 +39,18 @@ export default class VscodeKeyboardEvent {
   }
 
   public async cmdAndEnter(): Promise<VscodeKeyboardEventResponse> {
-    const firstHalfSelection = this.head().split('\n');
-    const secondHalfSelection = this.foot().split('\n');
-    const currentRow1 = this.currentRow(firstHalfSelection);
-    const currentRow2 = secondHalfSelection.shift() ?? '';
+    const firstHalf = this.head().split('\n');
+    const secondHalf = this.foot().split('\n');
+    const currentRow1 = this.currentRow(firstHalf);
+    const currentRow2 = secondHalf.shift() ?? '';
     const currentRow = currentRow1 + currentRow2;
-    const newRow = this.generateNewLine(currentRow);
-    firstHalfSelection[firstHalfSelection.length - 1] = currentRow;
+    firstHalf[firstHalf.length - 1] = currentRow;
 
-    const range = this.sum(this.start, currentRow2.length, newRow.length ? newRow.length + 1 : 1);
+    const newRow = this.generateNewLine(currentRow);
+
+    const range = this.sum(this.start, (currentRow2 ?? '').length, newRow.length ? newRow.length + 1 : 1);
     return {
-      text: this.concat([...firstHalfSelection, newRow, ...secondHalfSelection]),
+      text: this.concat([...firstHalf, newRow, ...secondHalf]),
       range: {
         start: range,
         end: range,
@@ -58,13 +59,43 @@ export default class VscodeKeyboardEvent {
   }
 
   public async tab(): Promise<VscodeKeyboardEventResponse> {
-    const range = this.sum(this.start, this.TAB_SIZE);
+    let count = 0;
+    let text = '';
+    let range = null;
+    if (this.isRangeSelect()) {
+      text =
+        this.head() +
+        this.concat(
+          this.body()
+            .split('\n')
+            .map((val) => {
+              count++;
+              return this.SPACES + val;
+            }),
+        ) +
+        this.foot();
+
+      range = {
+        start: this.start,
+        end: this.end + this.TAB_SIZE * count,
+      };
+    } else {
+      const matchWord = this.isMatch(this.head());
+      if (matchWord && this.foot() === '') {
+        const rows = this.head().split('\n');
+        rows[rows.length - 1] = this.SPACES + this.currentRow(rows);
+        text = this.concat(rows) + this.foot();
+      } else {
+        text = this.head() + this.SPACES + this.foot();
+      }
+      range = {
+        start: this.sum(this.start, this.TAB_SIZE),
+        end: this.sum(this.start, this.TAB_SIZE),
+      };
+    }
     return {
-      text: this.head() + this.SPACES + this.foot(),
-      range: {
-        start: range,
-        end: range,
-      },
+      text: text,
+      range: range,
     };
   }
 
@@ -138,26 +169,36 @@ export default class VscodeKeyboardEvent {
   }
 
   private generateNewLine(currentRow: string) {
-    const matchWord =
-      currentRow
-        .trim()
-        .match(/^[-|*|>]\s(\S+)|^[-]?\d*\.\s(\S+)/)
-        ?.shift()
-        ?.match(/^\d+|^\S/)
-        ?.shift() ?? null;
+    // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
+    const pad = currentRow.match(/^(\s*|　*)/)?.shift() ?? '';
+    const matchWord = this.isMatch(currentRow);
 
-    if (!matchWord) {
+    if ([1, 2].some((len) => currentRow.trim().length === len)) {
       return '';
+    }
+    if (!matchWord) {
+      return pad;
     }
 
     let mdListString = '';
-    if (/^[-]?\d*$/.test(matchWord)) {
+    if (/^\d*$/.test(matchWord)) {
       mdListString = `${Number(matchWord) + 1}. `;
     } else {
       mdListString = `${matchWord} `;
     }
-    // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
-    return (currentRow.match(/^(\s*|　*)/)?.shift() ?? '') + mdListString;
+
+    return pad + mdListString;
+  }
+
+  private isMatch(string: string) {
+    return (
+      string
+        .trim()
+        .match(/^[-|*|>]\s(\S+)|^\d*\.\s(\S+)/)
+        ?.shift()
+        ?.match(/^\d+|^\S/)
+        ?.shift() ?? null
+    );
   }
 
   private sum(...numbers: number[]) {
