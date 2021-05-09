@@ -52,17 +52,17 @@ const Note = () => {
 };
 
 const keyEventHandle = (e: KeyEvent): Promise<VscodeKeyboardEventResponse> | undefined => {
-  const vscodeKeyEvent = new VscodeKeyboardEvent(e);
+  if (e.keyCode === 229) {
+    return;
+  }
 
+  const vscodeKeyEvent = new VscodeKeyboardEvent(e);
   switch (e.key) {
     case 'Enter':
       e.preventDefault();
       return e.metaKey ? vscodeKeyEvent.cmdAndEnter() : vscodeKeyEvent.enter();
 
     case 'Tab':
-      if (e.keyCode === 229) {
-        return;
-      }
       e.preventDefault();
       return e.shiftKey ? vscodeKeyEvent.tabAndShift() : vscodeKeyEvent.tab();
 
