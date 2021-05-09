@@ -146,16 +146,18 @@ export default class VscodeKeyboardEvent {
         ?.match(/^\d+|^\S/)
         ?.shift() ?? null;
 
+    if (!matchWord) {
+      return '';
+    }
+
     let mdListString = '';
-    if (matchWord) {
-      if (!isNaN(Number(matchWord))) {
-        mdListString = `${Number(matchWord) + 1}. `;
-      } else {
-        mdListString = `${matchWord} `;
-      }
+    if (/^[-]?\d*$/.test(matchWord)) {
+      mdListString = `${Number(matchWord) + 1}. `;
+    } else {
+      mdListString = `${matchWord} `;
     }
     // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
-    return currentRow.match(/^(\s*|　*)/)?.shift() ?? '' + mdListString;
+    return (currentRow.match(/^(\s*|　*)/)?.shift() ?? '') + mdListString;
   }
 
   private sum(...numbers: number[]) {
