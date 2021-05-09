@@ -59,25 +59,15 @@ export default class VscodeKeyboardEvent {
   }
 
   public async tab(): Promise<VscodeKeyboardEventResponse> {
-    let count = 0;
     let text = '';
     let range = null;
     if (this.isRangeSelect()) {
-      text =
-        this.head() +
-        this.concat(
-          this.body()
-            .split('\n')
-            .map((val) => {
-              count++;
-              return this.SPACES + val;
-            }),
-        ) +
-        this.foot();
+      const rows = this.body().split('\n');
+      text = this.head() + this.concat(rows.map((val) => this.SPACES + val)) + this.foot();
 
       range = {
         start: this.start,
-        end: this.end + this.TAB_SIZE * count,
+        end: this.end + this.TAB_SIZE * rows.length,
       };
     } else {
       const matchWord = this.isMatch(this.head());
