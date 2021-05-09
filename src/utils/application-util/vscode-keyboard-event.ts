@@ -70,10 +70,11 @@ export default class VscodeKeyboardEvent {
         end: this.end + this.TAB_SIZE * rows.length,
       };
     } else {
-      const matchWord = this.isMatch(this.head());
-      if (matchWord && this.foot() === '') {
-        const rows = this.head().split('\n');
-        rows[rows.length - 1] = this.SPACES + this.currentRow(rows);
+      const rows = this.head().split('\n');
+      const currentRow = this.currentRow(rows);
+      // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
+      if (/^[-|*|>]\s|^\d*\.\s/.test(currentRow.replace(/^(\s*|　*)/, ''))) {
+        rows[rows.length - 1] = this.SPACES + currentRow;
         text = this.concat(rows) + this.foot();
       } else {
         text = this.head() + this.SPACES + this.foot();
