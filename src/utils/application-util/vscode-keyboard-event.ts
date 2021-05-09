@@ -162,8 +162,6 @@ export default class VscodeKeyboardEvent {
     // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
     const pad = currentRow.match(/^(\s*|　*)/)?.shift() ?? '';
     const matchWord = this.isMatch(currentRow);
-
-    // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
     if (this.isOnlyMdListString(currentRow)) {
       return '';
     }
