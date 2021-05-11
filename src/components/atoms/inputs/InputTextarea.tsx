@@ -44,7 +44,9 @@ const useStyles = (style?: InputTextareaStyles): ClassNameMap<'root'> => {
   return makeStyles(() =>
     createStyles({
       root: {
-        padding: 10,
+        padding: 20,
+        fontSize: 14,
+        lineHeight: 1.7,
         borderColor: COLOR.GREY.MAIN,
         width: style?.width ?? '100%',
         height: style?.height ?? '100%',

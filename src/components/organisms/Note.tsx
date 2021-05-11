@@ -9,12 +9,12 @@ import VscodeKeyboardEvent, {
 
 const Note = () => {
   const [inputState, setInputState] = useState('');
-  const [rows, setRows] = useState(35);
+  const [rows, setRows] = useState(28);
 
   const matches = useMediaQueryBase();
 
   useMemo(() => {
-    setRows(matches ? 35 : 28);
+    setRows(matches ? 28 : 26);
   }, [matches]);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
