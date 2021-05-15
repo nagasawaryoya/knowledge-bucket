@@ -56,7 +56,13 @@ const keyEventHandle = (e: KeyEvent): Promise<VscodeKeyboardEventResponse> | und
     return;
   }
 
-  const vscodeKeyEvent = new VscodeKeyboardEvent(e);
+  const vscodeKeyEvent = new VscodeKeyboardEvent({
+    value: e.target.defaultValue,
+    range: {
+      start: e.target.selectionStart,
+      end: e.target.selectionEnd,
+    },
+  });
   switch (e.key) {
     case 'Enter':
       e.preventDefault();

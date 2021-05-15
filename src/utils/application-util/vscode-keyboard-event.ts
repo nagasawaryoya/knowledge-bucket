@@ -1,11 +1,17 @@
 import { ChangeEvent, KeyboardEvent } from 'react';
 import { NumberRange } from 'utils/type-util/NumberRange';
+import { NullOptional } from 'utils/type-util/Optional';
 
 export type KeyEvent = ChangeEvent<HTMLInputElement> & KeyboardEvent;
 
 export type VscodeKeyboardEventResponse = {
   text: string;
   range: NumberRange | null;
+};
+
+type Target = {
+  value: string;
+  range: NullOptional<NumberRange>;
 };
 
 export default class VscodeKeyboardEvent {
@@ -16,10 +22,10 @@ export default class VscodeKeyboardEvent {
   private start: number;
   private end: number;
 
-  constructor(event: KeyEvent) {
-    this.value = event.target.defaultValue;
-    this.start = event.target.selectionStart ?? 0;
-    this.end = event.target.selectionEnd ?? 0;
+  constructor(target: Target) {
+    this.value = target.value;
+    this.start = target.range.start ?? 0;
+    this.end = target.range.end ?? 0;
   }
 
   /**
