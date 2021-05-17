@@ -9,7 +9,7 @@ export type VscodeKeyboardEventResponse = {
   range: NumberRange | null;
 };
 
-type Target = {
+export type Target = {
   value: string;
   range: NullOptional<NumberRange>;
 };
