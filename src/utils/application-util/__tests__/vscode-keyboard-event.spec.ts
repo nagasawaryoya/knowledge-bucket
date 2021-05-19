@@ -9,12 +9,29 @@ const NORMAL_TEXT = `
 
 const PAD = ' '.repeat(4);
 
-const createSampleListText = (prefix: '-' | '*' | '>', count: number) => {
-  return [...Array(count)].map((_, i) => (i === 0 ? '' : `${PAD.repeat(i)}`) + `${prefix} hoge${i}`).join('\n');
+/**
+ * @param {number} count 行数
+ * @param {string} prefix リスト用接頭辞
+ * @returns {string}
+ *
+ * @example
+ * ```typescript
+ * createSampleListText(2)
+ * `1. hoge
+ *     2. hoge`
+ *
+ * createSampleListText(2, '-')
+ * `- hoge
+ *     - hoge`
+ * ```
+ */
+const createSampleListText = (count: number, prefix?: '-' | '*' | '>'): string => {
+  return [...Array(count)]
+    .map((_, i) => (i === 0 ? '' : `${PAD.repeat(i)}`) + (prefix ? `${prefix} hoge` : `${i + 1}. hoge`))
+    .join('\n');
 };
-const createSampleNumListText = (count: number) => {
-  return [...Array(count)].map((_, i) => (i === 0 ? '' : `${PAD.repeat(i)}`) + `${i}. hoge${i}`).join('\n');
-};
+
+// const lTrim = (string: string) => string.replace(/^\n/, '');
 
 describe('VscodeKeyboardEventクラスのテスト', () => {
   it('デフォルトで設定されたタブのサイズが 4 であることをテストする', () => {
@@ -25,62 +42,284 @@ describe('VscodeKeyboardEventクラスのテスト', () => {
     expect(instance.TAB_SIZE).toBe(4);
   });
   describe('イベントテスト', () => {
+    /**
+     * enter()
+     */
     describe('エンター押下', () => {
       describe('カーソル選択', () => {
         it('文字列リスト', () => {
-          const testText = createSampleListText('-', 4);
+          const testText = createSampleListText(2, '-');
           const instance = createInstance({
             value: testText,
-            range: { start: 2, end: 2 },
+            range: { start: 5, end: 5 },
           });
-          instance.enter();
+          instance.enter().then((result) => {
+            expect(result.range).toStrictEqual({
+              start: 8,
+              end: 8,
+            });
+
+            expect(result.text).toBe(
+              `
+- hog
+- e
+    - hoge
+            `.trim(),
+            );
+          });
         });
+
         it('数値リスト', () => {
-          const testText = createSampleNumListText(4);
+          const testText = createSampleListText(2);
           const instance = createInstance({
             value: testText,
-            range: { start: 2, end: 2 },
+            range: { start: 18, end: 18 },
           });
-          instance.enter();
+          instance.enter().then((result) => {
+            expect(result.range).toStrictEqual({
+              start: 26,
+              end: 26,
+            });
+
+            expect(result.text).toBe(
+              `
+1. hoge
+    2. hog
+    3. e
+            `.trim(),
+            );
+          });
         });
+
         it('通常テキスト', () => {
           const instance = createInstance({
             value: NORMAL_TEXT,
-            range: { start: 2, end: 2 },
+            range: { start: 14, end: 14 },
           });
-          instance.enter();
+          instance.enter().then((result) => {
+            expect(result.range).toStrictEqual({
+              start: 15,
+              end: 15,
+            });
+
+            expect(result.text).toBe(
+              `
+# Hello, World
+!
+## My name is JavaScript
+            `.trim(),
+            );
+          });
         });
       });
 
       describe('範囲選択', () => {
         it('文字列リスト', () => {
-          const testText = createSampleListText('-', 4);
+          const testText = createSampleListText(2, '-');
           const instance = createInstance({
             value: testText,
-            range: { start: 2, end: testText.length },
+            range: { start: 14, end: 16 },
           });
-          instance.enter();
+          instance.enter().then((result) => {
+            expect(result.range).toStrictEqual({
+              start: 21,
+              end: 21,
+            });
+
+            expect(result.text).toBe(
+              `
+- hoge
+    - h
+    - e
+            `.trim(),
+            );
+          });
         });
         it('数値リスト', () => {
-          const testText = createSampleNumListText(4);
+          const testText = createSampleListText(2);
           const instance = createInstance({
             value: testText,
-            range: { start: 2, end: testText.length },
+            range: { start: 16, end: 18 },
           });
-          instance.enter();
+          instance.enter().then((result) => {
+            expect(result.range).toStrictEqual({
+              start: 24,
+              end: 24,
+            });
+
+            expect(result.text).toBe(
+              `
+1. hoge
+    2. h
+    3. e
+            `.trim(),
+            );
+          });
         });
         it('通常テキスト', () => {
           const instance = createInstance({
             value: NORMAL_TEXT,
-            range: { start: 2, end: NORMAL_TEXT.length },
+            range: { start: 7, end: 14 },
           });
-          instance.enter();
+          instance.enter().then((result) => {
+            expect(result.range).toStrictEqual({
+              start: 8,
+              end: 8,
+            });
+
+            expect(result.text).toBe(
+              `
+# Hello
+!
+## My name is JavaScript
+            `.trim(),
+            );
+          });
         });
       });
     });
-    describe('コマンド+エンター押下', () => {
-      // createInstance();
-    });
+
+    /**
+     * cmdAndEnter()
+     */
+    //     describe('コマンド+エンター押下', () => {
+    //       describe('カーソル選択', () => {
+    //         it('文字列リスト', () => {
+    //           const testText = createSampleListText(2, '-');
+    //           const instance = createInstance({
+    //             value: testText,
+    //             range: { start: 11, end: 11 },
+    //           });
+    //           instance.cmdAndEnter().then((result) => {
+    //             expect(result.range).toStrictEqual({
+    //               start: 24,
+    //               end: 24,
+    //             });
+
+    //             ''.replace(/^\n/, '');
+    //             expect(result.text).toBe(
+    //               lTrim(
+    //                 `
+    // - hoge
+    //     - hoge
+    //     - `,
+    //               ),
+    //             );
+    //           });
+    //         });
+
+    //         it('数値リスト', () => {
+    //           const testText = createSampleListText(2);
+    //           const instance = createInstance({
+    //             value: testText,
+    //             range: { start: 15, end: 15 },
+    //           });
+    //           instance.cmdAndEnter().then((result) => {
+    //             expect(result.range).toStrictEqual({
+    //               start: 27,
+    //               end: 27,
+    //             });
+
+    //             expect(result.text).toBe(
+    //               lTrim(
+    //                 `
+    // 1. hoge
+    //     2. hoge
+    //     3. `,
+    //               ),
+    //             );
+    //           });
+    //         });
+
+    //         it('通常テキスト', () => {
+    //           const instance = createInstance({
+    //             value: NORMAL_TEXT,
+    //             range: { start: 14, end: 14 },
+    //           });
+    //           instance.cmdAndEnter().then((result) => {
+    //             expect(result.range).toStrictEqual({
+    //               start: 16,
+    //               end: 16,
+    //             });
+
+    //             expect(result.text).toBe(
+    //               `
+    // # Hello, World!
+
+    // ## My name is JavaScript
+    //             `.trim(),
+    //             );
+    //           });
+    //         });
+    //       });
+
+    //       describe('範囲選択', () => {
+    //         it('文字列リスト', () => {
+    //           const testText = createSampleListText(2, '-');
+    //           const instance = createInstance({
+    //             value: testText,
+    //             range: { start: 11, end: 16 },
+    //           });
+    //           instance.cmdAndEnter().then((result) => {
+    //             expect(result.range).toStrictEqual({
+    //               start: 24,
+    //               end: 24,
+    //             });
+
+    //             expect(result.text).toBe(
+    //               `
+    // - hoge
+    //     - hoge
+    //     -
+    //             `.trim(),
+    //             );
+    //           });
+    //         });
+
+    //         it('数値リスト', () => {
+    //           const testText = createSampleListText(2);
+    //           const instance = createInstance({
+    //             value: testText,
+    //             range: { start: 15, end: 18 },
+    //           });
+    //           instance.cmdAndEnter().then((result) => {
+    //             expect(result.range).toStrictEqual({
+    //               start: 27,
+    //               end: 27,
+    //             });
+
+    //             expect(result.text).toBe(
+    //               `
+    // 1. hoge
+    //     2. hoge
+    //     3.
+    //             `.trim(),
+    //             );
+    //           });
+    //         });
+
+    //         it('通常テキスト', () => {
+    //           const instance = createInstance({
+    //             value: NORMAL_TEXT,
+    //             range: { start: 2, end: 14 },
+    //           });
+    //           instance.cmdAndEnter().then((result) => {
+    //             expect(result.range).toStrictEqual({
+    //               start: 16,
+    //               end: 16,
+    //             });
+
+    //             expect(result.text).toBe(
+    //               `
+    // # Hello, World!
+
+    // ## My name is JavaScript
+    //             `.trim(),
+    //             );
+    //           });
+    //         });
+    //       });
+    //     });
     describe('タブ押下', () => {
       // createInstance();
     });
