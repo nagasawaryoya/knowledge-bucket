@@ -322,8 +322,95 @@ describe('VscodeKeyboardEventクラスのテスト', () => {
           });
         });
       });
+
+      /**
+       * tab()
+       */
       describe('タブ押下', () => {
-        // createInstance();
+        describe('カーソル選択', () => {
+          it('文字列リスト', () => {
+            const testText = createSampleListText(1, '-');
+            const instance = createInstance({
+              value: testText,
+              range: { start: 0, end: 0 },
+            });
+            instance.tab().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 4,
+                end: 4,
+              });
+
+              expect(result.text).toBe(`    - hoge`);
+            });
+
+            // リスト用のキーワードのみの際にタブを押した際は、インデントを増やす。
+            const testText2 = '- ';
+            const instance2 = createInstance({
+              value: testText2,
+              range: { start: testText2.length, end: testText2.length },
+            });
+            instance2.tab().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 6,
+                end: 6,
+              });
+
+              expect(result.text).toBe(`    - `);
+            });
+          });
+
+          it('数値リスト', () => {
+            const testText = createSampleListText(1);
+            const instance = createInstance({
+              value: testText,
+              range: { start: 0, end: 0 },
+            });
+            instance.tab().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 4,
+                end: 4,
+              });
+
+              expect(result.text).toBe(`    1. hoge`);
+            });
+
+            // リスト用のキーワードのみの際にタブを押した際は、インデントを増やす。
+            const testText2 = '1. ';
+            const instance2 = createInstance({
+              value: testText2,
+              range: { start: testText2.length, end: testText2.length },
+            });
+            instance2.tab().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 7,
+                end: 7,
+              });
+
+              expect(result.text).toBe(`    1. `);
+            });
+          });
+
+          it('通常テキスト', () => {
+            const instance = createInstance({
+              value: NORMAL_TEXT,
+              range: { start: 0, end: 0 },
+            });
+            instance.tab().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 4,
+                end: 4,
+              });
+
+              expect(result.text).toBe(
+                lTrim(
+                  `
+    # Hello, World!
+## My name is JavaScript`,
+                ),
+              );
+            });
+          });
+        });
       });
       describe('シフト+タブ押下', () => {
         // createInstance();
