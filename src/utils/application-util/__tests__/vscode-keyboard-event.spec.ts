@@ -31,7 +31,7 @@ const createSampleListText = (count: number, prefix?: '-' | '*' | '>'): string =
     .join('\n');
 };
 
-// const lTrim = (string: string) => string.replace(/^\n/, '');
+const lTrim = (string: string) => string.replace(/^\n/, '');
 
 describe('VscodeKeyboardEventクラスのテスト', () => {
   it('デフォルトで設定されたタブのサイズが 4 であることをテストする', () => {
@@ -182,149 +182,152 @@ describe('VscodeKeyboardEventクラスのテスト', () => {
     /**
      * cmdAndEnter()
      */
-    //     describe('コマンド+エンター押下', () => {
-    //       describe('カーソル選択', () => {
-    //         it('文字列リスト', () => {
-    //           const testText = createSampleListText(2, '-');
-    //           const instance = createInstance({
-    //             value: testText,
-    //             range: { start: 11, end: 11 },
-    //           });
-    //           instance.cmdAndEnter().then((result) => {
-    //             expect(result.range).toStrictEqual({
-    //               start: 24,
-    //               end: 24,
-    //             });
+    describe('コマンド+エンター押下', () => {
+      describe('カーソル選択', () => {
+        it('文字列リスト', () => {
+          const testText = createSampleListText(2, '-');
+          const instance = createInstance({
+            value: testText,
+            range: { start: 11, end: 11 },
+          });
+          instance.cmdAndEnter().then((result) => {
+            expect(result.range).toStrictEqual({
+              start: 24,
+              end: 24,
+            });
 
-    //             ''.replace(/^\n/, '');
-    //             expect(result.text).toBe(
-    //               lTrim(
-    //                 `
-    // - hoge
-    //     - hoge
-    //     - `,
-    //               ),
-    //             );
-    //           });
-    //         });
+            ''.replace(/^\n/, '');
+            expect(result.text).toBe(
+              lTrim(
+                `
+- hoge
+    - hoge
+    - `,
+              ),
+            );
+          });
+        });
 
-    //         it('数値リスト', () => {
-    //           const testText = createSampleListText(2);
-    //           const instance = createInstance({
-    //             value: testText,
-    //             range: { start: 15, end: 15 },
-    //           });
-    //           instance.cmdAndEnter().then((result) => {
-    //             expect(result.range).toStrictEqual({
-    //               start: 27,
-    //               end: 27,
-    //             });
+        it('数値リスト', () => {
+          const testText = createSampleListText(2);
+          const instance = createInstance({
+            value: testText,
+            range: { start: 15, end: 15 },
+          });
+          instance.cmdAndEnter().then((result) => {
+            expect(result.range).toStrictEqual({
+              start: 27,
+              end: 27,
+            });
 
-    //             expect(result.text).toBe(
-    //               lTrim(
-    //                 `
-    // 1. hoge
-    //     2. hoge
-    //     3. `,
-    //               ),
-    //             );
-    //           });
-    //         });
+            expect(result.text).toBe(
+              lTrim(
+                `
+1. hoge
+    2. hoge
+    3. `,
+              ),
+            );
+          });
+        });
 
-    //         it('通常テキスト', () => {
-    //           const instance = createInstance({
-    //             value: NORMAL_TEXT,
-    //             range: { start: 14, end: 14 },
-    //           });
-    //           instance.cmdAndEnter().then((result) => {
-    //             expect(result.range).toStrictEqual({
-    //               start: 16,
-    //               end: 16,
-    //             });
+        it('通常テキスト', () => {
+          const instance = createInstance({
+            value: NORMAL_TEXT,
+            range: { start: 14, end: 14 },
+          });
+          instance.cmdAndEnter().then((result) => {
+            expect(result.range).toStrictEqual({
+              start: 16,
+              end: 16,
+            });
 
-    //             expect(result.text).toBe(
-    //               `
-    // # Hello, World!
+            expect(result.text).toBe(
+              lTrim(
+                `
+# Hello, World!
 
-    // ## My name is JavaScript
-    //             `.trim(),
-    //             );
-    //           });
-    //         });
-    //       });
+## My name is JavaScript`,
+              ),
+            );
+          });
+        });
 
-    //       describe('範囲選択', () => {
-    //         it('文字列リスト', () => {
-    //           const testText = createSampleListText(2, '-');
-    //           const instance = createInstance({
-    //             value: testText,
-    //             range: { start: 11, end: 16 },
-    //           });
-    //           instance.cmdAndEnter().then((result) => {
-    //             expect(result.range).toStrictEqual({
-    //               start: 24,
-    //               end: 24,
-    //             });
+        describe('範囲選択', () => {
+          it('文字列リスト', () => {
+            const testText = createSampleListText(2, '-');
+            const instance = createInstance({
+              value: testText,
+              range: { start: 11, end: 16 },
+            });
+            instance.cmdAndEnter().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 24,
+                end: 24,
+              });
 
-    //             expect(result.text).toBe(
-    //               `
-    // - hoge
-    //     - hoge
-    //     -
-    //             `.trim(),
-    //             );
-    //           });
-    //         });
+              expect(result.text).toBe(
+                lTrim(
+                  `
+- hoge
+    - hoge
+    - `,
+                ),
+              );
+            });
+          });
 
-    //         it('数値リスト', () => {
-    //           const testText = createSampleListText(2);
-    //           const instance = createInstance({
-    //             value: testText,
-    //             range: { start: 15, end: 18 },
-    //           });
-    //           instance.cmdAndEnter().then((result) => {
-    //             expect(result.range).toStrictEqual({
-    //               start: 27,
-    //               end: 27,
-    //             });
+          it('数値リスト', () => {
+            const testText = createSampleListText(2);
+            const instance = createInstance({
+              value: testText,
+              range: { start: 15, end: 18 },
+            });
+            instance.cmdAndEnter().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 27,
+                end: 27,
+              });
 
-    //             expect(result.text).toBe(
-    //               `
-    // 1. hoge
-    //     2. hoge
-    //     3.
-    //             `.trim(),
-    //             );
-    //           });
-    //         });
+              expect(result.text).toBe(
+                lTrim(
+                  `
+1. hoge
+    2. hoge
+    3. `,
+                ),
+              );
+            });
+          });
 
-    //         it('通常テキスト', () => {
-    //           const instance = createInstance({
-    //             value: NORMAL_TEXT,
-    //             range: { start: 2, end: 14 },
-    //           });
-    //           instance.cmdAndEnter().then((result) => {
-    //             expect(result.range).toStrictEqual({
-    //               start: 16,
-    //               end: 16,
-    //             });
+          it('通常テキスト', () => {
+            const instance = createInstance({
+              value: NORMAL_TEXT,
+              range: { start: 2, end: 14 },
+            });
+            instance.cmdAndEnter().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 16,
+                end: 16,
+              });
 
-    //             expect(result.text).toBe(
-    //               `
-    // # Hello, World!
+              expect(result.text).toBe(
+                `
+# Hello, World!
 
-    // ## My name is JavaScript
-    //             `.trim(),
-    //             );
-    //           });
-    //         });
-    //       });
-    //     });
-    describe('タブ押下', () => {
-      // createInstance();
-    });
-    describe('シフト+タブ押下', () => {
-      // createInstance();
+## My name is JavaScript
+                `.trim(),
+              );
+            });
+          });
+        });
+      });
+      describe('タブ押下', () => {
+        // createInstance();
+      });
+      describe('シフト+タブ押下', () => {
+        // createInstance();
+      });
     });
   });
 });
