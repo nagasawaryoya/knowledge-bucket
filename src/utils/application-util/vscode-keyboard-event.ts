@@ -71,7 +71,7 @@ export default class VscodeKeyboardEvent {
    * @returns {Promise<VscodeKeyboardEventResponse>}
    */
   public async cmdAndEnter(): Promise<VscodeKeyboardEventResponse> {
-    const firstHalf = this.head().split('\n');
+    const firstHalf = (this.isRangeSelect() ? this.head() + this.body() : this.head()).split('\n');
     const secondHalf = this.foot().split('\n');
     const currentRow1 = this.currentRow(firstHalf);
     const currentRow2 = secondHalf.shift() ?? '';
@@ -80,7 +80,7 @@ export default class VscodeKeyboardEvent {
 
     const newRow = this.generateNewLine(currentRow);
 
-    const range = this.sum(this.start, (currentRow2 ?? '').length, newRow.length ? newRow.length + 1 : 1);
+    const range = this.sum(this.end, (currentRow2 ?? '').length, newRow.length ? newRow.length + 1 : 1);
     return {
       text: this.concat([...firstHalf, newRow, ...secondHalf]),
       range: {
