@@ -109,12 +109,14 @@ export default class VscodeKeyboardEvent {
     let text = '';
     let range = null;
     if (this.isRangeSelect()) {
-      const rows = this.body().split('\n');
-      text = this.head() + this.concat(rows.map((val) => this.SPACES + val)) + this.foot();
+      const heads = this.head().split('\n');
+      const foots = this.foot().split('\n');
+      const rows = ((heads.pop() ?? '') + this.body() + (foots.shift() ?? '')).split('\n');
+      text = this.concat([...heads, ...rows.map((val) => this.SPACES + val), ...foots]);
 
       range = {
-        start: this.start,
-        end: this.end + this.TAB_SIZE * rows.length,
+        start: this.sum(this.start, this.TAB_SIZE),
+        end: this.sum(this.end, this.TAB_SIZE * rows.length),
       };
     } else {
       const rows = this.head().split('\n');
@@ -157,29 +159,32 @@ export default class VscodeKeyboardEvent {
       return string.replace(regExp, '');
     };
 
-    let top = '';
-    let rows: string[] = [''];
+    let texts = [''];
     let range: NumberRange | null = null;
 
     if (this.isRangeSelect()) {
       let count = 0;
-      top = this.head();
-      rows = this.body()
-        .split('\n')
-        .map((row) => {
-          if (regExp.test(row)) {
-            count++;
-            range = {
-              start: this.start,
-              end: this.end - this.TAB_SIZE * count,
-            };
-          }
-          return excludeTopSpace(row);
-        });
+
+      const heads = this.head().split('\n');
+      const foots = this.foot().split('\n');
+
+      const rows = ((heads.pop() ?? '') + this.body() + (foots.shift() ?? '')).split('\n').map((row) => {
+        if (regExp.test(row)) {
+          count++;
+          range = {
+            start: this.start - this.TAB_SIZE,
+            end: this.end - this.TAB_SIZE * count,
+          };
+        }
+        return excludeTopSpace(row);
+      });
+      texts = [...heads, ...rows, ...foots];
     } else {
-      rows = this.head().split('\n');
+      const rows = this.head().split('\n');
       const currentRow = this.currentRow(rows);
       rows[rows.length - 1] = excludeTopSpace(currentRow);
+
+      texts = [...rows, this.foot()];
 
       if (regExp.test(currentRow)) {
         range = {
@@ -190,7 +195,7 @@ export default class VscodeKeyboardEvent {
     }
 
     return {
-      text: top + this.concat(rows) + this.foot(),
+      text: this.concat(texts),
       range: range,
     };
   }
