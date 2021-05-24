@@ -411,7 +411,75 @@ describe('VscodeKeyboardEventクラスのテスト', () => {
             });
           });
         });
+
+        describe('範囲選択', () => {
+          it('文字列リスト', () => {
+            const testText = createSampleListText(3, '-');
+            const instance = createInstance({
+              value: testText,
+              range: { start: 13, end: 28 },
+            });
+            instance.tab().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 17,
+                end: 36,
+              });
+
+              ''.replace(/^\n/, '');
+              expect(result.text).toBe(
+                `
+- hoge
+        - hoge
+            - hoge
+`.trim(),
+              );
+            });
+          });
+
+          it('数値リスト', () => {
+            const testText = createSampleListText(3);
+            const instance = createInstance({
+              value: testText,
+              range: { start: 15, end: 31 },
+            });
+            instance.tab().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 19,
+                end: 39,
+              });
+
+              expect(result.text).toBe(
+                lTrim(
+                  `
+1. hoge
+        2. hoge
+            3. hoge
+`.trim(),
+                ),
+              );
+            });
+          });
+
+          it('通常テキスト', () => {
+            const instance = createInstance({
+              value: NORMAL_TEXT,
+              range: { start: 9, end: 29 },
+            });
+            instance.tab().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 13,
+                end: 37,
+              });
+
+              expect(result.text).toBe(
+                `    # Hello, World!
+    ## My name is JavaScript`,
+              );
+            });
+          });
+        });
       });
+
       describe('シフト+タブ押下', () => {
         // createInstance();
       });
