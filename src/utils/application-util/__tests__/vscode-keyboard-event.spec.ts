@@ -7,6 +7,13 @@ const NORMAL_TEXT = `
 ## My name is JavaScript
 `.trim();
 
+const NORMAL_TEXT2 = `
+# Hello, World!
+## My name is JavaScript
+    I am Nagasawa
+        I am Nagasawa
+`.trim();
+
 const PAD = ' '.repeat(4);
 
 /**
@@ -481,7 +488,140 @@ describe('VscodeKeyboardEventクラスのテスト', () => {
       });
 
       describe('シフト+タブ押下', () => {
-        // createInstance();
+        describe('カーソル選択', () => {
+          it('文字列リスト', () => {
+            const testText = createSampleListText(2, '-');
+            const instance = createInstance({
+              value: testText,
+              range: { start: 13, end: 13 },
+            });
+            instance.tabAndShift().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 9,
+                end: 9,
+              });
+
+              expect(result.text).toBe(
+                `
+- hoge
+- hoge
+              `.trim(),
+              );
+            });
+          });
+
+          it('数値リスト', () => {
+            const testText = createSampleListText(3);
+            const instance = createInstance({
+              value: testText,
+              range: { start: 31, end: 31 },
+            });
+            instance.tabAndShift().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 27,
+                end: 27,
+              });
+
+              expect(result.text).toBe(
+                `
+1. hoge
+    2. hoge
+    3. hoge
+              `.trim(),
+              );
+            });
+          });
+
+          it('通常テキスト', () => {
+            const instance = createInstance({
+              value: NORMAL_TEXT2,
+              range: { start: 47, end: 47 },
+            });
+            instance.tabAndShift().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 43,
+                end: 43,
+              });
+
+              expect(result.text).toBe(
+                `
+# Hello, World!
+## My name is JavaScript
+I am Nagasawa
+        I am Nagasawa
+`.trim(),
+              );
+            });
+          });
+        });
+
+        describe('範囲選択', () => {
+          it('文字列リスト', () => {
+            const testText = createSampleListText(3, '-');
+            const instance = createInstance({
+              value: testText,
+              range: { start: 15, end: 28 },
+            });
+            instance.tabAndShift().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 11,
+                end: 20,
+              });
+
+              expect(result.text).toBe(
+                `
+- hoge
+- hoge
+    - hoge
+              `.trim(),
+              );
+            });
+          });
+
+          it('数値リスト', () => {
+            const testText = createSampleListText(3);
+            const instance = createInstance({
+              value: testText,
+              range: { start: 17, end: 31 },
+            });
+            instance.tabAndShift().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 13,
+                end: 23,
+              });
+
+              expect(result.text).toBe(
+                `
+1. hoge
+2. hoge
+    3. hoge
+              `.trim(),
+              );
+            });
+          });
+
+          it('通常テキスト', () => {
+            const instance = createInstance({
+              value: NORMAL_TEXT2,
+              range: { start: 54, end: 72 },
+            });
+            instance.tabAndShift().then((result) => {
+              expect(result.range).toStrictEqual({
+                start: 50,
+                end: 64,
+              });
+
+              expect(result.text).toBe(
+                `
+# Hello, World!
+## My name is JavaScript
+I am Nagasawa
+    I am Nagasawa
+`.trim(),
+              );
+            });
+          });
+        });
       });
     });
   });
