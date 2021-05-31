@@ -182,9 +182,9 @@ export default class VscodeKeyboardEvent {
     } else {
       const rows = this.head().split('\n');
       const currentRow = this.currentRow(rows);
-      rows[rows.length - 1] = excludeTopSpace(currentRow);
+      rows[rows.length - 1] = excludeTopSpace(currentRow) + this.foot();
 
-      texts = [...rows, this.foot()];
+      texts = rows;
 
       if (regExp.test(currentRow)) {
         range = {
