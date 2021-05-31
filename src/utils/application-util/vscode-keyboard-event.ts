@@ -145,7 +145,7 @@ export default class VscodeKeyboardEvent {
    * インデントを減らす。
    * ```
    * 範囲選択
-   *  全行のインデントを減らす
+   *  範囲内全行のインデントを減らす
    *
    * カーソル選択
    *  選択中行のインデントを減らす
@@ -180,11 +180,10 @@ export default class VscodeKeyboardEvent {
       });
       texts = [...heads, ...rows, ...foots];
     } else {
-      const rows = this.head().split('\n');
-      const currentRow = this.currentRow(rows);
-      rows[rows.length - 1] = excludeTopSpace(currentRow) + this.foot();
-
-      texts = rows;
+      const heads = this.head().split('\n');
+      const foots = this.foot().split('\n');
+      const currentRow = (heads.pop() ?? '') + this.body() + (foots.shift() ?? '');
+      texts = [...heads, excludeTopSpace(currentRow), ...foots];
 
       if (regExp.test(currentRow)) {
         range = {
