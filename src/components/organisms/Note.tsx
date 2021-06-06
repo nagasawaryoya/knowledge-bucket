@@ -51,9 +51,9 @@ const Note = () => {
   );
 };
 
-const keyEventHandle = (e: KeyEvent): Promise<VscodeKeyboardEventResponse> | undefined => {
+const keyEventHandle = (e: KeyEvent): Promise<VscodeKeyboardEventResponse> | null => {
   if (e.keyCode === 229) {
-    return;
+    return null;
   }
 
   const vscodeKeyEvent = new VscodeKeyboardEvent({
@@ -72,8 +72,15 @@ const keyEventHandle = (e: KeyEvent): Promise<VscodeKeyboardEventResponse> | und
       e.preventDefault();
       return e.shiftKey ? vscodeKeyEvent.tabAndShift() : vscodeKeyEvent.tab();
 
+    case 'b':
+      if (e.metaKey) {
+        e.preventDefault();
+        return vscodeKeyEvent.cmdAndB();
+      }
+      return null;
+
     default:
-      return;
+      return null;
   }
 };
 

@@ -1,4 +1,5 @@
 import { ChangeEvent, KeyboardEvent } from 'react';
+import NumberUtil from 'utils/number-util';
 import { NumberRange } from 'utils/type-util/NumberRange';
 import { NullOptional } from 'utils/type-util/Optional';
 
@@ -39,7 +40,6 @@ export default class VscodeKeyboardEvent {
    *  リスト表示用のキーワードのみ入力されている -> 通常の改行
    *  リスト表示用のキーワード以外の文字列が入力されている -> 通常の改行
    * ```
-   * @returns {Promise<VscodeKeyboardEventResponse>}
    */
   public async enter(): Promise<VscodeKeyboardEventResponse> {
     const rows = this.head().split('\n');
@@ -47,7 +47,7 @@ export default class VscodeKeyboardEvent {
     const newRow = this.generateNewLine(currentRow);
     rows.push(newRow);
 
-    const range = this.sum(this.start, newRow.length ? newRow.length + 1 : 1);
+    const range = NumberUtil.sum(this.start, newRow.length ? newRow.length + 1 : 1);
     return {
       text: this.concat(rows) + this.foot(),
       range: {
@@ -68,7 +68,6 @@ export default class VscodeKeyboardEvent {
    *  リスト表示用のキーワードのみ入力されている -> 通常の改行
    *  リスト表示用のキーワード以外の文字列が入力されている -> 通常の改行
    * ```
-   * @returns {Promise<VscodeKeyboardEventResponse>}
    */
   public async cmdAndEnter(): Promise<VscodeKeyboardEventResponse> {
     const firstHalf = (this.isRangeSelect() ? this.head() + this.body() : this.head()).split('\n');
@@ -80,7 +79,7 @@ export default class VscodeKeyboardEvent {
 
     const newRow = this.generateNewLine(currentRow);
 
-    const range = this.sum(this.end, (currentRow2 ?? '').length, newRow.length ? newRow.length + 1 : 1);
+    const range = NumberUtil.sum(this.end, (currentRow2 ?? '').length, newRow.length ? newRow.length + 1 : 1);
     return {
       text: this.concat([...firstHalf, newRow, ...secondHalf]),
       range: {
@@ -103,7 +102,6 @@ export default class VscodeKeyboardEvent {
    *  行の先頭がリスト表示用のキーワード -> 行のどこを選択中でもインデントを増やす
    *  行の先頭がリスト表示用のキーワード以外 -> 選択中のポイントから右にスペースをあける
    * ```
-   * @returns {Promise<VscodeKeyboardEventResponse>}
    */
   public async tab(): Promise<VscodeKeyboardEventResponse> {
     let text = '';
@@ -115,8 +113,8 @@ export default class VscodeKeyboardEvent {
       text = this.concat([...heads, ...rows.map((val) => this.SPACES + val), ...foots]);
 
       range = {
-        start: this.sum(this.start, this.TAB_SIZE),
-        end: this.sum(this.end, this.TAB_SIZE * rows.length),
+        start: NumberUtil.sum(this.start, this.TAB_SIZE),
+        end: NumberUtil.sum(this.end, this.TAB_SIZE * rows.length),
       };
     } else {
       const rows = this.head().split('\n');
@@ -128,8 +126,8 @@ export default class VscodeKeyboardEvent {
         text = this.head() + this.SPACES + this.foot();
       }
       range = {
-        start: this.sum(this.start, this.TAB_SIZE),
-        end: this.sum(this.start, this.TAB_SIZE),
+        start: NumberUtil.sum(this.start, this.TAB_SIZE),
+        end: NumberUtil.sum(this.start, this.TAB_SIZE),
       };
     }
     return {
@@ -150,7 +148,6 @@ export default class VscodeKeyboardEvent {
    * カーソル選択
    *  選択中行のインデントを減らす
    * ```
-   * @returns {Promise<VscodeKeyboardEventResponse>}
    */
   public async tabAndShift(): Promise<VscodeKeyboardEventResponse> {
     // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
@@ -172,8 +169,8 @@ export default class VscodeKeyboardEvent {
         if (regExp.test(row)) {
           count++;
           range = {
-            start: this.start - this.TAB_SIZE,
-            end: this.end - this.TAB_SIZE * count,
+            start: NumberUtil.diff(this.start, this.TAB_SIZE),
+            end: NumberUtil.diff(this.end, this.TAB_SIZE * count),
           };
         }
         return excludeTopSpace(row);
@@ -187,8 +184,8 @@ export default class VscodeKeyboardEvent {
 
       if (regExp.test(currentRow)) {
         range = {
-          start: this.start - this.TAB_SIZE,
-          end: this.start - this.TAB_SIZE,
+          start: NumberUtil.diff(this.start, this.TAB_SIZE),
+          end: NumberUtil.diff(this.start, this.TAB_SIZE),
         };
       }
     }
@@ -200,10 +197,26 @@ export default class VscodeKeyboardEvent {
   }
 
   /**
+   * コマンド+b押下イベント処理
+   *
+   * @description
+   * 選択範囲の文字列を太文字にする。
+   */
+  public async cmdAndB(): Promise<VscodeKeyboardEventResponse> {
+    return {
+      text: this.head() + `**${this.body()}**` + this.foot(),
+      range: {
+        start: NumberUtil.sum(this.start, 2),
+        end: NumberUtil.sum(this.end, 2),
+      },
+    };
+  }
+
+  /**
    * 文字列の配列を改行しながら結合する。
    *
-   * @param {string[]} rows 文字列の配列
-   * @returns {string} 改行された文字列
+   * @param rows 文字列の配列
+   * @returns 改行された文字列
    */
   private concat(rows: string[]): string {
     return rows.join('\n');
@@ -212,7 +225,7 @@ export default class VscodeKeyboardEvent {
   /**
    * 範囲選択されているか判断する。
    *
-   * @returns {boolean} true: 範囲選択されている false: 範囲選択されていない
+   * @returns true: 範囲選択されている false: 範囲選択されていない
    */
   private isRangeSelect(): boolean {
     return this.body() !== '';
@@ -221,8 +234,8 @@ export default class VscodeKeyboardEvent {
   /**
    * カーソル行の文字列を返却する。
    *
-   * @param {string} rows 文字列の配列
-   * @returns {string} カーソル行の文字列
+   * @param rows 文字列の配列
+   * @returns カーソル行の文字列
    */
   private currentRow(rows: string[]): string {
     return [...rows].splice(-1).join();
@@ -231,7 +244,7 @@ export default class VscodeKeyboardEvent {
   /**
    * 文字列の先頭からカーソルの開始位置までの文字列を返却する。
    *
-   * @returns {string} 文字列の先頭からカーソルの開始位置までの文字列
+   * @returns 文字列の先頭からカーソルの開始位置までの文字列
    */
   private head(): string {
     return this.value.substring(0, this.start);
@@ -240,7 +253,7 @@ export default class VscodeKeyboardEvent {
   /**
    * カーソルの開始から終了位置までの文字列を返却する。
    *
-   * @returns {string} カーソルの開始から終了位置までの文字列
+   * @returns カーソルの開始から終了位置までの文字列
    */
   private body(): string {
     return this.value.substring(this.start, this.end);
@@ -249,7 +262,7 @@ export default class VscodeKeyboardEvent {
   /**
    * カーソルの終了位置から文字列の最後までの文字列を返却する。
    *
-   * @returns {string} カーソルの終了位置から文字列の最後までの文字列
+   * @returns カーソルの終了位置から文字列の最後までの文字列
    */
   private foot(): string {
     return this.value.substring(this.end, this.value.length);
@@ -266,8 +279,8 @@ export default class VscodeKeyboardEvent {
    *  リスト表示用のキーワードのみ入力されている -> 空白の文字列
    *  リスト表示用のキーワード以外の文字列が入力されている -> カーソル行のインデント+空白の文字列
    * ```
-   * @param {string} currentRow カーソル行の文字列
-   * @returns {string} 次に挿入する行の文字列
+   * @param currentRow カーソル行の文字列
+   * @returns 次に挿入する行の文字列
    */
   private generateNewLine(currentRow: string): string {
     // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
@@ -286,8 +299,8 @@ export default class VscodeKeyboardEvent {
   /**
    * 文字列内にリスト表示用のキーワードが存在するか判断する。
    *
-   * @param {string} string 任意文字列
-   * @returns {string | null} [- | * | > |(1-9)*] | null
+   * @param string 任意文字列
+   * @returns [- | * | > |(1-9)*] | null
    */
   private isMatch(string: string): string | null {
     return (
@@ -303,21 +316,11 @@ export default class VscodeKeyboardEvent {
   /**
    * 文字列内が空白を除いてリスト表示用のキーワードのみか判断する。
    *
-   * @param {string} string 任意文字列
-   * @returns {boolean} true: リスト表示用のキーワードのみ false: リスト表示用のキーワード意外にも文字列がある
+   * @param string 任意文字列
+   * @returns true: リスト表示用のキーワードのみ false: リスト表示用のキーワード意外にも文字列がある
    */
   private isOnlyMdListString(string: string): boolean {
     // eslint-disable-next-line no-irregular-whitespace, no-useless-escape
     return /^[-|*|>]\s$|^\d*\.\s$/.test(string.replace(/^(\s*|　*)/, ''));
-  }
-
-  /**
-   * 引数で与えられる数値を加算した合計数値を返却する。
-   *
-   * @param {number[]} numbers 任意数値
-   * @returns {number} 合計数値
-   */
-  private sum(...numbers: number[]): number {
-    return numbers.reduce((accumulator: number, currentValue: number) => accumulator + currentValue);
   }
 }
