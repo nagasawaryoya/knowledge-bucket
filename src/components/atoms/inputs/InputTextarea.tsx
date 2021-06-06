@@ -35,8 +35,8 @@ export const InputTextarea: FC<InputTextareaProps> = ({ input, style, onChange, 
 /**
  * スタイルを適用する。
  *
- * @param {InputTextareaStyles} style スタイル値
- * @returns {ClassNameMap<"root">} cssプロパティ
+ * @param style スタイル値
+ * @returns cssプロパティ
  */
 const useStyles = (style?: InputTextareaStyles): ClassNameMap<'root'> => {
   const currentTheme = useTheme();
@@ -61,7 +61,7 @@ const useStyles = (style?: InputTextareaStyles): ClassNameMap<'root'> => {
 /**
  * テーマに応じたスタイルを返却する。
  *
- * @param {Theme} theme 現在のテーマ
+ * @param theme 現在のテーマ
  * @returns css プロパティ
  */
 const styling = (theme: Theme) =>

@@ -73,8 +73,8 @@ export const InputText: FC<InputTextProps> = ({ input, style, validate, onChange
 /**
  * スタイルを適用する。
  *
- * @param {InputStyles} style スタイル値
- * @returns {ClassNameMap<"root" | "input">} cssプロパティ
+ * @param style スタイル値
+ * @returns cssプロパティ
  */
 const useStyles = (style?: InputStyles): ClassNameMap<'root' | 'input'> =>
   makeStyles(() =>

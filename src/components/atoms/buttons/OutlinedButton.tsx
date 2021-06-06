@@ -43,8 +43,8 @@ export const OutlinedButton: FC<ButtonProps> = ({ label, button, style, onClick 
 /**
  * スタイルを適用する。
  *
- * @param {InputStyles} style スタイル値
- * @returns {ClassNameMap<"root">} cssプロパティ
+ * @param style スタイル値
+ * @returns cssプロパティ
  */
 const useStyles = (style?: ButtonStyles): ClassNameMap<'root'> => {
   const currentTheme = useTheme();
@@ -67,8 +67,8 @@ const useStyles = (style?: ButtonStyles): ClassNameMap<'root'> => {
 /**
  * テーマに応じたスタイルを返却する。
  *
- * @param {Theme} theme 現在のテーマ
- * @param {InputStyles} style cssプロパティ
+ * @param theme 現在のテーマ
+ * @param style cssプロパティ
  * @returns css プロパティ
  */
 const styling = (theme: Theme) =>

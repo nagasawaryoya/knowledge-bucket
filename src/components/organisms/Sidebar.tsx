@@ -55,7 +55,7 @@ const Sidebar: FC<SidebarProps> = React.memo(({ openEvent, toggleDrawer }) => {
 /**
  * スタイルを適用する。
  *
- * @returns {ClassNameMap<'root'>} cssプロパティ
+ * @returns cssプロパティ
  */
 const useStyles = makeStyles(() =>
   createStyles({

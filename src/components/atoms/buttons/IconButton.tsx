@@ -44,8 +44,8 @@ export const IconButton: FC<IconButtonProps> = ({ icon, button, style, onClick }
 /**
  * スタイルを適用する。
  *
- * @param {InputStyles} style スタイル値
- * @returns {ClassNameMap<"root" | "icon">} cssプロパティ
+ * @param style スタイル値
+ * @returns cssプロパティ
  */
 const useStyles = (style?: IconButtonStyles): ClassNameMap<'root' | 'icon'> => {
   const currentTheme = useTheme();
@@ -73,8 +73,8 @@ const useStyles = (style?: IconButtonStyles): ClassNameMap<'root' | 'icon'> => {
 /**
  * テーマに応じたスタイルを返却する。
  *
- * @param {Theme} theme 現在のテーマ
- * @param {InputStyles} style cssプロパティ
+ * @param theme 現在のテーマ
+ * @param style cssプロパティ
  * @returns css プロパティ
  */
 const styling = (theme: Theme, style?: IconButtonStyles) => {

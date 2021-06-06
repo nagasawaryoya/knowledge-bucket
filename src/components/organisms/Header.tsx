@@ -29,7 +29,7 @@ const Header: FC<HeaderProps> = React.memo(({ onClickMenu }) => {
 /**
  * スタイルを適用する。
  *
- * @returns {ClassNameMap<'root' | 'menuIcon'>} cssプロパティ
+ * @returns cssプロパティ
  */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

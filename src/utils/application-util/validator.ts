@@ -30,14 +30,14 @@ export default class Validator {
   /**
    * エラーチェックする。
    *
-   * @param {unknown} value チェック値
-   * @param {ValidateType} type チェック種類
-   * @param {boolean} required 必須チェック(true:必須)
-   * @param {number} length 長さ
-   * @param {number} min 最小数値
-   * @param {number} max 最大数値
-   * @param {NumberRange} range 数値範囲
-   * @return {ValidateError | null} エラー: メッセージ | 正常: null
+   * @param value チェック値
+   * @param type チェック種類
+   * @param required 必須チェック(true:必須)
+   * @param length 長さ
+   * @param min 最小数値
+   * @param max 最大数値
+   * @param range 数値範囲
+   * @return エラー: メッセージ | 正常: null
    */
   public static validate(props: ValidateProps): ValidateError | null {
     // 必須検査
@@ -92,9 +92,9 @@ export default class Validator {
   /**
    * 長さ検査
    *
-   * @param {number} valueLength 検証値の長さ
-   * @param {number} length 基準の長さ
-   * @returns {boolean} true:正、false:誤
+   * @param valueLength 検証値の長さ
+   * @param length 基準の長さ
+   * @returns true:正、false:誤
    */
   private static isLength(valueLength: number, length: number): boolean {
     return valueLength > length;
@@ -103,8 +103,8 @@ export default class Validator {
   /**
    * 数値検査
    *
-   * @param {string} value 値
-   * @returns {boolean} true:正、false:誤
+   * @param value 値
+   * @returns true:正、false:誤
    */
   private static isNumber(value: string): boolean {
     return /^[-]?\d*$/.test(value);
@@ -113,9 +113,9 @@ export default class Validator {
   /**
    * 最小数値検査
    *
-   * @param {number} value 値
-   * @param {number} min 最小値
-   * @returns {boolean} true:正、false:誤
+   * @param value 値
+   * @param min 最小値
+   * @returns true:正、false:誤
    */
   private static isMin(value: number, min: number): boolean {
     return min <= value;
@@ -124,9 +124,9 @@ export default class Validator {
   /**
    * 最大数値検査
    *
-   * @param {number} value 値
-   * @param {number} max 最大値
-   * @returns {boolean} true:正、false:誤
+   * @param value 値
+   * @param max 最大値
+   * @returns true:正、false:誤
    */
   private static isMax(value: number, max: number): boolean {
     return max >= value;
@@ -135,9 +135,9 @@ export default class Validator {
   /**
    * 数値範囲検査
    *
-   * @param {number} value 値
-   * @param {NumberRange} range 数値範囲
-   * @returns {boolean} true:正、false:誤
+   * @param value 値
+   * @param range 数値範囲
+   * @returns true:正、false:誤
    */
   private static isRange(value: number, range: NumberRange): boolean {
     return range.start <= value && range.end >= value;
