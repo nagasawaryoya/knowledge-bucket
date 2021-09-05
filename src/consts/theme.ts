@@ -59,12 +59,15 @@ const COMMON_PROPS: ThemeOptions = {
       },
     },
     MuiButton: {
-      disableElevation: true,
       color: COLOR_CODE.PRIMARY,
+      disableElevation: true,
     },
     MuiIconButton: {
       color: COLOR_CODE.DEFAULT,
       disableFocusRipple: true,
+    },
+    MuiInputBase: {
+      color: COLOR_CODE.PRIMARY,
     },
     MuiCheckbox: {
       color: COLOR_CODE.PRIMARY,
