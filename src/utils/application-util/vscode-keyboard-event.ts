@@ -212,6 +212,9 @@ export default class VscodeKeyboardEvent {
     };
   }
 
+  // public async cmdAndZ(): Promise<VscodeKeyboardEventResponse> {}
+  // public async cmdAndShiftAndZ(): Promise<VscodeKeyboardEventResponse> {}
+
   /**
    * 文字列の配列を改行しながら結合する。
    *
