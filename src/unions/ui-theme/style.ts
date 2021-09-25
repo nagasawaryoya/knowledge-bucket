@@ -1,4 +1,12 @@
-import ValueOf from 'utils/type-util/ValueOf';
+import { ValueOf } from 'utils/type-util/ValueOf';
+
+type MathNotation = '+' | '-';
+
+type Pixel = ReturnType<typeof PX>;
+type Percent = ReturnType<typeof PERCENT>;
+type Calc = ReturnType<typeof CALC>;
+
+type WidthString<T> = T | Percent | Calc;
 
 /**
  * アプリケーション内で統一されているスタイルの型。
@@ -8,11 +16,25 @@ export namespace CommonStyles {
   export type BorderWidth = ValueOf<typeof BORDER.WIDTH>;
   export type FontSize = ValueOf<typeof FONT.SIZE>;
   export type IconSize = ValueOf<typeof ICON>;
-  export type ButtonWidth = ValueOf<typeof BUTTON.WIDTH>;
-  export type ButtonHeight = ValueOf<typeof BUTTON.HEIGHT>;
-  export type InputWidth = ValueOf<typeof INPUT.WIDTH>;
-  export type InputHeight = ValueOf<typeof INPUT.HEIGHT>;
+  export type ButtonWidth = WidthString<ValueOf<typeof BUTTON.WIDTH>>;
+  export type ButtonHeight = WidthString<ValueOf<typeof BUTTON.HEIGHT>>;
+  export type InputWidth = WidthString<ValueOf<typeof INPUT.WIDTH>>;
+  export type InputHeight = WidthString<ValueOf<typeof INPUT.HEIGHT>>;
 }
+
+/**
+ * アプリケーション内で「%」指定する。
+ */
+export const PERCENT = (number: number) => `${number}%` as const;
+/**
+ * アプリケーション内で「px」指定する。
+ */
+export const PX = (number: number) => `${number}px` as const;
+/**
+ * アプリケーション内で「calc」指定する際。
+ */
+export const CALC = (left: Percent, code: MathNotation, right: Percent | Pixel) =>
+  `calc(${left} ${code} ${right})` as const;
 
 /**
  * アプリケーション内で統一されている枠線のスタイル。
