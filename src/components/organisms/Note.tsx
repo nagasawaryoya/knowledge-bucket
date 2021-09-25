@@ -43,7 +43,7 @@ const Note = () => {
         <Md children={inputState} />
       </div>
       <InputTextarea
-        input={{ rowsMin: rows, rowsMax: rows, value: inputState }}
+        input={{ minRows: rows, maxRows: rows, value: inputState }}
         onChange={onChangeHandler}
         onKeyDown={onKeyDownHandler}
       />

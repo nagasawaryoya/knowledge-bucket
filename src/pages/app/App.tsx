@@ -11,7 +11,7 @@ import Sidebar from 'components/organisms/Sidebar';
 import { ROUTER_PATH } from 'unions/router-path';
 import { BREAKPOINT, SIDEBAR, HEADER } from 'unions/ui-theme/style';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
-import { createTheme } from 'consts/theme';
+import { createMyTheme } from 'consts/theme';
 
 const App = React.memo(() => {
   const classes = useStyles();
@@ -33,7 +33,7 @@ const App = React.memo(() => {
   };
 
   return (
-    <ThemeProvider theme={createTheme(THEME_TYPE.DARK)}>
+    <ThemeProvider theme={createMyTheme(THEME_TYPE.DARK)}>
       <CssBaseline />
       <Sidebar openEvent={openEvent} toggleDrawer={toggleDrawer} />
       <Header onClickMenu={onClickMenu} />

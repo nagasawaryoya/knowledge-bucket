@@ -1,4 +1,4 @@
-import { createMuiTheme, Theme, ThemeOptions } from '@material-ui/core/styles';
+import { createTheme, Theme, ThemeOptions } from '@material-ui/core/styles';
 import { COLOR } from 'unions/ui-theme/color';
 import { COLOR_CODE } from 'unions/ui-theme/color-code';
 import { THEME_TYPE, ThemeType } from 'unions/ui-theme/theme-type';
@@ -10,7 +10,7 @@ import { FONT } from 'unions/ui-theme/style';
  * @param {ThemeType} theme 現在のテーマタイプ
  * @returns {ClassNameMap<"root" | "input">} 現在のテーマタイプに応じたテーマ
  */
-export const createTheme = (theme: ThemeType): Theme => {
+export const createMyTheme = (theme: ThemeType): Theme => {
   let specificTheme: ThemeOptions = {};
   switch (theme) {
     case THEME_TYPE.LIGHT:
@@ -23,7 +23,7 @@ export const createTheme = (theme: ThemeType): Theme => {
       specificTheme = DARK_THEME;
       break;
   }
-  return createMuiTheme({
+  return createTheme({
     ...COMMON_THEME,
     ...COMMON_PROPS,
     palette: {
