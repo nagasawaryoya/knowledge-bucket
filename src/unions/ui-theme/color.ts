@@ -1,21 +1,9 @@
-import ValueOf from 'utils/type-util/ValueOf';
+import { DeepValueOf } from 'utils/type-util/ValueOf';
 
 /**
  * アプリケーションで使用する色の型。
  */
-// TODO もっといい型定義があるはず
-export type Color =
-  | ValueOf<typeof COLOR.NAVY>
-  | ValueOf<typeof COLOR.BLUE>
-  | ValueOf<typeof COLOR.RED>
-  | ValueOf<typeof COLOR.GREEN>
-  | ValueOf<typeof COLOR.YELLOW>
-  | ValueOf<typeof COLOR.GREY>
-  | ValueOf<typeof COLOR.ORANGE>
-  | ValueOf<typeof COLOR.WATER>
-  | ValueOf<typeof COLOR.BLACK>
-  | ValueOf<typeof COLOR.WHITE>
-  | ValueOf<typeof COLOR.BLACK>;
+export type Color = DeepValueOf<typeof COLOR>;
 
 /**
  * アプリケーションで使用する色。

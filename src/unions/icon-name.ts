@@ -1,4 +1,4 @@
-import ValueOf from 'utils/type-util/ValueOf';
+import { ValueOf } from 'utils/type-util/ValueOf';
 
 /**
  * マテリアルUIアイコン名の型。
