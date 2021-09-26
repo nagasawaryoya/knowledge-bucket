@@ -6,7 +6,7 @@ type Pixel = ReturnType<typeof PX>;
 type Percent = ReturnType<typeof PERCENT>;
 type Calc = ReturnType<typeof CALC>;
 
-type WidthString<T> = T | Percent | Calc;
+type WithString<T> = T | Percent | Calc;
 
 /**
  * アプリケーション内で統一されているスタイルの型。
@@ -16,10 +16,10 @@ export namespace CommonStyles {
   export type BorderWidth = ValueOf<typeof BORDER.WIDTH>;
   export type FontSize = ValueOf<typeof FONT.SIZE>;
   export type IconSize = ValueOf<typeof ICON>;
-  export type ButtonWidth = WidthString<ValueOf<typeof BUTTON.WIDTH>>;
-  export type ButtonHeight = WidthString<ValueOf<typeof BUTTON.HEIGHT>>;
-  export type InputWidth = WidthString<ValueOf<typeof INPUT.WIDTH>>;
-  export type InputHeight = WidthString<ValueOf<typeof INPUT.HEIGHT>>;
+  export type ButtonWidth = WithString<ValueOf<typeof BUTTON.WIDTH>>;
+  export type ButtonHeight = WithString<ValueOf<typeof BUTTON.HEIGHT>>;
+  export type InputWidth = WithString<ValueOf<typeof INPUT.WIDTH>>;
+  export type InputHeight = WithString<ValueOf<typeof INPUT.HEIGHT>>;
 }
 
 /**
