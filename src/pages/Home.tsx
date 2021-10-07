@@ -1,7 +1,8 @@
 import React from 'react';
-import { Container, createStyles, makeStyles } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 import Note from 'components/organisms/Note';
 import { ARIA_LABEL } from 'unions/test/aria-label';
+import { PERCENT } from 'unions/ui-theme/unit';
 
 const Home = React.memo(() => {
   const classes = useStyles();
@@ -18,13 +19,11 @@ const Home = React.memo(() => {
  *
  * @returns {ClassNameMap<'root' | 'editor' | 'preview'>} cssプロパティ
  */
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      height: '100%',
-      width: '100%',
-    },
-  }),
-);
+const useStyles = makeStyles({
+  root: {
+    height: PERCENT(100),
+    width: PERCENT(100),
+  },
+});
 
 export default Home;

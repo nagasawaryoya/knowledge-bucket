@@ -2,7 +2,7 @@ import React, { FC, MouseEventHandler } from 'react';
 import MuiButton from '@material-ui/core/Button';
 import { ButtonProps as MuiButtonProps } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
-import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 import { COLOR, Color } from 'unions/ui-theme/color';
 import { BORDER, BUTTON, CommonStyles } from 'unions/ui-theme/style';
@@ -18,22 +18,21 @@ type ButtonStyles = Omit<React.CSSProperties, 'color' | 'borderColor'> & {
 
 type ButtonProps = MuiButtonProps & {
   label: string;
-  button?: Omit<MuiButtonProps, 'variant'>;
   style?: ButtonStyles;
   onClick?: MouseEventHandler;
-};
+} & Omit<MuiButtonProps, 'variant'>;
 
 /**
  * 塗り潰しボタンコンポーネント。
  */
-export const ContainedButton: FC<ButtonProps> = ({ label, button, style, onClick }) => {
+export const ContainedButton: FC<ButtonProps> = ({ label, style, onClick, ...props }) => {
   const classes = useStyles(style);
   return (
     <MuiButton
+      {...props}
       aria-label={ARIA_LABEL.CONTAIN_BUTTON}
       className={classes.root}
       variant="contained"
-      {...button}
       onClick={onClick}
     >
       {label}
@@ -50,19 +49,17 @@ export const ContainedButton: FC<ButtonProps> = ({ label, button, style, onClick
 const useStyles = (style?: ButtonStyles): ClassNameMap<'root'> => {
   const currentTheme = useTheme();
 
-  return makeStyles(() =>
-    createStyles({
-      root: {
-        width: style?.width ?? BUTTON.WIDTH.M,
-        height: style?.height ?? BUTTON.HEIGHT.M,
-        backgroundColor: style?.backgroundColor,
-        borderWidth: style?.borderWidth ?? BORDER.WIDTH.M,
-        borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
-        borderStyle: style?.borderStyle ?? 'solid',
-        ...styling(currentTheme, style),
-      },
-    }),
-  )();
+  return makeStyles({
+    root: {
+      width: style?.width ?? BUTTON.WIDTH.M,
+      height: style?.height ?? BUTTON.HEIGHT.M,
+      backgroundColor: style?.backgroundColor,
+      borderWidth: style?.borderWidth ?? BORDER.WIDTH.M,
+      borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
+      borderStyle: style?.borderStyle ?? 'solid',
+      ...styling(currentTheme, style),
+    },
+  })();
 };
 
 /**

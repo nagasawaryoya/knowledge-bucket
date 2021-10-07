@@ -2,7 +2,7 @@ import React, { FC, MouseEventHandler } from 'react';
 import MuiButton from '@material-ui/core/Button';
 import { ButtonProps as MuiButtonProps } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
-import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 import { COLOR } from 'unions/ui-theme/color';
 import { BORDER, BUTTON, CommonStyles } from 'unions/ui-theme/style';
@@ -17,22 +17,21 @@ type ButtonStyles = Omit<React.CSSProperties, 'color' | 'backgroundColor' | 'bor
 
 type ButtonProps = MuiButtonProps & {
   label: string;
-  button?: Omit<MuiButtonProps, 'variant' | 'color'>;
   style?: ButtonStyles;
   onClick?: MouseEventHandler;
-};
+} & Omit<MuiButtonProps, 'variant' | 'color'>;
 
 /**
  * 外枠ボタンコンポーネント。
  */
-export const OutlinedButton: FC<ButtonProps> = ({ label, button, style, onClick }) => {
+export const OutlinedButton: FC<ButtonProps> = ({ label, style, onClick, ...props }) => {
   const classes = useStyles(style);
   return (
     <MuiButton
+      {...props}
       aria-label={ARIA_LABEL.OUTLINED_BUTTON}
       className={classes.root}
       variant="outlined"
-      {...button}
       onClick={onClick}
     >
       {label}
@@ -49,19 +48,17 @@ export const OutlinedButton: FC<ButtonProps> = ({ label, button, style, onClick 
 const useStyles = (style?: ButtonStyles): ClassNameMap<'root'> => {
   const currentTheme = useTheme();
 
-  return makeStyles(() =>
-    createStyles({
-      root: {
-        width: style?.width ?? BUTTON.WIDTH.M,
-        height: style?.height ?? BUTTON.HEIGHT.M,
-        borderColor: COLOR.GREY.MAIN,
-        borderWidth: style?.borderWidth ?? BORDER.WIDTH.M,
-        borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
-        borderStyle: style?.borderStyle ?? 'solid',
-        ...styling(currentTheme),
-      },
-    }),
-  )();
+  return makeStyles({
+    root: {
+      width: style?.width ?? BUTTON.WIDTH.M,
+      height: style?.height ?? BUTTON.HEIGHT.M,
+      borderColor: COLOR.GREY.MAIN,
+      borderWidth: style?.borderWidth ?? BORDER.WIDTH.M,
+      borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
+      borderStyle: style?.borderStyle ?? 'solid',
+      ...styling(currentTheme),
+    },
+  })();
 };
 
 /**

@@ -1,9 +1,10 @@
 import React, { FC, ChangeEventHandler, KeyboardEventHandler } from 'react';
 import MuiTextarea, { TextareaAutosizeProps as MuiTextareaProps } from '@material-ui/core/TextareaAutosize';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
-import { makeStyles, createStyles, Theme, useTheme } from '@material-ui/core/styles';
+import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import { THEME_TYPE } from 'unions/ui-theme/theme-type';
 import { BORDER, CommonStyles } from 'unions/ui-theme/style';
+import { PERCENT } from 'unions/ui-theme/unit';
 import { COLOR } from 'unions/ui-theme/color';
 import { ARIA_LABEL } from 'unions/test/aria-label';
 
@@ -41,21 +42,19 @@ export const InputTextarea: FC<InputTextareaProps> = ({ input, style, onChange, 
 const useStyles = (style?: InputTextareaStyles): ClassNameMap<'root'> => {
   const currentTheme = useTheme();
 
-  return makeStyles(() =>
-    createStyles({
-      root: {
-        padding: 20,
-        fontSize: 14,
-        lineHeight: 1.7,
-        borderColor: COLOR.GREY.MAIN,
-        width: style?.width ?? '100%',
-        height: style?.height ?? '100%',
-        borderWidth: style?.borderWidth ?? BORDER.WIDTH.S,
-        borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
-        ...styling(currentTheme),
-      },
-    }),
-  )();
+  return makeStyles({
+    root: {
+      padding: 20,
+      fontSize: 14,
+      lineHeight: 1.7,
+      borderColor: COLOR.GREY.MAIN,
+      width: style?.width ?? PERCENT(100),
+      height: style?.height ?? PERCENT(100),
+      borderWidth: style?.borderWidth ?? BORDER.WIDTH.S,
+      borderRadius: style?.borderRadius ?? BORDER.RADIUS.S,
+      ...styling(currentTheme),
+    },
+  })();
 };
 
 /**

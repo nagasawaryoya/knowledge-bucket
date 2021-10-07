@@ -1,9 +1,10 @@
 import React, { FC, useMemo, useState } from 'react';
 import { Drawer, List, ListItemText } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { ListItemLink } from 'components/atoms/ListItemLink';
 import { ARIA_LABEL } from 'unions/test/aria-label';
 import { SIDEBAR } from 'unions/ui-theme/style';
+import { PERCENT } from 'unions/ui-theme/unit';
 import { useMediaQueryBase } from 'utils/hooks/useMediaQueryBase';
 import { SIDEBAR_ITEMS } from 'consts/sidebar-items';
 
@@ -55,15 +56,13 @@ const Sidebar: FC<SidebarProps> = React.memo(({ openEvent, toggleDrawer }) => {
 /**
  * スタイルを適用する。
  *
- * @returns cssプロパティ
+ * @returns {ClassNameMap<'root'>} cssプロパティ
  */
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      width: SIDEBAR.WIDTH,
-      height: '100%',
-    },
-  }),
-);
+const useStyles = makeStyles({
+  root: {
+    width: SIDEBAR.WIDTH,
+    height: PERCENT(100),
+  },
+});
 
 export default Sidebar;

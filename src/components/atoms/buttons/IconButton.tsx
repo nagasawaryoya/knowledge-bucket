@@ -2,7 +2,7 @@ import React, { FC, MouseEventHandler } from 'react';
 import MuiIconButton from '@material-ui/core/IconButton';
 import { IconButtonProps as MuiIconButtonProps } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
-import { makeStyles, Theme, createStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles, Theme, useTheme } from '@material-ui/core/styles';
 import { Icon, IconProps } from 'components/atoms/Icon';
 import { COLOR, Color } from 'unions/ui-theme/color';
 import { BORDER, ICON, CommonStyles } from 'unions/ui-theme/style';
@@ -20,21 +20,20 @@ type IconButtonStyles = React.CSSProperties & {
 
 type IconButtonProps = {
   icon: IconProps;
-  button?: Omit<MuiIconButtonProps, 'children' | 'size'>;
   style?: IconButtonStyles;
   onClick?: MouseEventHandler;
-};
+} & Omit<MuiIconButtonProps, 'children' | 'size'>;
 
 /**
  * アイコンボタンコンポーネント。
  */
-export const IconButton: FC<IconButtonProps> = ({ icon, button, style, onClick }) => {
+export const IconButton: FC<IconButtonProps> = ({ icon, style, onClick, ...props }) => {
   const classes = useStyles(style);
   return (
     <MuiIconButton
+      {...props}
       aria-label="icon-button"
       className={classes.root}
-      {...button}
       children={<Icon {...icon} className={classes.icon} />}
       onClick={onClick}
     />
@@ -48,26 +47,24 @@ export const IconButton: FC<IconButtonProps> = ({ icon, button, style, onClick }
  * @returns cssプロパティ
  */
 const useStyles = (style?: IconButtonStyles): ClassNameMap<'root' | 'icon'> => {
-  const currentTheme = useTheme();
+  const { button, icon } = styling(useTheme(), style);
 
-  return makeStyles(() =>
-    createStyles({
-      root: {
-        width: style?.size ?? ICON.M,
-        height: style?.size ?? ICON.M,
-        backgroundColor: style?.backgroundColor,
-        borderColor: style?.borderColor ?? COLOR.GREY.MAIN,
-        borderWidth: style?.borderWidth ?? BORDER.WIDTH.M,
-        borderRadius: style?.borderRadius ?? BORDER.RADIUS.C,
-        borderStyle: style?.borderStyle ?? 'solid',
-        ...styling(currentTheme, style).button,
-      },
-      icon: {
-        color: style?.color ?? COLOR.GREY.MAIN,
-        ...styling(currentTheme, style).icon,
-      },
-    }),
-  )();
+  return makeStyles({
+    root: {
+      width: style?.size ?? ICON.M,
+      height: style?.size ?? ICON.M,
+      backgroundColor: style?.backgroundColor,
+      borderColor: style?.borderColor ?? COLOR.GREY.MAIN,
+      borderWidth: style?.borderWidth ?? BORDER.WIDTH.M,
+      borderRadius: style?.borderRadius ?? BORDER.RADIUS.C,
+      borderStyle: style?.borderStyle ?? 'solid',
+      ...button,
+    },
+    icon: {
+      color: style?.color ?? COLOR.GREY.MAIN,
+      ...icon,
+    },
+  })();
 };
 
 /**
